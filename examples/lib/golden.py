@@ -22,6 +22,9 @@ from itertools import permutations
 from pathlib import Path
 
 import duckdb
+import sqlglot
+from sqlglot import exp
+from sqlglot.errors import ParseError
 
 from .answers import Answer
 from .prompts import schema_only_messages
@@ -107,10 +110,43 @@ def grade(question: GoldenQuestion, answer: Answer, golden_rows) -> str:
                                       question.absolute) else "wrong"
 
 
+def tie_breaks(sql: str, width: int) -> list[str]:
+    """The query twice, its ORDER BY extended by every output column, ascending and then descending.
+
+    Rows that tie on a query's ORDER BY, or a LIMIT with none, come back in whatever order the database's threads
+    finish, so `LIMIT 1` over a tie can return a different row from run to run. Under the two tie-breaks, such a
+    query returns two different results. A query with no ORDER BY or LIMIT, or one sqlglot can't parse, gives none.
+    """
+    try:
+        tree = sqlglot.parse_one(sql, read="duckdb")
+    except ParseError:
+        return []
+    if not isinstance(tree, exp.Query) or not (tree.args.get("order") or tree.args.get("limit")):
+        return []
+    queries = []
+    for desc in (False, True):
+        variant = tree.copy()
+        keys = list(variant.args["order"].expressions) if variant.args.get("order") else []
+        keys += [exp.Ordered(this=exp.Literal.number(i), desc=desc, nulls_first=desc) for i in range(1, width + 1)]
+        variant.set("order", exp.Order(expressions=keys))
+        queries.append(variant.sql(dialect="duckdb"))
+    return queries
+
+
 def schema_only_outcome(con: duckdb.DuckDBPyConnection, model, schema: str, question: GoldenQuestion) -> str:
-    """Grade schema-only SQL on one golden question: the model's SQL runs as written, and "error" if it fails."""
+    """Grade schema-only SQL on one golden question: the model's SQL runs as written, and "error" if it fails.
+
+    An answer is correct only if the data decides it: a correct answer is graded again under both `tie_breaks()`,
+    and if rows tied at its LIMIT or in its order, so that one tie-break gives a wrong result, it is "wrong".
+    """
     try:
         sql = extract_sql(model.complete(schema_only_messages(schema, question.question)))
-        return grade(question, run_sql(con, sql, role=question.role), golden_result(con, question))
+        answer, gold = run_sql(con, sql, role=question.role), golden_result(con, question)
+        outcome = grade(question, answer, gold)
+        if outcome == "correct" and any(
+                grade(question, run_sql(con, variant, role=question.role), gold) != "correct"
+                for variant in tie_breaks(sql, len(answer.columns))):
+            return "wrong"
+        return outcome
     except duckdb.Error:
         return "error"
