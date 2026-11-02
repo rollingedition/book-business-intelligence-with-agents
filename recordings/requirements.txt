@@ -1,0 +1,5 @@
+# The recording runtime: the examples' pins plus the model runner. Recordings run on CPython 3.12.15, like the
+# examples. llama-cpp-python has no wheel for this version on PyPI, so it builds llama.cpp from source on install
+# (it needs a C++ compiler and CMake).
+-r ../examples/requirements.txt
+llama-cpp-python==0.3.36

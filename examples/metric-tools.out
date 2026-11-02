@@ -1,0 +1,20 @@
+tools: list_metrics, describe_metric, query_metric, ask_back, cannot_answer
+metrics in the prompt: 10
+tables in the prompt: 0
+- net_revenue: Revenue in EUR after discounts and before tax, from real orders that weren't cancelled, counted on the order's local business day. Returned orders count; refunds are not subtracted. Dimensions: customer__country, customer__first_order_date, customer__region, order__channel, order__country, order__order_date, order__region, order__status
+refund_rate, a ratio metric: Refunded EUR over gross revenue of the same orders: orders placed in the period that weren't cancelled.
+Dimensions:
+- metric_time__day
+- metric_time__week
+- metric_time__month
+- metric_time__quarter
+- metric_time__year
+- metric_time__fiscal_year: 2025, 2026, 2027
+- metric_time__fiscal_quarter: 2025-Q1, 2025-Q2, 2025-Q3, 2025-Q4, 2026-Q1, 2026-Q2, 2026-Q3, 2026-Q4, 2027-Q1, 2027-Q2
+- order__channel: (none), app, marketplace, web
+- order__country: AU, CA, DE, ES, FR, GB, JP, NL, SG, US
+- order__order_date
+- order__region: AMER, APAC, EMEA
+- order__status: cancelled, delivered, placed, returned, shipped
+schema-only prompt tokens: 827
+metrics-first prompt tokens: 1120

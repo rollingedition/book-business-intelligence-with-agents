@@ -1,0 +1,47 @@
+{
+  "script": "recordings/record_dabstep_runs.py",
+  "prompt": "DABSTEP_SQL, then DABSTEP_FINAL (examples/lib/prompts.py)",
+  "prompt_sha256": "5aa7302ef8569f3b2296dd1d4a380d724a8b189aea2d7b1ec5098c766528c499",
+  "dataset": "adyen/DABstep@1d740a52b8a41ba6fdd4d4435120a0429023dd24, subset in examples/data/dabstep/",
+  "model": "Qwen/Qwen3-4B-Instruct-2507 (unsloth/Qwen3-4B-Instruct-2507-GGUF/Qwen3-4B-Instruct-2507-Q4_K_M.gguf)",
+  "model_version": "a06e946bb6b655725eafa393f4a9745d460374c9 sha256:3605803b982cb64aead44f6c1b2ae36e3acdb41d8e46c8a94c6533bc4c67e597",
+  "quantization": "Q4_K_M",
+  "chat_template": "Qwen/Qwen3-4B-Instruct-2507@cdbee75f17c01a7cc42f958dc650907174af0554 tokenizer_config.json sha256:a62ff0a2472a0fa1b8eaabcb57c59b58afa42a22831dc141400b6e0cf2b65ce3",
+  "embedded_template_matches": false,
+  "runner": "llama-cpp-python 0.3.36 on CPU, 4 threads (x86_64)",
+  "sampling": {
+    "temperature": 0.7,
+    "top_p": 0.8,
+    "top_k": 20,
+    "min_p": 0.0,
+    "seed": 2718,
+    "max_tokens": 384,
+    "seed_reset": "before every call"
+  },
+  "created": "2026-11-01",
+  "outputs": [
+    "part-1.jsonl"
+  ],
+  "calls": 6,
+  "parts": [
+    {
+      "output": "part-1.jsonl",
+      "part": 1,
+      "created": "2026-11-01",
+      "calls": 6,
+      "question_ids": [
+        "dabstep-49",
+        "dabstep-5",
+        "dabstep-70"
+      ],
+      "seconds_per_call": [
+        13.4,
+        8.5,
+        33.2,
+        17.2,
+        11.2,
+        15.9
+      ]
+    }
+  ]
+}

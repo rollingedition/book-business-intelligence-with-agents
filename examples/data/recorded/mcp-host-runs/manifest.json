@@ -1,0 +1,74 @@
+{
+  "script": "recordings/record_mcp_host.py",
+  "prompt": "METRICS_FIRST (examples/lib/prompts.py) with the catalog from the server's list_metrics; calls metric-agent-runs or policy-agent-runs hold are replayed, not recorded",
+  "prompt_sha256": "c2f72b75072e0405bf0f3e2e167dc9da0ef6dfd1bf0900607ad9d46bed1377cc",
+  "model": "Qwen/Qwen3-4B-Instruct-2507 (unsloth/Qwen3-4B-Instruct-2507-GGUF/Qwen3-4B-Instruct-2507-Q4_K_M.gguf)",
+  "model_version": "a06e946bb6b655725eafa393f4a9745d460374c9 sha256:3605803b982cb64aead44f6c1b2ae36e3acdb41d8e46c8a94c6533bc4c67e597",
+  "quantization": "Q4_K_M",
+  "chat_template": "Qwen/Qwen3-4B-Instruct-2507@cdbee75f17c01a7cc42f958dc650907174af0554 tokenizer_config.json sha256:a62ff0a2472a0fa1b8eaabcb57c59b58afa42a22831dc141400b6e0cf2b65ce3",
+  "embedded_template_matches": false,
+  "runner": "llama-cpp-python 0.3.36 on CPU, 4 threads (x86_64)",
+  "sampling": {
+    "temperature": 0.7,
+    "top_p": 0.8,
+    "top_k": 20,
+    "min_p": 0.0,
+    "seed": 2718,
+    "max_tokens": 256,
+    "seed_reset": "before every call"
+  },
+  "created": "2026-11-01",
+  "outputs": [
+    "part-1.jsonl",
+    "part-2.jsonl"
+  ],
+  "calls": 15,
+  "parts": [
+    {
+      "output": "part-1.jsonl",
+      "part": 1,
+      "created": "2026-11-01",
+      "calls": 10,
+      "question_ids": [
+        "gq-002",
+        "gq-006",
+        "gq-007",
+        "gq-009",
+        "gq-012",
+        "gq-013",
+        "gq-014",
+        "gq-015"
+      ],
+      "seconds_per_call": [
+        41.1,
+        12.3,
+        7.8,
+        3.4,
+        3.8,
+        11.5,
+        13.0,
+        20.7,
+        24.4,
+        21.1
+      ]
+    },
+    {
+      "output": "part-2.jsonl",
+      "part": 2,
+      "created": "2026-11-01",
+      "calls": 5,
+      "question_ids": [
+        "gq-035",
+        "gq-036",
+        "gq-039"
+      ],
+      "seconds_per_call": [
+        126.3,
+        111.4,
+        32.2,
+        4.1,
+        21.5
+      ]
+    }
+  ]
+}

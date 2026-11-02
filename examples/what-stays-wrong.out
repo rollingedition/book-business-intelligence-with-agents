@@ -1,0 +1,37 @@
+not correct with all four layers: 3
+gq-006 (wrong): What were net revenue and the number of units sold in each region in 2025?
+    SELECT
+        o.region,
+        SUM(o.net_revenue_eur) AS net_revenue,
+        SUM(l.quantity) AS units_sold
+    FROM analytics.fct_orders AS o
+    JOIN analytics.fct_order_lines AS l USING (order_id)
+    WHERE o.order_date_local >= '2025-01-01' AND o.order_date_local < '2026-01-01'
+        AND o.status <> 'cancelled'
+    GROUP BY o.region
+    ORDER BY net_revenue DESC
+gq-007 (wrong): How much net revenue came from orders that included a tent in 2025?
+    SELECT
+        SUM(fol.net_amount_eur) AS net_revenue
+    FROM
+        analytics.fct_order_lines fol
+    JOIN
+        analytics.fct_orders fo ON fol.order_id = fo.order_id
+    JOIN
+        analytics.dim_products dp ON fol.product_id = dp.product_id
+    JOIN
+        analytics.dim_date dd ON fo.order_date_local = dd.date_day
+    WHERE
+        dp.category = 'tents'
+        AND dd.calendar_year = 2025
+        AND fo.status != 'cancelled'
+gq-017 (error): What was net revenue in each of our countries in 2025?
+    SELECT d.country, round(sum(o.net_revenue_eur), 2) AS net_revenue
+    FROM analytics.fct_orders AS o
+    JOIN analytics.dim_date AS d ON d.date_day = o.order_date_local
+    WHERE o.status <> 'cancelled'
+      AND d.calendar_year = 2025
+    GROUP BY d.country
+    ORDER BY net_revenue DESC
+    -- Binder Error: Table "d" does not have a column named "country"
+gq-007 with 'Tents' spelled as stored: wrong

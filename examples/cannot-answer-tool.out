@@ -1,0 +1,31 @@
+not_in_data (model): no metric or dimension holds what the question needs
+forecast (model): the question asks about a period that hasn't happened, or for a prediction
+no_definition (model): the question uses a term the shop hasn't defined, and no metric settles it
+stale (code): the data for the period hasn't all arrived: not loaded yet, or not happened yet
+forbidden (code): the role asking may not see the answer (chapter 9)
+error: kind must be one of not_in_data, forecast, no_definition; got ''
+cannot answer: not_in_data: no shipping costs
+gq-005 (unanswerable): What will our net revenue be next quarter?
+gq-005 ended with: cannot_answer, kind forecast
+gq-005 model calls: 1
+  reason: forecast: The question asks about a future period that hasn't happened yet, and no data is available for forecasting.
+gq-016 (answer): How many customers placed at least one order in 2025?
+gq-016 ended with: cannot_answer, kind not_in_data
+gq-016 model calls: 2
+  reason: not_in_data: The metric 'new_customers' cannot use 'order__order_date' as a filter, and no alternative metric or dimension is available to answer the question about customers placing at least one order in 2025.
+gq-019 (ambiguous): Who are our best customers?
+gq-019 ended with: cannot_answer, kind no_definition
+gq-019 model calls: 1
+  reason: no_definition: The term 'best' is not defined in the available metrics or dimensions, and no metric or dimension can determine customer performance based on this vague criterion.
+gq-020 (ambiguous): Which region is doing best?
+gq-020 ended with: ask_back, kind None
+gq-020 model calls: 3
+  asks: Which time period are you interested in? For example, the most recent month, the last quarter, or a specific year?
+gq-020 request: net_revenue by customer__region, ordered by net_revenue, period: none
+gq-020 check: error: request rejected: the request ranks its result but names no period; filter or group by a metric_time grain; or ask the person which period they mean
+gq-020 options: last month, last quarter, 2026
+gq-021 (unanswerable): How much did shipping cost us in fiscal year 2026?
+gq-021 ended with: cannot_answer, kind not_in_data
+gq-021 model calls: 2
+  reason: not_in_data: The shop's data does not include a metric for shipping costs.
+  first reply: {"kind": "not_in_data", "reason": "The shop's data does not include a metric for shipping costs."}

@@ -1,0 +1,10 @@
+AMER golden: 497,466.04
+AMER orders_legacy: 576,980.12
+APAC golden: 405,055.09
+APAC orders_legacy: 465,770.13
+EMEA golden: 749,006.73
+EMEA orders_legacy: 962,439.56
+legacy total over golden: +21.4%
+test orders in the legacy rows: 62
+model queries that read orders_legacy: 0 of 16
+golden questions added in chapter 2, gq-006 to gq-016: 11

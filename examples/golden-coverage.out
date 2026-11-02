@@ -1,0 +1,23 @@
+dev questions: 24
+test questions: 24
+split  answer  decline  forbidden
+dev        17        4          3
+test       17        4          3
+dev answers by role: {'analyst': 15, 'finance': 1, 'regional_lead': 1}
+test answers by role: {'analyst': 10, 'finance': 3, 'marketing': 2, 'regional_lead': 1, 'support': 1}
+trap                  dev  test
+cancelled-orders        5     8
+currency                2     3
+definition              2     2
+duplicate-customers     2     2
+fan-out                 2     2
+fiscal-calendar         3     4
+late-refunds            1     2
+legacy-table            2     1
+local-business-day      2     2
+net-vs-gross            2     2
+null-channel            1     1
+role-scope              4     4
+test-orders             5     4
+vat                     2     1
+traps missing from a split: none

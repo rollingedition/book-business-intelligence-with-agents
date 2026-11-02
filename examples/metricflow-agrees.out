@@ -1,0 +1,42 @@
+net_revenue by order__region: 3 rows, agree: True
+net_revenue, orders by metric_time__fiscal_quarter: 4 rows, agree: True
+line_net_revenue, units_sold by product__category: 8 rows, agree: True
+units_sold by order__customer__region: 3 rows, agree: True
+refund_rate by order__country: 10 rows, agree: True
+average_order_value by order__channel: 4 rows, agree: True
+refunds, order_refunds by metric_time__month: 12 rows, agree: True
+new_customers by customer__region: 3 rows, agree: True
+MetricFlow's type for metric_time__month: datetime
+the book's type for metric_time__month: date
+requests compared: 8
+requests that agree: 8
+-- Constrain Output with WHERE
+-- Select: ['__net_revenue', 'order__region']
+-- Aggregate Inputs for Simple Metrics
+-- Compute Metrics via Expressions
+-- Order By ['order__region']
+-- Write to DataTable
+SELECT
+  order__region
+  , SUM(net_revenue) AS net_revenue
+FROM (
+  -- Read Elements From Semantic Model 'orders'
+  -- Metric Time Dimension 'order_date'
+  -- Select: ['__net_revenue', 'order__region', 'order__status', 'metric_time__month']
+  SELECT
+    DATE_TRUNC('month', order_date_local) AS metric_time__month
+    , region AS order__region
+    , status AS order__status
+    , net_revenue_eur AS net_revenue
+  FROM analytics.fct_orders orders_src_10000
+) subq_2
+WHERE (
+  order__status != 'cancelled'
+) AND (
+  metric_time__month = '2026-03-01'
+)
+GROUP BY
+  order__region
+ORDER BY order__region
+MetricFlow on net_revenue by product__category: InvalidQueryException
+one cause MetricFlow lists: No valid join paths exist from the measure to the group-by-item. (fan-out join support is pending).

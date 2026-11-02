@@ -1,0 +1,13 @@
+AMER model: 55,207.80
+AMER golden: 51,762.14
+AMER cancelled orders: 3,445.66
+APAC model: 40,832.21
+APAC golden: 35,296.93
+APAC cancelled orders: 5,535.28
+EMEA model: 66,502.78
+EMEA golden: 63,023.76
+EMEA cancelled orders: 3,479.02
+model total: 162,542.79
+golden total: 150,082.83
+overstated by: 8.3%
+matches golden: False

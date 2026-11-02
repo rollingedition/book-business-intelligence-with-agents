@@ -1,0 +1,12 @@
+EMEA's regional lead, guard accepts: yes
+EMEA's regional lead, every mart: 3
+EMEA's regional lead, role's database: 1
+finance, guard accepts: yes
+finance, every mart: 10
+finance, role's database: 0
+support, guard accepts: yes
+support, every mart: 4019333.37
+support, role's database: Binder Error: Referenced column "net_revenue_eur" not found in FROM clause!
+support, catalog bypass, tables listed: 6
+support, catalog bypass, names a revenue column: False
+support, a write: Invalid Input Error: Cannot execute statement of type "DELETE" on database "agent" which is attached in read-only mode!

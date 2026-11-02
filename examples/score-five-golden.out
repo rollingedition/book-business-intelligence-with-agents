@@ -1,0 +1,14 @@
+question  kind     schema-only  metric
+gq-001    answer   error        correct
+gq-002    answer   wrong        correct
+gq-003    answer   error        correct
+gq-004    answer   wrong        declined
+gq-005    decline  wrong        correct
+schema-only correct: 0 of 5
+schema-only wrong: 3 of 5
+schema-only error: 2 of 5
+schema-only declined: 0 of 5
+metric correct: 4 of 5
+metric wrong: 0 of 5
+metric error: 0 of 5
+metric declined: 1 of 5

@@ -1,0 +1,234 @@
+# Verified queries: questions people asked, with SQL a person checked against the shop's definitions, written for the
+# book; CC BY 4.0. The fields follow Snowflake's verified query repository (name, question, sql, verified_at) plus the
+# role the query was verified for. `verified_by` names a team, never a person. None of these is a golden question:
+# they are examples the agent may adapt, and the golden questions test whether it adapts them correctly.
+
+[[queries]]
+name = "net_revenue_by_fiscal_quarter"
+question = "What was net revenue in each fiscal quarter of fiscal year 2025?"
+role = "finance"
+verified_at = "2026-10-12"
+verified_by = "finance team"
+sql = """
+SELECT d.fiscal_quarter, round(sum(o.net_revenue_eur), 2) AS net_revenue
+FROM analytics.fct_orders AS o
+JOIN analytics.dim_date AS d ON d.date_day = o.order_date_local
+WHERE o.status <> 'cancelled' AND d.fiscal_year = 2025
+GROUP BY d.fiscal_quarter
+ORDER BY d.fiscal_quarter
+"""
+
+[[queries]]
+name = "gross_revenue_by_region_month"
+question = "What was gross revenue by region in January 2025?"
+role = "finance"
+verified_at = "2026-10-12"
+verified_by = "finance team"
+sql = """
+SELECT o.region, round(sum(o.gross_revenue_eur), 2) AS gross_revenue
+FROM analytics.fct_orders AS o
+WHERE o.status <> 'cancelled' AND o.order_date_local >= DATE '2025-01-01' AND o.order_date_local < DATE '2025-02-01'
+GROUP BY o.region
+"""
+
+[[queries]]
+name = "orders_by_channel_week"
+question = "How many orders came through each sales channel in the first week of June 2025?"
+role = "analyst"
+verified_at = "2026-10-12"
+verified_by = "analytics engineering"
+sql = """
+SELECT o.channel, count(*) AS orders
+FROM analytics.fct_orders AS o
+WHERE o.order_date_local BETWEEN DATE '2025-06-01' AND DATE '2025-06-07'
+GROUP BY o.channel
+"""
+
+[[queries]]
+name = "average_order_value_by_region"
+question = "What was the average order value in each region in calendar year 2024?"
+role = "finance"
+verified_at = "2026-10-13"
+verified_by = "finance team"
+sql = """
+SELECT o.region, round(sum(o.net_revenue_eur) / count(*), 2) AS average_order_value
+FROM analytics.fct_orders AS o
+WHERE o.status <> 'cancelled' AND year(o.order_date_local) = 2024
+GROUP BY o.region
+"""
+
+[[queries]]
+name = "cancelled_orders_by_month"
+question = "How many orders were cancelled each month in the first half of 2025?"
+role = "analyst"
+verified_at = "2026-10-13"
+verified_by = "analytics engineering"
+sql = """
+SELECT date_trunc('month', o.order_date_local) AS month, count(*) AS cancelled_orders
+FROM analytics.fct_orders AS o
+WHERE o.status = 'cancelled' AND o.order_date_local BETWEEN DATE '2025-01-01' AND DATE '2025-06-30'
+GROUP BY month
+ORDER BY month
+"""
+
+[[queries]]
+name = "new_customers_by_region"
+question = "How many new customers did each region gain in calendar year 2024?"
+role = "analyst"
+verified_at = "2026-10-13"
+verified_by = "analytics engineering"
+sql = """
+SELECT c.region, count(*) AS new_customers
+FROM analytics.dim_customers AS c
+WHERE year(c.first_order_on) = 2024
+GROUP BY c.region
+"""
+
+[[queries]]
+name = "customers_who_never_ordered"
+question = "How many customers signed up but never placed an order?"
+role = "analyst"
+verified_at = "2026-10-14"
+verified_by = "analytics engineering"
+sql = """
+SELECT count(*) AS customers_without_orders
+FROM analytics.dim_customers AS c
+WHERE c.first_order_on IS NULL
+"""
+
+[[queries]]
+name = "refunds_paid_by_month"
+question = "How much did we refund in each month of fiscal year 2025?"
+role = "finance"
+verified_at = "2026-10-14"
+verified_by = "finance team"
+sql = """
+SELECT r.refund_month, round(sum(r.amount_eur), 2) AS refunded
+FROM analytics.fct_refunds AS r
+JOIN analytics.dim_date AS d ON d.date_day = r.refund_month
+WHERE d.fiscal_year = 2025
+GROUP BY r.refund_month
+ORDER BY r.refund_month
+"""
+
+[[queries]]
+name = "refunds_by_reason"
+question = "How many refunds were there for each reason in calendar year 2025?"
+role = "support"
+verified_at = "2026-10-14"
+verified_by = "customer support"
+sql = """
+SELECT r.reason, count(*) AS refunds
+FROM analytics.fct_refunds AS r
+WHERE year(r.refund_month) = 2025
+GROUP BY r.reason
+"""
+
+[[queries]]
+name = "refund_rate_by_order_month"
+question = "What was the refund rate for orders placed in each quarter of calendar 2024?"
+role = "finance"
+verified_at = "2026-10-15"
+verified_by = "finance team"
+sql = """
+WITH orders AS (
+    SELECT quarter(o.order_date_local) AS quarter, sum(o.gross_revenue_eur) AS gross_revenue
+    FROM analytics.fct_orders AS o
+    WHERE o.status <> 'cancelled' AND year(o.order_date_local) = 2024
+    GROUP BY quarter
+), refunds AS (
+    SELECT quarter(r.order_month) AS quarter, sum(r.amount_eur) AS refunded
+    FROM analytics.fct_refunds AS r
+    WHERE year(r.order_month) = 2024
+    GROUP BY quarter
+)
+SELECT o.quarter, round(coalesce(r.refunded, 0) / o.gross_revenue, 4) AS refund_rate
+FROM orders AS o LEFT JOIN refunds AS r USING (quarter)
+ORDER BY o.quarter
+"""
+
+[[queries]]
+name = "net_revenue_by_category"
+question = "Which product categories brought in the most net revenue in fiscal year 2025?"
+role = "analyst"
+verified_at = "2026-10-15"
+verified_by = "analytics engineering"
+sql = """
+SELECT p.category, round(sum(l.net_amount_eur), 2) AS net_revenue
+FROM analytics.fct_order_lines AS l
+JOIN analytics.fct_orders AS o USING (order_id)
+JOIN analytics.dim_products AS p USING (product_id)
+JOIN analytics.dim_date AS d ON d.date_day = o.order_date_local
+WHERE o.status <> 'cancelled' AND d.fiscal_year = 2025
+GROUP BY p.category
+ORDER BY net_revenue DESC
+"""
+
+[[queries]]
+name = "units_sold_by_product"
+question = "Which five products sold the most units in calendar year 2025?"
+role = "analyst"
+verified_at = "2026-10-15"
+verified_by = "analytics engineering"
+sql = """
+SELECT p.product_name, sum(l.quantity) AS units
+FROM analytics.fct_order_lines AS l
+JOIN analytics.fct_orders AS o USING (order_id)
+JOIN analytics.dim_products AS p USING (product_id)
+WHERE o.status <> 'cancelled' AND year(o.order_date_local) = 2025
+GROUP BY p.product_name
+ORDER BY units DESC
+LIMIT 5
+"""
+
+[[queries]]
+name = "sessions_conversion_by_channel"
+question = "What was the conversion rate of sessions by traffic channel in calendar year 2025?"
+role = "marketing"
+verified_at = "2026-10-16"
+verified_by = "marketing analytics"
+sql = """
+SELECT s.channel, round(count(s.converted_order_id) / count(*), 4) AS conversion_rate
+FROM analytics.fct_sessions AS s
+WHERE year(s.started_at) = 2025
+GROUP BY s.channel
+"""
+
+[[queries]]
+name = "marketing_spend_by_channel"
+question = "How much did we spend on each marketing channel in fiscal year 2026?"
+role = "marketing"
+verified_at = "2026-10-16"
+verified_by = "marketing analytics"
+sql = """
+SELECT m.channel, round(sum(m.amount_eur), 2) AS spend
+FROM raw.marketing_spend AS m
+JOIN analytics.dim_date AS d ON d.date_day = m.spend_date
+WHERE d.fiscal_year = 2026
+GROUP BY m.channel
+"""
+
+[[queries]]
+name = "orders_of_one_customer"
+question = "What is the status of each order for customer 1042?"
+role = "support"
+verified_at = "2026-10-16"
+verified_by = "customer support"
+sql = """
+SELECT o.order_id, o.order_date_local, o.status
+FROM analytics.fct_orders AS o
+WHERE o.customer_id = 1042
+ORDER BY o.order_date_local
+"""
+
+[[queries]]
+name = "late_refunds_share"
+question = "What share of refunds in calendar year 2025 were paid in a later month than the order?"
+role = "finance"
+verified_at = "2026-10-17"
+verified_by = "finance team"
+sql = """
+SELECT round(count(*) FILTER (WHERE r.refund_month > r.order_month) / count(*), 4) AS late_share
+FROM analytics.fct_refunds AS r
+WHERE year(r.refund_month) = 2025
+"""

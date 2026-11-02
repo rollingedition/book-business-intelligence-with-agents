@@ -1,0 +1,3 @@
+MetricFlow with the shop's YAML: MetricFlowEngine
+MetricFlow without a date on order_lines: InvalidManifestException
+its message begins: Invalid aggregation time dimension configuration

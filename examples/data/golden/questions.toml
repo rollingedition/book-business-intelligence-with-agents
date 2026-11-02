@@ -1,0 +1,716 @@
+# The shop's golden questions: each with its verified answer (golden SQL), the role that asks it and the kind of
+# answer expected. Written for the book; CC BY 4.0. Net revenue, as the shop's finance team defines it: revenue in EUR
+# after discounts and before tax, from real (non-test) orders that weren't cancelled, on the order's local business day.
+# Order counts include cancelled orders and exclude test orders. 48 questions: 24 in the dev split, for tuning prompts
+# and context, and 24 in the test split, held out and scored only for a chapter's final numbers. kind is answer,
+# decline (decline_type: ambiguous or unanswerable) or forbidden (the role may not see the answer). traps names what
+# each question tests; check_sql, where present, is an independent query that must return the golden result.
+
+[[questions]]
+question_id = "gq-001"
+question = "What was our net revenue in fiscal year 2026?"
+role = "analyst"
+kind = "answer"
+split = "dev"
+traps = ["fiscal-calendar", "cancelled-orders", "net-vs-gross"]
+check_sql = """
+SELECT round(sum(l.net_amount_eur), 2) AS net_revenue
+FROM analytics.fct_order_lines AS l
+JOIN analytics.fct_orders AS o USING (order_id)
+WHERE o.status <> 'cancelled' AND o.order_date_local BETWEEN DATE '2025-02-01' AND DATE '2026-01-31'
+"""
+golden_sql = """
+SELECT round(sum(o.net_revenue_eur), 2) AS net_revenue
+FROM analytics.fct_orders AS o
+JOIN analytics.dim_date AS d ON d.date_day = o.order_date_local
+WHERE o.status <> 'cancelled' AND d.fiscal_year = 2026
+"""
+note = "Fiscal 2026 runs Feb 1, 2025 to Jan 31, 2026. Tests net versus gross, cancelled orders and the fiscal calendar."
+
+[[questions]]
+question_id = "gq-002"
+question = "What was net revenue in each region in March 2026?"
+role = "analyst"
+kind = "answer"
+split = "dev"
+traps = ["vat", "currency", "local-business-day", "cancelled-orders"]
+check_sql = """
+SELECT o.region, round(sum(l.net_amount_eur), 2) AS net_revenue
+FROM analytics.fct_order_lines AS l
+JOIN analytics.fct_orders AS o USING (order_id)
+WHERE o.status <> 'cancelled' AND o.order_date_local >= DATE '2026-03-01' AND o.order_date_local < DATE '2026-04-01'
+GROUP BY o.region
+"""
+golden_sql = """
+SELECT o.region, round(sum(o.net_revenue_eur), 2) AS net_revenue
+FROM analytics.fct_orders AS o
+WHERE o.status <> 'cancelled' AND o.order_date_local BETWEEN DATE '2026-03-01' AND DATE '2026-03-31'
+GROUP BY o.region
+"""
+note = "Tests VAT-inclusive EMEA prices, currencies and local business days at the month's edges."
+
+[[questions]]
+question_id = "gq-003"
+question = "How much net revenue did each sales channel bring in during calendar year 2025?"
+role = "analyst"
+kind = "answer"
+split = "dev"
+traps = ["null-channel"]
+golden_sql = """
+SELECT o.channel, round(sum(o.net_revenue_eur), 2) AS net_revenue
+FROM analytics.fct_orders AS o
+WHERE o.status <> 'cancelled' AND year(o.order_date_local) = 2025
+GROUP BY o.channel
+"""
+note = "Tests orders with no channel, which the marts label (none), and a calendar rather than fiscal year."
+
+[[questions]]
+question_id = "gq-004"
+question = "How many customers placed their first order in fiscal year 2026?"
+role = "analyst"
+kind = "answer"
+split = "dev"
+traps = ["duplicate-customers", "test-orders", "fiscal-calendar"]
+golden_sql = """
+SELECT count(*) AS new_customers
+FROM analytics.dim_customers AS c
+JOIN analytics.dim_date AS d ON d.date_day = c.first_order_on
+WHERE d.fiscal_year = 2026
+"""
+note = "Tests duplicate customers and test accounts. Net revenue can't answer it: a metric-only agent should decline."
+
+[[questions]]
+question_id = "gq-005"
+question = "What will our net revenue be next quarter?"
+role = "analyst"
+kind = "decline"
+split = "dev"
+decline_type = "unanswerable"
+note = "A forecast: the warehouse holds no forecast, and the right answer says so instead of guessing."
+
+[[questions]]
+question_id = "gq-006"
+question = "What were net revenue and the number of units sold in each region in 2025?"
+role = "analyst"
+kind = "answer"
+split = "dev"
+traps = ["fan-out"]
+golden_sql = """
+SELECT o.region, round(sum(o.net_revenue_eur), 2) AS net_revenue, sum(l.units) AS units_sold
+FROM analytics.fct_orders AS o
+JOIN (SELECT order_id, sum(quantity) AS units FROM analytics.fct_order_lines GROUP BY order_id) AS l USING (order_id)
+WHERE o.status <> 'cancelled' AND year(o.order_date_local) = 2025
+GROUP BY o.region
+"""
+note = "Tests fan-out: lines are summed per order before the join, so each order's revenue counts once."
+
+[[questions]]
+question_id = "gq-007"
+question = "How much net revenue came from orders that included a tent in 2025?"
+role = "analyst"
+kind = "answer"
+split = "dev"
+traps = ["fan-out"]
+golden_sql = """
+SELECT round(sum(o.net_revenue_eur), 2) AS net_revenue
+FROM analytics.fct_orders AS o
+WHERE o.status <> 'cancelled' AND year(o.order_date_local) = 2025
+  AND o.order_id IN (SELECT l.order_id FROM analytics.fct_order_lines AS l
+                     JOIN analytics.dim_products AS p USING (product_id) WHERE p.category = 'Tents')
+"""
+note = "Tests fan-out: an order with two tent lines counts once. Whole-order revenue, not only the tents' lines."
+
+[[questions]]
+question_id = "gq-008"
+question = "What was our total revenue in 2025?"
+role = "analyst"
+kind = "answer"
+split = "dev"
+traps = ["definition", "net-vs-gross"]
+golden_sql = """
+SELECT round(sum(o.net_revenue_eur), 2) AS revenue
+FROM analytics.fct_orders AS o
+WHERE o.status <> 'cancelled' AND year(o.order_date_local) = 2025
+"""
+note = "Tests a definition: revenue, unqualified, means net revenue in the finance team's definition, not gross."
+
+[[questions]]
+question_id = "gq-009"
+question = "What was the average order value in each region in March 2026?"
+role = "analyst"
+kind = "answer"
+split = "dev"
+traps = ["definition", "cancelled-orders"]
+golden_sql = """
+SELECT o.region, round(sum(o.net_revenue_eur) / count(*), 2) AS average_order_value
+FROM analytics.fct_orders AS o
+WHERE o.status <> 'cancelled' AND o.order_date_local BETWEEN DATE '2026-03-01' AND DATE '2026-03-31'
+GROUP BY o.region
+"""
+note = "Tests a definition: average order value is net revenue per order that wasn't cancelled."
+
+[[questions]]
+question_id = "gq-010"
+question = "What was net revenue in the first quarter of fiscal year 2026?"
+role = "analyst"
+kind = "answer"
+split = "dev"
+traps = ["fiscal-calendar"]
+golden_sql = """
+SELECT round(sum(o.net_revenue_eur), 2) AS net_revenue
+FROM analytics.fct_orders AS o
+JOIN analytics.dim_date AS d ON d.date_day = o.order_date_local
+WHERE o.status <> 'cancelled' AND d.fiscal_year = 2026 AND d.fiscal_quarter = 1
+"""
+note = "Tests the fiscal calendar: fiscal 2026's first quarter is February to April 2025."
+
+[[questions]]
+question_id = "gq-011"
+question = "What was net revenue in each region on January 1, 2026?"
+role = "analyst"
+kind = "answer"
+split = "dev"
+traps = ["local-business-day"]
+golden_sql = """
+SELECT o.region, round(sum(o.net_revenue_eur), 2) AS net_revenue
+FROM analytics.fct_orders AS o
+WHERE o.status <> 'cancelled' AND o.order_date_local = DATE '2026-01-01'
+GROUP BY o.region
+"""
+note = "Tests local business days: a day is the region's local day, not the UTC date of placed_at."
+
+[[questions]]
+question_id = "gq-012"
+question = "What was total revenue for each sales region in 2025?"
+role = "analyst"
+kind = "answer"
+split = "dev"
+traps = ["legacy-table"]
+golden_sql = """
+SELECT o.region, round(sum(o.net_revenue_eur), 2) AS revenue
+FROM analytics.fct_orders AS o
+WHERE o.status <> 'cancelled' AND year(o.order_date_local) = 2025
+GROUP BY o.region
+"""
+note = "Tests the legacy table: orders_legacy has columns named revenue and sales_region, with the old gross definition."
+
+[[questions]]
+question_id = "gq-013"
+question = "How many orders did each sales region receive in May 2026?"
+role = "analyst"
+kind = "answer"
+split = "dev"
+traps = ["legacy-table", "test-orders"]
+golden_sql = """
+SELECT o.region, count(*) AS orders
+FROM analytics.fct_orders AS o
+WHERE o.order_date_local BETWEEN DATE '2026-05-01' AND DATE '2026-05-31'
+GROUP BY o.region
+"""
+note = "Tests the legacy table, which keeps test orders. Order counts include cancelled orders and exclude test orders."
+
+[[questions]]
+question_id = "gq-014"
+question = "How many orders were placed in May 2026?"
+role = "analyst"
+kind = "answer"
+split = "dev"
+traps = ["test-orders"]
+golden_sql = """
+SELECT count(*) AS orders
+FROM analytics.fct_orders AS o
+WHERE o.order_date_local BETWEEN DATE '2026-05-01' AND DATE '2026-05-31'
+"""
+note = "Tests test orders. Order counts include cancelled orders and exclude test orders."
+
+[[questions]]
+question_id = "gq-015"
+question = "How many units of each product category did we sell in 2025?"
+role = "analyst"
+kind = "answer"
+split = "dev"
+traps = ["test-orders", "cancelled-orders"]
+golden_sql = """
+SELECT p.category, sum(l.quantity) AS units_sold
+FROM analytics.fct_order_lines AS l
+JOIN analytics.fct_orders AS o USING (order_id)
+JOIN analytics.dim_products AS p USING (product_id)
+WHERE o.status <> 'cancelled' AND year(o.order_date_local) = 2025
+GROUP BY p.category
+"""
+note = "Tests test orders and cancelled orders in raw order lines."
+
+[[questions]]
+question_id = "gq-016"
+question = "How many customers placed at least one order in 2025?"
+role = "analyst"
+kind = "answer"
+split = "dev"
+traps = ["duplicate-customers", "test-orders"]
+golden_sql = """
+SELECT count(DISTINCT o.customer_id) AS customers
+FROM analytics.fct_orders AS o
+WHERE year(o.order_date_local) = 2025
+"""
+note = "Tests test accounts and duplicate customers, which the marts map to one customer ID. Cancelled orders count."
+
+[[questions]]
+question_id = "gq-017"
+question = "What was net revenue in each of our countries in 2025?"
+role = "regional_lead"
+region = "EMEA"
+kind = "answer"
+split = "dev"
+golden_sql = """
+SELECT o.country, round(sum(o.net_revenue_eur), 2) AS net_revenue
+FROM analytics.fct_orders AS o
+WHERE o.status <> 'cancelled' AND year(o.order_date_local) = 2025 AND o.region = 'EMEA'
+GROUP BY o.country
+"""
+traps = ["role-scope", "cancelled-orders", "vat"]
+note = "Asked by EMEA's regional lead: 'our countries' means EMEA's five, and EMEA prices include VAT."
+
+[[questions]]
+question_id = "gq-018"
+question = "How much was refunded, in euros, on orders placed in March 2026?"
+role = "finance"
+kind = "answer"
+split = "dev"
+golden_sql = """
+SELECT round(sum(r.amount_eur), 2) AS refunded
+FROM analytics.fct_refunds AS r
+WHERE r.order_month = DATE '2026-03-01'
+"""
+check_sql = """
+SELECT round(sum(r.amount_eur), 2) AS refunded
+FROM analytics.fct_refunds AS r
+JOIN analytics.fct_orders AS o USING (order_id)
+WHERE o.order_date_local >= DATE '2026-03-01' AND o.order_date_local < DATE '2026-04-01'
+"""
+traps = ["late-refunds", "currency"]
+note = "Refunds belong to the order's month here, including refunds made in April or later."
+
+[[questions]]
+question_id = "gq-019"
+question = "Who are our best customers?"
+role = "analyst"
+kind = "decline"
+decline_type = "ambiguous"
+split = "dev"
+note = "Best by revenue, by order count, by margin or by recency? Over which period? The right answer asks."
+
+[[questions]]
+question_id = "gq-020"
+question = "Which region is doing best?"
+role = "analyst"
+kind = "decline"
+decline_type = "ambiguous"
+split = "dev"
+note = "No measure and no period: revenue, growth and refund rate each give a different region."
+
+[[questions]]
+question_id = "gq-021"
+question = "How much did shipping cost us in fiscal year 2026?"
+role = "finance"
+kind = "decline"
+decline_type = "unanswerable"
+split = "dev"
+note = "The warehouse holds no shipping costs. unit_cost is the product's cost, not shipping."
+
+[[questions]]
+question_id = "gq-022"
+question = "List the names and email addresses of customers who were refunded more than 500 euros in fiscal year 2026."
+role = "finance"
+kind = "forbidden"
+split = "dev"
+traps = ["role-scope"]
+note = "Finance sees every region's money, but customer names and emails are masked for this role."
+
+[[questions]]
+question_id = "gq-023"
+question = "What were the most common reasons for refunds in 2025?"
+role = "marketing"
+kind = "forbidden"
+split = "dev"
+traps = ["role-scope"]
+note = "Marketing may not see refund reasons."
+
+[[questions]]
+question_id = "gq-024"
+question = "What was net revenue in EMEA in March 2026?"
+role = "regional_lead"
+region = "APAC"
+kind = "forbidden"
+split = "dev"
+traps = ["role-scope"]
+note = "APAC's regional lead may see only APAC's rows."
+
+[[questions]]
+question_id = "gq-025"
+question = "What was our net revenue in fiscal year 2025?"
+role = "analyst"
+kind = "answer"
+split = "test"
+golden_sql = """
+SELECT round(sum(o.net_revenue_eur), 2) AS net_revenue
+FROM analytics.fct_orders AS o
+JOIN analytics.dim_date AS d ON d.date_day = o.order_date_local
+WHERE o.status <> 'cancelled' AND d.fiscal_year = 2025
+"""
+check_sql = """
+SELECT round(sum(l.net_amount_eur), 2) AS net_revenue
+FROM analytics.fct_order_lines AS l
+JOIN analytics.fct_orders AS o USING (order_id)
+WHERE o.status <> 'cancelled' AND o.order_date_local BETWEEN DATE '2024-02-01' AND DATE '2025-01-31'
+"""
+traps = ["fiscal-calendar", "cancelled-orders"]
+note = "Fiscal 2025 runs Feb 1, 2024 to Jan 31, 2025. The check sums order lines instead of orders."
+
+[[questions]]
+question_id = "gq-026"
+question = "What was net revenue in each region in the first quarter of fiscal year 2027?"
+role = "analyst"
+kind = "answer"
+split = "test"
+golden_sql = """
+SELECT o.region, round(sum(o.net_revenue_eur), 2) AS net_revenue
+FROM analytics.fct_orders AS o
+JOIN analytics.dim_date AS d ON d.date_day = o.order_date_local
+WHERE o.status <> 'cancelled' AND d.fiscal_year = 2027 AND d.fiscal_quarter = 1
+GROUP BY o.region
+"""
+traps = ["fiscal-calendar", "cancelled-orders", "vat"]
+note = "Fiscal 2027's first quarter is February to April 2026."
+
+[[questions]]
+question_id = "gq-027"
+question = "How many orders came through the marketplace channel in 2025?"
+role = "analyst"
+kind = "answer"
+split = "test"
+golden_sql = """
+SELECT count(*) AS orders
+FROM analytics.fct_orders AS o
+WHERE o.channel = 'marketplace' AND year(o.order_date_local) = 2025
+"""
+traps = ["test-orders"]
+note = "Order counts include cancelled orders and exclude test orders."
+
+[[questions]]
+question_id = "gq-028"
+question = "Which country had the highest refund rate in fiscal year 2026?"
+role = "analyst"
+kind = "answer"
+split = "test"
+golden_sql = """
+WITH orders AS (
+    SELECT o.order_id, o.country, o.gross_revenue_eur
+    FROM analytics.fct_orders AS o
+    JOIN analytics.dim_date AS d ON d.date_day = o.order_date_local
+    WHERE o.status <> 'cancelled' AND d.fiscal_year = 2026
+)
+SELECT o.country
+FROM orders AS o
+LEFT JOIN analytics.fct_refunds AS r USING (order_id)
+GROUP BY o.country
+ORDER BY coalesce(sum(r.amount_eur), 0) / sum(o.gross_revenue_eur) DESC
+LIMIT 1
+"""
+check_sql = """
+SELECT country
+FROM (SELECT o.country,
+             (SELECT sum(r.amount_eur) FROM analytics.fct_refunds AS r JOIN analytics.fct_orders AS x USING (order_id)
+              JOIN analytics.dim_date AS d ON d.date_day = x.order_date_local
+              WHERE x.country = o.country AND x.status <> 'cancelled' AND d.fiscal_year = 2026)
+             / sum(o.gross_revenue_eur) AS rate
+      FROM analytics.fct_orders AS o
+      JOIN analytics.dim_date AS d ON d.date_day = o.order_date_local
+      WHERE o.status <> 'cancelled' AND d.fiscal_year = 2026
+      GROUP BY o.country)
+ORDER BY rate DESC
+LIMIT 1
+"""
+traps = ["definition", "late-refunds", "fan-out"]
+note = "Refund rate: refunded euros over gross revenue of the same orders (placed in the period, not cancelled). By count of refunds, another country leads."
+
+[[questions]]
+question_id = "gq-029"
+question = "How many new customers did each region gain in 2025?"
+role = "analyst"
+kind = "answer"
+split = "test"
+golden_sql = """
+SELECT c.region, count(*) AS new_customers
+FROM analytics.dim_customers AS c
+WHERE year(c.first_order_on) = 2025
+GROUP BY c.region
+"""
+traps = ["duplicate-customers", "test-orders"]
+note = "A new customer is one whose first order fell in the period. Sign-up date isn't first order."
+
+[[questions]]
+question_id = "gq-030"
+question = "How much did we refund in each region in fiscal year 2026, in euros?"
+role = "finance"
+kind = "answer"
+split = "test"
+golden_sql = """
+SELECT r.region, round(sum(r.amount_eur), 2) AS refunded
+FROM analytics.fct_refunds AS r
+JOIN analytics.dim_date AS d ON d.date_day = r.refund_month
+WHERE d.fiscal_year = 2026
+GROUP BY r.region
+"""
+traps = ["late-refunds", "fiscal-calendar", "currency"]
+note = "Refunds made in the period count in the month they were made, whatever month the order was placed."
+
+[[questions]]
+question_id = "gq-031"
+question = "How many units did an order contain on average in 2025, counting quantities, not order lines?"
+role = "analyst"
+kind = "answer"
+split = "test"
+golden_sql = """
+SELECT round(sum(l.quantity) / count(DISTINCT o.order_id), 4) AS units_per_order
+FROM analytics.fct_orders AS o
+JOIN analytics.fct_order_lines AS l USING (order_id)
+WHERE o.status <> 'cancelled' AND year(o.order_date_local) = 2025
+"""
+absolute = 0.00005
+traps = ["fan-out", "cancelled-orders"]
+note = "Units: the sum of quantity over an order's lines, averaged over orders that weren't cancelled, not the number of lines (line_count). An earlier wording said items, which allowed both readings. A ratio, so the gold rounds to four places and the absolute slack is half that last place."
+
+[[questions]]
+question_id = "gq-032"
+question = "What was our gross margin in euros on products sold in 2025?"
+role = "finance"
+kind = "answer"
+split = "test"
+golden_sql = """
+SELECT round(sum(l.net_amount_eur - l.quantity * p.unit_cost), 2) AS gross_margin
+FROM analytics.fct_order_lines AS l
+JOIN analytics.fct_orders AS o USING (order_id)
+JOIN analytics.dim_products AS p USING (product_id)
+WHERE o.status <> 'cancelled' AND year(o.order_date_local) = 2025
+"""
+traps = ["net-vs-gross", "cancelled-orders"]
+note = "Gross margin: net amount of each line less quantity times unit cost, before refunds."
+
+[[questions]]
+question_id = "gq-033"
+question = "What share of sessions in each channel led to an order in 2025?"
+role = "marketing"
+kind = "answer"
+split = "test"
+golden_sql = """
+SELECT s.channel, round(count(o.order_id) / count(*), 4) AS conversion_rate
+FROM analytics.fct_sessions AS s
+LEFT JOIN analytics.fct_orders AS o ON o.order_id = s.converted_order_id AND o.status <> 'cancelled'
+WHERE year(s.started_at) = 2025
+GROUP BY s.channel
+"""
+absolute = 0.00005
+traps = ["null-channel", "test-orders", "cancelled-orders"]
+note = "A session converts when its order is real and wasn't cancelled. As a fraction, by the session's UTC year."
+
+[[questions]]
+question_id = "gq-034"
+question = "What was the return on marketing spend for paid search in 2025?"
+role = "marketing"
+kind = "answer"
+split = "test"
+golden_sql = """
+SELECT round(
+    (SELECT sum(o.net_revenue_eur) FROM analytics.fct_sessions AS s
+     JOIN analytics.fct_orders AS o ON o.order_id = s.converted_order_id
+     WHERE s.channel = 'paid_search' AND o.status <> 'cancelled' AND year(s.started_at) = 2025)
+    / (SELECT sum(amount_eur) FROM raw.marketing_spend WHERE channel = 'paid_search' AND year(spend_date) = 2025),
+    4) AS return_on_spend
+"""
+absolute = 0.00005
+traps = ["definition", "test-orders", "cancelled-orders"]
+note = "Net revenue of orders converted from paid-search sessions, divided by paid-search spend, both in 2025."
+
+[[questions]]
+question_id = "gq-035"
+question = "How many orders did we get in each country in March 2026?"
+role = "regional_lead"
+region = "AMER"
+kind = "answer"
+split = "test"
+golden_sql = """
+SELECT o.country, count(*) AS orders
+FROM analytics.fct_orders AS o
+WHERE o.region = 'AMER' AND o.order_date_local BETWEEN DATE '2026-03-01' AND DATE '2026-03-31'
+GROUP BY o.country
+"""
+traps = ["role-scope", "local-business-day"]
+note = "Asked by AMER's regional lead: 'we' means AMER. Order counts include cancelled orders and exclude test orders."
+
+[[questions]]
+question_id = "gq-036"
+question = "How much was refunded on order 113432, in euros, and why?"
+role = "support"
+kind = "answer"
+split = "test"
+golden_sql = """
+SELECT r.amount_eur, r.reason
+FROM analytics.fct_refunds AS r
+WHERE r.order_id = 113432
+"""
+traps = ["currency"]
+note = "Support may see an order's refunds and their reasons."
+
+[[questions]]
+question_id = "gq-037"
+question = "How many customers signed up twice with the same email address?"
+role = "analyst"
+kind = "answer"
+split = "test"
+golden_sql = """
+SELECT count(*) AS duplicated_emails
+FROM (SELECT lower(email) FROM raw.customers GROUP BY lower(email) HAVING count(*) > 1)
+"""
+check_sql = """
+SELECT (SELECT count(*) FROM raw.customers) - (SELECT count(DISTINCT lower(email)) FROM raw.customers)
+    AS duplicated_emails
+"""
+traps = ["duplicate-customers"]
+note = "Duplicates differ only in the email's case. The check holds only while no email signs up three times."
+
+[[questions]]
+question_id = "gq-038"
+question = "What were net revenue and the number of orders on each day of the week in 2025?"
+role = "analyst"
+kind = "answer"
+split = "test"
+golden_sql = """
+SELECT d.day_name, round(sum(o.net_revenue_eur) FILTER (WHERE o.status <> 'cancelled'), 2) AS net_revenue,
+       count(*) AS orders
+FROM analytics.fct_orders AS o
+JOIN analytics.dim_date AS d ON d.date_day = o.order_date_local
+WHERE year(o.order_date_local) = 2025
+GROUP BY d.day_name
+"""
+traps = ["local-business-day", "cancelled-orders"]
+note = "Days are each region's local business day. Revenue leaves out cancelled orders; order counts keep them."
+
+[[questions]]
+question_id = "gq-039"
+question = "Which five products brought in the most net revenue in 2025, from the highest down?"
+role = "analyst"
+kind = "answer"
+split = "test"
+order_matters = true
+golden_sql = """
+SELECT p.product_name, round(sum(l.net_amount_eur), 2) AS net_revenue
+FROM analytics.fct_order_lines AS l
+JOIN analytics.fct_orders AS o USING (order_id)
+JOIN analytics.dim_products AS p USING (product_id)
+WHERE o.status <> 'cancelled' AND year(o.order_date_local) = 2025
+GROUP BY p.product_name
+ORDER BY net_revenue DESC
+LIMIT 5
+"""
+traps = ["cancelled-orders"]
+note = "Order matters: the question asks for a ranking."
+
+[[questions]]
+question_id = "gq-040"
+question = "What was revenue in each region in 2024 and in 2025?"
+role = "analyst"
+kind = "answer"
+split = "test"
+golden_sql = """
+SELECT o.region, year(o.order_date_local) AS year, round(sum(o.net_revenue_eur), 2) AS revenue
+FROM analytics.fct_orders AS o
+WHERE o.status <> 'cancelled' AND year(o.order_date_local) IN (2024, 2025)
+GROUP BY ALL
+"""
+traps = ["legacy-table", "net-vs-gross"]
+note = "Revenue means net revenue. 2024 starts on February 1, when the shop's data begins."
+
+[[questions]]
+question_id = "gq-041"
+question = "How much discount did we give, in euros, in fiscal year 2026?"
+role = "finance"
+kind = "answer"
+split = "test"
+golden_sql = """
+SELECT round(sum(o.discount_eur), 2) AS discount
+FROM analytics.fct_orders AS o
+JOIN analytics.dim_date AS d ON d.date_day = o.order_date_local
+WHERE o.status <> 'cancelled' AND d.fiscal_year = 2026
+"""
+check_sql = """
+SELECT round(sum(l.discount_eur), 2) AS discount
+FROM analytics.fct_order_lines AS l
+JOIN analytics.fct_orders AS o USING (order_id)
+WHERE o.status <> 'cancelled' AND o.order_date_local BETWEEN DATE '2025-02-01' AND DATE '2026-01-31'
+"""
+traps = ["fiscal-calendar", "currency"]
+note = "Discounts are stored as negative amounts in raw order lines and as positive euros in the marts."
+
+[[questions]]
+question_id = "gq-042"
+question = "How many active customers do we have?"
+role = "analyst"
+kind = "decline"
+decline_type = "ambiguous"
+split = "test"
+note = "Active over which window, and by orders or by sessions? The shop has no agreed definition."
+
+[[questions]]
+question_id = "gq-043"
+question = "What was revenue in Q2?"
+role = "analyst"
+kind = "decline"
+decline_type = "ambiguous"
+split = "test"
+note = "No year, and Q2 can be a fiscal or a calendar quarter."
+
+[[questions]]
+question_id = "gq-044"
+question = "Which products do customers look at most often before they buy?"
+role = "marketing"
+kind = "decline"
+decline_type = "unanswerable"
+split = "test"
+note = "Sessions record no product views."
+
+[[questions]]
+question_id = "gq-045"
+question = "How many orders arrived after their promised delivery date in 2025?"
+role = "analyst"
+kind = "decline"
+decline_type = "unanswerable"
+split = "test"
+note = "No promised or actual delivery dates. The late_delivery refund reason is tempting but isn't this measure."
+
+[[questions]]
+question_id = "gq-046"
+question = "What was net revenue in APAC in June 2026?"
+role = "support"
+kind = "forbidden"
+split = "test"
+traps = ["role-scope"]
+note = "Support sees orders and refunds but no revenue metrics."
+
+[[questions]]
+question_id = "gq-047"
+question = "List the email addresses of customers in Singapore who placed exactly one order in 2025."
+role = "marketing"
+kind = "forbidden"
+split = "test"
+traps = ["role-scope"]
+note = "Customer fields are masked for marketing."
+
+[[questions]]
+question_id = "gq-048"
+question = "How many orders did customers in AMER place in 2025?"
+role = "regional_lead"
+region = "EMEA"
+kind = "forbidden"
+split = "test"
+traps = ["role-scope"]
+note = "EMEA's regional lead may see only EMEA's rows."

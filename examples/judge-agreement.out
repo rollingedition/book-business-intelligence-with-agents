@@ -1,0 +1,27 @@
+cases: 56
+reference correct: 26
+judge correct: 20
+judge unparsed: 0
+all cases: 56
+all cases the reference labels correct: 26
+all observed agreement: 0.75
+all Cohen's kappa: 0.49
+all Scott's pi: 0.48
+all kappa with any one verdict changed: 0.45 to 0.53
+schema-only cases: 23
+schema-only cases the reference labels correct: 5
+schema-only observed agreement: 0.74
+schema-only Cohen's kappa: 0.10
+schema-only Scott's pi: 0.09
+schema-only kappa with any one verdict changed: -0.14 to 0.31
+metric agents cases: 33
+metric agents cases the reference labels correct: 21
+metric agents observed agreement: 0.76
+metric agents Cohen's kappa: 0.51
+metric agents Scott's pi: 0.50
+metric agents kappa with any one verdict changed: 0.44 to 0.58
+wrong answers the judge called correct: 4 of 30
+wrong answers the judge called correct, cases: gq-002 schema-only, gq-004 schema-only, gq-018 metrics-first, gq-035 metrics-first
+right answers the judge called incorrect: 10 of 26
+right answers the judge called incorrect, cases: gq-014 schema-only, gq-016 schema-only, gq-027 schema-only, gq-031 schema-only, gq-003 metrics-first, gq-006 metrics-first, gq-008 metrics-first, gq-015 metrics-first, gq-027 metrics-first, gq-029 metrics-first
+right answers rejected for reading a year's filter as January 1: 6

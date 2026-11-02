@@ -1,0 +1,22 @@
+question: How much net revenue did each sales channel bring in during calendar year 2025?
+model calls: 1
+reply: {"tool": "query_metric", "arguments": {"metrics": ["net_revenue"], "group_by": ["order__channel"], "filters": {"metric_time__year": 2025}}}
+MetricRequest(metrics=('net_revenue',), group_by=('order__channel',), filters={'metric_time__year': 2025}, order_by=(), limit=None)
+SELECT
+  orders.channel AS order__channel,
+  SUM(orders.net_revenue_eur) AS net_revenue
+FROM analytics.fct_orders AS orders
+WHERE
+  orders.status <> 'cancelled'
+  AND CAST(DATE_TRUNC('YEAR', CAST(orders.order_date_local AS DATE)) AS DATE) = CAST('2025-01-01' AS DATE)
+GROUP BY
+  orders.channel
+ORDER BY
+  order__channel ASC
+order__channel  net_revenue
+(none)          82,922.75
+app             431,258.70
+marketplace     227,826.99
+web             909,519.42
+matches golden: True
+schema-only outcome: error

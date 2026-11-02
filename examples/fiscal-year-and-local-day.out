@@ -1,0 +1,31 @@
+SELECT COUNT(*) AS customer_count
+FROM analytics.dim_customers
+WHERE first_order_on >= '2026-01-01' AND first_order_on < '2027-01-01'
+gq-004 model: 225
+gq-004 golden: 825
+SELECT
+    region,
+    COUNT(order_id) AS order_count
+FROM
+    analytics.fct_orders
+WHERE
+    placed_at >= '2026-05-01' AND placed_at < '2026-06-01'
+GROUP BY
+    region
+ORDER BY
+    order_count DESC
+gq-013 AMER model: 219
+gq-013 AMER golden: 220
+gq-013 APAC model: 148
+gq-013 APAC golden: 147
+gq-013 EMEA model: 317
+gq-013 EMEA golden: 317
+orders across May's edges: 6
+gq-013 AMER in May by UTC only: 2
+gq-013 AMER in May by local day only: 3
+gq-013 APAC in May by UTC only: 1
+gq-013 APAC in May by local day only: 0
+gq-013 EMEA in May by UTC only: 0
+gq-013 EMEA in May by local day only: 0
+all regions in May by UTC only: 3
+all regions in May by local day only: 3

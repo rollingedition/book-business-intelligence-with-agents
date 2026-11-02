@@ -1,0 +1,18 @@
+metric: net_revenue
+definition: Revenue in EUR after discounts and before tax, from real orders that weren't cancelled, counted on the order's local business day. Returned orders count; refunds are not subtracted.
+request: {'metric': 'net_revenue', 'group_by': ['region'], 'filters': {'calendar_month': 3, 'calendar_year': 2026}}
+SELECT o.region AS region, round(sum(o.net_revenue_eur), 2) AS net_revenue
+FROM analytics.fct_orders AS o
+JOIN analytics.dim_date AS d ON d.date_day = o.order_date_local
+WHERE o.status <> 'cancelled' AND d.calendar_month = $1 AND d.calendar_year = $2
+GROUP BY o.region
+ORDER BY o.region
+region  net_revenue
+AMER    51,762.14
+APAC    35,296.93
+EMEA    63,023.76
+source: metric (net_revenue)
+filters: {'calendar_month': 3, 'calendar_year': 2026}
+role: analyst
+data as of: 2026-07-02 02:00:00
+matches golden: True

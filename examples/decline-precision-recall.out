@@ -1,0 +1,28 @@
+metrics-first right: 12 of 21
+metrics-first wrong: 5 of 21
+metrics-first abstained: 3 of 21
+metrics-first step limit: 1 of 21
+metrics-first wrong numbers: gq-012, gq-016, gq-017, gq-018, gq-020
+metrics-first declined answerable: none
+metrics-first decline precision: 1.00
+metrics-first decline recall: 0.75
+metrics-first recall, ambiguous: 1 of 2
+metrics-first recall, unanswerable: 2 of 2
+metrics-first coverage: 0.81
+metrics-first selective risk: 0.29
+metrics-first penalty score, c=3: 0.00
+metrics-first penalty score, c=10: -1.67
+declining right: 11 of 21
+declining wrong: 4 of 21
+declining abstained: 5 of 21
+declining step limit: 1 of 21
+declining wrong numbers: gq-008, gq-012, gq-017, gq-018
+declining declined answerable: gq-016
+declining decline precision: 0.80
+declining decline recall: 1.00
+declining recall, ambiguous: 2 of 2
+declining recall, unanswerable: 2 of 2
+declining coverage: 0.71
+declining selective risk: 0.27
+declining penalty score, c=3: 0.14
+declining penalty score, c=10: -1.19

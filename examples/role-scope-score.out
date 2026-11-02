@@ -1,0 +1,25 @@
+dev answer correct, no policy: 12 of 17
+dev answer correct, policy: 13 of 17
+dev decline correct, no policy: 3 of 4
+dev decline correct, policy: 3 of 4
+dev forbidden correct, no policy: 1 of 3
+dev forbidden correct, policy: 3 of 3
+test answer correct, no policy: 5 of 17
+test answer correct, policy: 6 of 17
+test decline correct, no policy: 4 of 4
+test decline correct, policy: 4 of 4
+test forbidden correct, no policy: 1 of 3
+test forbidden correct, policy: 3 of 3
+changed by the policy:
+gq-017 (dev, regional_lead, answer): wrong -> correct
+gq-023 (dev, marketing, forbidden): wrong -> correct
+gq-024 (dev, regional_lead, forbidden): wrong -> correct
+gq-035 (test, regional_lead, answer): wrong -> correct
+gq-046 (test, support, forbidden): wrong -> correct
+gq-048 (test, regional_lead, forbidden): wrong -> correct
+gq-022 (finance), declined by the model: The available metrics do not include customer email addresses or direct customer identification data. Only metrics related to refunds and order details are available, and none provide customer contact information such as email addresses.
+gq-023 (marketing), declined by the model: The available metrics do not include information about reasons for refunds.
+gq-024 (regional_lead), declined by code: forbidden: the regional_lead role for APAC may not see rows where order__region is 'EMEA'
+gq-046 (support), declined by the model: The metrics available do not include net revenue. Revenue or net revenue calculations are not defined in the provided metrics.
+gq-047 (marketing), declined by the model: The available metrics do not include customer email addresses or direct customer identification data. Therefore, it is not possible to list email addresses of customers.
+gq-048 (regional_lead), declined by code: forbidden: the regional_lead role for EMEA may not see rows where customer__region is 'AMER'

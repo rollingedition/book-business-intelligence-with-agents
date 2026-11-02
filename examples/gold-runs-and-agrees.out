@@ -1,0 +1,8 @@
+golden SQL that runs: 34 of 34
+golden SQL that fails: none
+empty or NULL results: 0
+questions with a check query: 7
+checks that agree: 7 of 7
+top country by number of refunds: US
+top country by refund rate: NL
+gq-028 golden: NL

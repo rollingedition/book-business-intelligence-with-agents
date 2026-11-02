@@ -1,0 +1,18 @@
+# One row per product.
+semantic_model:
+  name: products
+  description: One row per product.
+  node_relation:
+    schema_name: analytics
+    alias: dim_products
+  entities:
+    - name: product
+      type: primary
+      expr: product_id
+  dimensions:
+    - name: product_name
+      type: categorical
+    - name: category
+      type: categorical
+    - name: subcategory
+      type: categorical

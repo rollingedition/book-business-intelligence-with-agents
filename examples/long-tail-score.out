@@ -1,0 +1,24 @@
+gq-007 (dev, a filter on what an order contains): wrong, after ran
+gq-007 first row: NULL (golden: 377,497.40)
+gq-016 (dev, customers with an order): correct, after ran
+gq-031 (test, units per order): correct, after ran
+gq-032 (test, gross margin): wrong, after ran
+gq-032 first row: 773,723.34 (golden: 847,864.71)
+gq-033 (test, session conversion): wrong, after ran
+gq-033 first row: (none), 13.46 (golden: (none), 0.13)
+gq-034 (test, marketing spend): declined, after table then declined
+gq-036 (test, one order's refunds): correct, after ran
+gq-037 (test, duplicate sign-ups): wrong, after ran
+gq-037 first row: no rows (golden: 54)
+gq-038 (test, a weekday dimension): wrong, after ran
+gq-038 first row: Friday, 221,172.11, 822 (golden: Friday, 221,172.11, 869)
+gq-041 (test, discount): correct, after ran
+long tail questions on dev: 2
+long tail questions on test: 8
+long tail dev correct: 1 of 2
+long tail dev wrong: 1 of 2
+long tail dev declined: 0 of 2
+long tail test correct: 3 of 8
+long tail test wrong: 4 of 8
+long tail test declined: 1 of 8
+gq-038 as a metric request matches golden: True

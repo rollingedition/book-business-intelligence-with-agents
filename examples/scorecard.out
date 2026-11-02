@@ -1,0 +1,66 @@
+dev questions: 21
+dev schema-only correct: 2 of 21
+dev schema-only accuracy: 0.10 (95% interval 0.03 to 0.29)
+dev schema-only wrong numbers: 11
+dev schema-only errors or step limits: 8
+dev schema-only decline recall: 0.00
+dev schema-only decline precision: no declines
+dev schema-only coverage: 0.62
+dev schema-only selective risk: 0.85
+dev schema-only model calls per question: 1.0
+dev schema-only prompt tokens per question: 827
+dev metrics-first correct: 15 of 21
+dev metrics-first accuracy: 0.71 (95% interval 0.50 to 0.86)
+dev metrics-first wrong numbers: 5
+dev metrics-first errors or step limits: 1
+dev metrics-first decline recall: 0.75
+dev metrics-first decline precision: 1.00
+dev metrics-first coverage: 0.81
+dev metrics-first selective risk: 0.29
+dev metrics-first model calls per question: 1.8
+dev metrics-first prompt tokens per question: 2,196
+dev declining correct: 15 of 21
+dev declining accuracy: 0.71 (95% interval 0.50 to 0.86)
+dev declining wrong numbers: 4
+dev declining errors or step limits: 1
+dev declining decline recall: 1.00
+dev declining decline precision: 0.80
+dev declining coverage: 0.71
+dev declining selective risk: 0.27
+dev declining model calls per question: 1.9
+dev declining prompt tokens per question: 2,602
+dev fixed by the declining prompt: gq-020
+dev broken by the declining prompt: gq-008
+test questions: 21
+test schema-only correct: 3 of 21
+test schema-only accuracy: 0.14 (95% interval 0.05 to 0.35)
+test schema-only wrong numbers: 10
+test schema-only errors or step limits: 8
+test schema-only decline recall: 0.00
+test schema-only decline precision: no declines
+test schema-only coverage: 0.62
+test schema-only selective risk: 0.77
+test schema-only model calls per question: 1.0
+test schema-only prompt tokens per question: 829
+test metrics-first correct: 9 of 21
+test metrics-first accuracy: 0.43 (95% interval 0.24 to 0.63)
+test metrics-first wrong numbers: 5
+test metrics-first errors or step limits: 1
+test metrics-first decline recall: 1.00
+test metrics-first decline precision: 0.40
+test metrics-first coverage: 0.48
+test metrics-first selective risk: 0.50
+test metrics-first model calls per question: 1.5
+test metrics-first prompt tokens per question: 1,854
+test declining correct: 8 of 21
+test declining accuracy: 0.38 (95% interval 0.21 to 0.59)
+test declining wrong numbers: 4
+test declining errors or step limits: 3
+test declining decline recall: 0.75
+test declining decline precision: 0.33
+test declining coverage: 0.43
+test declining selective risk: 0.44
+test declining model calls per question: 1.9
+test declining prompt tokens per question: 2,622
+test fixed by the declining prompt: none
+test broken by the declining prompt: gq-043

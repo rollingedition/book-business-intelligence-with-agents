@@ -1,0 +1,12 @@
+tables in the shop's warehouse: 16
+tables in the agent's database: 7
+the agent's tables: analytics.dim_customers, analytics.dim_date, analytics.dim_products, analytics.fct_order_lines, analytics.fct_orders, analytics.fct_refunds, analytics.fct_sessions
+raw table: Catalog Error, Table with name "raw.customers" does not exist because schema "raw" does not exist.
+legacy mart: Catalog Error, Table with name orders_legacy does not exist!
+attach the shop's file: Permission Error, file system operations are disabled by configuration
+read a file: Permission Error, file system operations are disabled by configuration
+load an extension: Permission Error, Loading external extensions is disabled through configuration
+turn file access back on: Invalid Input Error, the configuration has been locked
+catalog, tables it lists: 7
+catalog, settings it lists: 170
+catalog, database files it names: 1

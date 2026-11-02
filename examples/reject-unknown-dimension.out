@@ -1,0 +1,11 @@
+no such dimension: orders can't use dimension 'customer__email'; no metric defines it
+fan-out: net_revenue can't use dimension 'product__category'; metrics that can use it: line_net_revenue, units_sold
+no such value: no row has order__region = 'Europe'; its values: AMER, APAC, EMEA
+unchecked, region Europe: ((None,),)
+first request filters: {'order__order_date': '2026-03'}
+unchecked total: 4,150.82
+golden total: 150,082.83
+unchecked matches golden: False
+validation said: error: request rejected: order__order_date = '2026-03': a date dimension matches single days only; for a period, filter metric_time at its grain, as metric_time__month = "2026-03" or metric_time__year = 2025
+second request filters: {'metric_time__month': '2026-03'}
+matches golden: True

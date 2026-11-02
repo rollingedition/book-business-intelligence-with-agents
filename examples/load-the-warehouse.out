@@ -1,0 +1,21 @@
+seed: 2718
+raw.customers: 3,100
+raw.fx_rates: 2,649
+raw.marketing_spend: 2,643
+raw.order_lines: 38,439
+raw.orders: 15,000
+raw.products: 120
+raw.refunds: 1,077
+raw.sessions: 60,000
+analytics.dim_customers: 3,040
+analytics.dim_date: 912
+analytics.dim_products: 120
+analytics.fct_order_lines: 38,071
+analytics.fct_orders: 14,856
+analytics.fct_refunds: 1,068
+analytics.fct_sessions: 60,000
+analytics.orders_legacy: 15,000
+first order day: 2024-02-01
+last order day: 2026-06-30
+test orders in raw.orders: 144
+cancelled orders in fct_orders: 819

@@ -1,0 +1,24 @@
+gq-021 (decline): metrics-first first -> A; declining first -> A
+gq-032 (answer): metrics-first first -> B; declining first -> A
+gq-033 (answer): metrics-first first -> A; declining first -> B
+gq-034 (answer): metrics-first first -> A; declining first -> B
+gq-037 (answer): metrics-first first -> A; declining first -> B
+gq-041 (answer): metrics-first first -> A; declining first -> B
+gq-042 (decline): metrics-first first -> B; declining first -> A
+gq-045 (decline): metrics-first first -> A; declining first -> B
+pairs: 8
+pairs on decline questions: 3
+pairs on answerable questions both agents declined: 5
+same verdict in both orders: 7 of 8
+first reason won in both orders: 1 of 8
+second reason won in both orders: 0 of 8
+metrics-first reason won in both orders: 5
+declining reason won in both orders: 2
+decline questions, metrics-first reason won in both orders: 1
+decline questions, declining reason won in both orders: 1
+answerable questions both agents declined, metrics-first reason won in both orders: 4
+answerable questions both agents declined, declining reason won in both orders: 1
+consistent winner was the longer reason: 6
+answerable questions, metrics-first reasons that say the data lacks it: 1 of 5
+answerable questions, declining reasons that say the data lacks it: 5 of 5
+judge replies that suggest an alternative or a reframe: 9 of 16

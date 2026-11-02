@@ -1,0 +1,11 @@
+schema tokens (estimated): 912
+columns tokens (estimated): 1087
+glossary tokens (estimated): 609
+verified tokens (estimated): 200
+prompt tokens (estimated): 2917
+prompt tokens (model's tokenizer): 2364
+default priority: 2393 tokens, kept {'schema': 1, 'columns': 33, 'glossary': 9, 'verified': 0}
+default dropped: 6
+examples first priority: 2384 tokens, kept {'schema': 1, 'columns': 33, 'glossary': 5, 'verified': 2}
+examples first dropped: 8
+render order: schema, columns, glossary, verified, then the question

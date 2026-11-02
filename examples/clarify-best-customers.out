@@ -1,0 +1,25 @@
+gq-005 (unanswerable): ask_back
+  What will our net revenue be next quarter?
+gq-019 (ambiguous): ask_back
+  Who are our best customers?
+gq-020 (ambiguous): query_metric
+  Which region is doing best?
+gq-021 (unanswerable): cannot_answer
+  How much did shipping cost us in fiscal year 2026?
+gq-019 asks back:
+Do you mean customers by highest net revenue, or by highest number of orders?
+- net_revenue: Revenue in EUR after discounts and before tax, from real orders that weren't cancelled, counted on the order's local business day. Returned orders count; refunds are not subtracted.
+- orders: The number of real orders, cancelled ones included.
+gq-005 asks back:
+Do you mean net revenue for the next calendar quarter or the next fiscal quarter?
+- calendar quarter
+- fiscal quarter
+gq-020 request: {'metrics': ['net_revenue'], 'group_by': ['customer__region'], 'order_by': ['net_revenue']}
+customer__region  net_revenue
+APAC              925,657.84
+AMER              1,174,510.02
+EMEA              1,690,339.73
+runs with a result: 31
+requests that order their result: 1
+ranking check flags: gq-020
+ranking check on gq-020: the request ranks its result but names no period; filter or group by a metric_time grain

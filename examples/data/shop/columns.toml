@@ -1,0 +1,73 @@
+# Notes on the shop's tables and columns, written for the book; CC BY 4.0. Chapter 4 gives them to the agent as a
+# context layer. They describe only what a name doesn't say: which rows a table holds, the unit and sign of an
+# amount, the time zone of a timestamp and the values a column takes. A table's `note` describes the table; each
+# entry under `columns` describes one column.
+
+[tables."raw.orders"]
+note = "Orders as loaded, including test orders (is_test) and amounts in the customer's currency. Use analytics.fct_orders."
+
+[tables."raw.order_lines"]
+note = "Order lines as loaded, in the order's currency; discount is a negative amount. Use analytics.fct_order_lines."
+
+[tables."raw.customers"]
+note = "Customers as loaded, with duplicates and test accounts. Use analytics.dim_customers."
+
+[tables."raw.refunds"]
+note = "Refunds as loaded, in the refund's currency. Use analytics.fct_refunds."
+
+[tables."analytics.fct_orders"]
+note = "One row per real order: test orders removed; cancelled and returned orders kept, with their status. Amounts in EUR."
+
+[tables."analytics.fct_orders".columns]
+status = "One of placed, shipped, delivered, cancelled, returned. Revenue leaves out cancelled orders; order and customer counts include them. Returned orders count everywhere."
+net_revenue_eur = "Revenue in EUR after discounts and before tax. Cancelled orders still have a value here, so filter on status."
+gross_revenue_eur = "Revenue in EUR after discounts, including tax. Not the figure the shop reports as revenue."
+placed_at = "When the order was placed, in UTC. Don't filter or group dates on it; use order_date_local."
+order_date_local = "The order's business day in its region's time zone. Use it for every date filter and grouping; join analytics.dim_date on date_day = order_date_local for fiscal periods."
+channel = "The sales channel: web, app, marketplace, or '(none)' where the source had none."
+region = "The customer's sales region: EMEA, AMER or APAC."
+discount_eur = "The order's discounts in EUR, as a positive amount."
+customer_id = "The deduplicated customer, as in analytics.dim_customers."
+
+[tables."analytics.fct_order_lines"]
+note = "One row per line of a real order, in EUR. Includes lines of cancelled orders: join analytics.fct_orders for status."
+
+[tables."analytics.fct_order_lines".columns]
+net_amount_eur = "The line's revenue in EUR after discounts and before tax."
+unit_price_eur = "Price per unit in EUR as charged; EMEA prices include VAT."
+
+[tables."analytics.fct_refunds"]
+note = "One row per refund of a real order, in EUR."
+
+[tables."analytics.fct_refunds".columns]
+amount_eur = "The amount refunded, in EUR, as a positive amount."
+refund_month = "First day of the local month in which the refund was paid."
+order_month = "First day of the local month of the refunded order, often earlier than refund_month."
+reason = "One of changed_mind, wrong_size, damaged, late_delivery, other."
+
+[tables."analytics.dim_customers"]
+note = "One row per real customer: duplicate sign-ups merged and test accounts removed."
+
+[tables."analytics.dim_customers".columns]
+first_order_on = "The local business day of the customer's first order of any status; NULL if they never ordered."
+
+[tables."analytics.dim_date"]
+note = "One row per day, with calendar and fiscal columns."
+
+[tables."analytics.dim_date".columns]
+fiscal_year = "The fiscal year starts on February 1 and is named for the year it ends in: fiscal 2026 runs from 2025-02-01 to 2026-01-31."
+fiscal_quarter = "The fiscal quarter, 1 to 4; quarter 1 is February to April."
+
+[tables."analytics.fct_sessions"]
+note = "One row per website or app session."
+
+[tables."analytics.fct_sessions".columns]
+channel = "The traffic channel: organic_search, paid_search, direct, email, social, or '(none)'. Not the same values as an order's sales channel."
+converted_order_id = "The order placed in the session; NULL if the session placed none."
+customer_id = "NULL for anonymous sessions."
+
+[tables."analytics.orders_legacy"]
+note = "Deprecated. An older mart kept for old dashboards: test orders included, dates in UTC. Never use it; use analytics.fct_orders."
+
+[tables."analytics.orders_legacy".columns]
+revenue = "Gross revenue with tax included, test orders kept. Not net revenue."

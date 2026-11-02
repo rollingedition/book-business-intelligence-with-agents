@@ -1,0 +1,13 @@
+finance, refund rate, is_error: False
+finance, refund rate, answered: True
+finance, refund rate, text block is the same JSON: True
+finance, refund rate, rows: AMER 7.11%, APAC 6.02%, EMEA 8.45%
+finance, refund rate, provenance fields: source, metric, sql, filters, role, data_as_of
+finance, refund rate, provenance: {"source": "metric", "metric": "refund_rate", "filters": {"metric_time__fiscal_year": 2026}, "role": "finance", "data_as_of": "2026-06-27 02:00:00"}
+finance, misspelt dimension, is_error: True
+finance, misspelt dimension, text: Error executing tool query_metric: error: request rejected: refund_rate can't use dimension 'order_region'; did you mean order__region?
+support, net revenue, is_error: False
+support, net revenue, answered: False
+support, net revenue, text block is the same JSON: True
+support, net revenue, reason: forbidden: the support role may not see net_revenue
+output schema requires: text, answer

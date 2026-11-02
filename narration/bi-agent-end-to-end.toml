@@ -1,0 +1,24 @@
+# Spoken descriptions for chapter 1, "A data agent end to end": one for each example and table, read in its place.
+
+[examples.load-the-warehouse]
+say = "The code generates the shop from its seed, builds the warehouse and prints every table with its row count, raw first, then analytics. Raw orders holds {{out:load-the-warehouse:raw.orders}} rows and the orders mart {{out:load-the-warehouse:analytics.fct_orders}}. It then prints the first and last order days, the {{out:load-the-warehouse:test orders in raw.orders}} test orders in the raw table, and the {{out:load-the-warehouse:cancelled orders in fct_orders}} cancelled orders the mart keeps."
+
+[examples.first-question-to-sql]
+say = "The code builds the schema-only prompt from all {{out:first-question-to-sql:tables in the prompt}} tables, prints the orders mart's line of the schema, and replays the recorded model's reply to the question of net revenue in each region in March 2026. The prompt is {{out:first-question-to-sql:prompt tokens}} tokens. The reply is one query that sums the net revenue column of the orders mart by region, for local order days in March 2026, with no filter on the order's status."
+
+[examples.run-the-model-sql]
+say = "The code runs the model's query and the golden query, and for each region prints the model's net revenue, the golden net revenue and the net revenue of that region's cancelled orders in March. For EMEA, the model says {{out:run-the-model-sql:EMEA model}} and the golden result is {{out:run-the-model-sql:EMEA golden}}; cancelled orders account for {{out:run-the-model-sql:EMEA cancelled orders}}. The model's total is {{out:run-the-model-sql:model total}} against a golden {{out:run-the-model-sql:golden total}}, overstated by {{out:run-the-model-sql:overstated by}}, and the result doesn't match the golden one."
+
+[examples.one-metric-answer]
+say = "The code prints the net revenue metric's definition, then runs the agent with the recorded model on the same March question. It prints the request the model made, net revenue grouped by region for month 3 of 2026, the SQL the code compiled from it, which leaves out cancelled orders, the answer by region, and the answer's provenance: the metric, its filters, the role and when the data was last loaded. The answer matches the golden result."
+
+[examples.score-five-golden]
+say = "The code runs both approaches on the five golden questions, grades each answer as correct, wrong, error or declined, and prints a row per question and the totals. Schema-only S Q L gets {{out:score-five-golden:schema-only correct}} correct, {{out:score-five-golden:schema-only wrong}} wrong and {{out:score-five-golden:schema-only error}} with errors. The agent with one metric gets {{out:score-five-golden:metric correct}} correct and {{out:score-five-golden:metric wrong}} wrong, and declines {{out:score-five-golden:metric declined}}."
+
+[examples.print-one-trace]
+say = "The code replays the agent's run on the question of how many customers placed their first order in fiscal year 2026, and prints its trace: the model's reply, a call to cannot answer with a reason, and the tool's result, which ends the run. It prints {{out:print-one-trace:model calls}} model call, that the question wasn't answered, and the reason, which says the data includes no information about the number of customers who placed their first order in a fiscal year."
+
+[[tables]]
+section = "score-five-questions"
+starts = "| ID | Question | Kind |"
+say = "A table of the five golden questions. Four should be answered: net revenue in fiscal year 2026, net revenue in each region in March 2026, net revenue by sales channel in calendar 2025, and the number of customers whose first order was in fiscal 2026. The fifth, net revenue next quarter, should be declined."

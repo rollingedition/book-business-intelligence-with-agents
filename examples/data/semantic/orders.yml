@@ -1,0 +1,30 @@
+# One row per real order: test orders removed, amounts in EUR, dated on the order's local business day.
+semantic_model:
+  name: orders
+  description: One row per real order, test orders removed, amounts in EUR.
+  node_relation:
+    schema_name: analytics
+    alias: fct_orders
+  defaults:
+    agg_time_dimension: order_date
+  entities:
+    - name: order
+      type: primary
+      expr: order_id
+    - name: customer
+      type: foreign
+      expr: customer_id
+  dimensions:
+    - name: order_date
+      type: time
+      expr: order_date_local
+      type_params:
+        time_granularity: day
+    - name: region
+      type: categorical
+    - name: country
+      type: categorical
+    - name: channel
+      type: categorical
+    - name: status
+      type: categorical

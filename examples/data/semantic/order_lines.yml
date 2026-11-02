@@ -1,0 +1,25 @@
+# One row per order line, in EUR, with its order's local business day.
+semantic_model:
+  name: order_lines
+  description: One row per order line, in EUR, dated on its order's local business day.
+  node_relation:
+    schema_name: semantic
+    alias: order_lines
+  defaults:
+    agg_time_dimension: order_date
+  entities:
+    - name: order_line
+      type: primary
+      expr: "order_id || '-' || line_number"
+    - name: order
+      type: foreign
+      expr: order_id
+    - name: product
+      type: foreign
+      expr: product_id
+  dimensions:
+    - name: order_date
+      type: time
+      expr: order_date_local
+      type_params:
+        time_granularity: day

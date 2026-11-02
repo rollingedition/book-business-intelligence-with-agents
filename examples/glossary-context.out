@@ -1,0 +1,6 @@
+glossary terms: 13
+glossary tokens (estimated): 609
+revenue: Net revenue unless the question says gross: sum of analytics.fct_orders.net_revenue_eur over orders whose status isn't 'cancelled'. In EUR.
+fixed by the glossary: 3 (gq-012, gq-015, gq-018)
+broken by the glossary: 3 (gq-002, gq-009, gq-016)
+gq-002 with the glossary filters status: False

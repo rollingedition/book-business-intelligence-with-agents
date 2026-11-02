@@ -1,0 +1,8 @@
+test_lead_answer_matches_the_golden_result: passed
+test_lead_cannot_ask_for_another_region: passed
+test_lead_database_holds_no_other_region: passed
+test_support_catalog_hides_every_revenue_metric: passed
+test_marketing_small_groups_are_suppressed: passed
+test_unknown_dimension_is_a_tool_error_with_a_hint: passed
+tests passed: 6 of 6
+the lead's request on an analyst's server differs from the lead's gold: True

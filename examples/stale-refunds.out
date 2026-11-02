@@ -1,0 +1,29 @@
+duckdb_tables() time columns: none
+data as of, analytics.fct_orders: 2026-07-02 02:00:00
+data as of, analytics.fct_refunds: 2026-06-27 02:00:00
+data as of, analytics.dim_customers: 2026-06-15 02:00:00
+refunds per day: 1.2
+median days from order to refund: 27.5
+refunds within 30 days of the order: 56%
+refunds within 45 days of the order: 93%
+longest days from order to refund: 49
+settling window, order_refunds: 49 days
+refund rate, 2026-04, unchecked: 6.74%
+refund rate, 2026-05, unchecked: 6.85%
+refund rate, 2026-06, unchecked: 0.54%
+refund rate, settled months: 7.21%
+2026-05, settled months' rate with refunds as loaded: 5.78%
+2026-05, points short, refunds not loaded: 0.48
+2026-05, points short, refunds not happened yet: 0.95
+2026-05, share of the shortfall not loaded: 33%
+2026-06, settled months' rate with refunds as loaded: 1.17%
+2026-06, points short, refunds not loaded: 0.46
+2026-06, points short, refunds not happened yet: 5.57
+2026-06, share of the shortfall not loaded: 8%
+new customers, feed for dim_customers: analytics.fct_orders
+refund rate, 2026-06: analytics.fct_orders last loaded 2026-07-02 02:00, period ends 2026-06-30: complete
+refund rate, 2026-06: analytics.fct_refunds last loaded 2026-06-27 02:00, period ends 2026-06-30, its rows can arrive through 2026-08-18 (49 days later): STALE (not loaded, not happened yet)
+new customers, 2026-06: analytics.fct_orders last loaded 2026-07-02 02:00, period ends 2026-06-30: complete
+refund rate, 2026-06, checked: declined: stale: analytics.fct_refunds was last loaded at 2026-06-27 02:00, and rows for the period ending 2026-06-30 can arrive through 2026-08-18, 49 days later (not loaded, not happened yet), so the answer would be missing rows
+refund rate, 2026-05, checked: declined: stale: analytics.fct_refunds was last loaded at 2026-06-27 02:00, and rows for the period ending 2026-05-31 can arrive through 2026-07-19, 49 days later (not loaded, not happened yet), so the answer would be missing rows
+refund rate, 2026-04, checked: 6.74%, data as of 2026-06-27 02:00:00

@@ -1,0 +1,13 @@
+analyst, tools: ask_back, cannot_answer, describe_metric, list_metrics, query_metric
+analyst, metrics in list_metrics: 10
+analyst, metrics: net_revenue, gross_revenue, orders, line_net_revenue, units_sold, refunds, order_refunds, new_customers, refund_rate, average_order_value
+analyst, same catalog as the in-process agent: True
+support, tools: ask_back, cannot_answer, describe_metric, list_metrics, query_metric
+support, metrics in list_metrics: 5
+support, metrics: orders, units_sold, refunds, order_refunds, new_customers
+support, same catalog as the in-process agent: True
+query_metric inputs: metrics, group_by, filters, order_by, limit
+query_metric requires: metrics
+tools marked read-only: 5 of 5
+tools with a role input: 0
+same tool list for both roles: True

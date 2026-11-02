@@ -1,0 +1,17 @@
+verified queries: 16
+question: What was the average order value in each region in March 2026?
+masked terms: average order value region <month> <number>
+  0.835  average_order_value_by_region
+  0.422  gross_revenue_by_region_month
+  0.191  orders_of_one_customer
+aov matches kept: 2
+question: Which warehouse ships the most parcels?
+masked terms: warehouse ships most parcels
+  0.375  units_sold_by_product
+  0.357  net_revenue_by_category
+  0.000  average_order_value_by_region
+parcels matches kept: 0
+masked "March 2026": <month> <number>
+masked "January 2025": <month> <number>
+masked "calendar year 2024": calendar year <number>
+masked "EMEA in Q3": <region> q3

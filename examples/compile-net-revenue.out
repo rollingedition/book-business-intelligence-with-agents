@@ -1,0 +1,21 @@
+question: What was net revenue in each region in March 2026?
+request: MetricRequest(metrics=('net_revenue',), group_by=('order__region',), filters={'metric_time__month': '2026-03'}, order_by=(), limit=None)
+SELECT
+  orders.region AS order__region,
+  SUM(orders.net_revenue_eur) AS net_revenue
+FROM analytics.fct_orders AS orders
+WHERE
+  orders.status <> 'cancelled'
+  AND CAST(DATE_TRUNC('MONTH', CAST(orders.order_date_local AS DATE)) AS DATE) = CAST('2026-03-01' AS DATE)
+GROUP BY
+  orders.region
+ORDER BY
+  order__region ASC
+order__region  net_revenue
+AMER           51,762.14
+APAC           35,296.93
+EMEA           63,023.76
+matches golden: True
+hostile filter compiles to: WHERE orders.status <> 'cancelled' AND orders.region = 'EMEA'' OR ''1''=''1'
+rows for the hostile value: ((None,),)
+refused: unknown dimension 'order__colour'; 'net_revenue' can use: metric_time__day, metric_time__week, metric_time__month, metric_time__quarter, metric_time__year, metric_time__fiscal_year, metric_time__fiscal_quarter, customer__country, customer__first_order_date, customer__region, order__channel, order__country, order__order_date, order__region, order__status

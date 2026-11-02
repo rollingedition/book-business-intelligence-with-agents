@@ -1,0 +1,15 @@
+golden questions: 48
+answer: 34
+decline: 8
+forbidden: 6
+decline, ambiguous: 4
+decline, unanswerable: 4
+roles: analyst, finance, marketing, regional_lead, support
+
+gq-018 (dev, answer, asked by finance)
+question: How much was refunded, in euros, on orders placed in March 2026?
+golden SQL: SELECT round(sum(r.amount_eur), 2) AS refunded FROM analytics.fct_refunds AS r WHERE r.order_month = DATE '2026-03-01'
+traps: late-refunds, currency
+note: Refunds belong to the order's month here, including refunds made in April or later.
+refunded on orders placed in March 2026: 13,046.38
+refunded in March 2026, by refund month: 6,646.99

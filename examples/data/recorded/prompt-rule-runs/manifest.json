@@ -1,0 +1,61 @@
+{
+  "script": "recordings/record_access.py",
+  "prompt": "METRICS_FIRST with the whole catalog, then REGION_RULE for APAC (examples/lib/prompts.py)",
+  "prompt_sha256": "a735289a5faf5bef90cb7c6dc46c3c3ff6b0bdb7e8cf3a5d32accabcddcf944c",
+  "model": "Qwen/Qwen3-4B-Instruct-2507 (unsloth/Qwen3-4B-Instruct-2507-GGUF/Qwen3-4B-Instruct-2507-Q4_K_M.gguf)",
+  "model_version": "a06e946bb6b655725eafa393f4a9745d460374c9 sha256:3605803b982cb64aead44f6c1b2ae36e3acdb41d8e46c8a94c6533bc4c67e597",
+  "quantization": "Q4_K_M",
+  "chat_template": "Qwen/Qwen3-4B-Instruct-2507@cdbee75f17c01a7cc42f958dc650907174af0554 tokenizer_config.json sha256:a62ff0a2472a0fa1b8eaabcb57c59b58afa42a22831dc141400b6e0cf2b65ce3",
+  "embedded_template_matches": false,
+  "runner": "llama-cpp-python 0.3.36 on CPU, 4 threads (x86_64)",
+  "sampling": {
+    "temperature": 0.7,
+    "top_p": 0.8,
+    "top_k": 20,
+    "min_p": 0.0,
+    "seed": 2718,
+    "max_tokens": 256,
+    "seed_reset": "before every call"
+  },
+  "created": "2026-11-01",
+  "outputs": [
+    "part-1.jsonl"
+  ],
+  "calls": 16,
+  "parts": [
+    {
+      "output": "part-1.jsonl",
+      "part": 1,
+      "created": "2026-11-01",
+      "calls": 16,
+      "question_ids": [
+        "rp-1",
+        "rp-2",
+        "rp-3",
+        "rp-4",
+        "rp-5",
+        "rp-6",
+        "rp-7",
+        "rp-8"
+      ],
+      "seconds_per_call": [
+        53.1,
+        13.1,
+        11.0,
+        13.7,
+        20.2,
+        13.2,
+        70.4,
+        36.9,
+        24.3,
+        19.1,
+        11.2,
+        21.1,
+        20.4,
+        64.7,
+        105.8,
+        63.1
+      ]
+    }
+  ]
+}

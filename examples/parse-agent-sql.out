@@ -1,0 +1,20 @@
+question: What was net revenue in each of our countries in 2025?
+SELECT d.country, round(sum(o.net_revenue_eur), 2) AS net_revenue
+FROM analytics.fct_orders AS o
+JOIN analytics.dim_date AS d ON d.date_day = o.order_date_local
+WHERE o.status <> 'cancelled'
+  AND d.calendar_year = 2025
+GROUP BY d.country
+ORDER BY net_revenue DESC
+root: Select
+tables read: analytics.fct_orders AS o, analytics.dim_date AS d
+columns named: d.calendar_year, d.country, d.date_day, o.net_revenue_eur, o.order_date_local, o.status
+guard refuses: column
+guard message: Unknown column: country
+message then lists the columns of: analytics.fct_orders, analytics.dim_date
+DuckDB, had it run: Binder Error: Table "d" does not have a column named "country"
+statements in one string: Select, Drop
+parse error fields: col, description, end_context, highlight, into_expression, line, start_context
+parse error: Expecting )
+parse error line: 1
+parse error column: 39

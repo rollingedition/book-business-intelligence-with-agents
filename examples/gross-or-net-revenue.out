@@ -1,0 +1,9 @@
+SELECT SUM(gross_revenue_eur) AS total_revenue
+FROM analytics.fct_orders
+WHERE placed_at >= '2025-01-01' AND placed_at < '2026-01-01'
+model's answer (gross): 1,987,532.10
+net instead of gross: 1,745,126.98
+without cancelled orders: 1,652,978.12
+golden (local business days): 1,651,527.86
+tax in the gross figure: 242,404.96
+overstated by: 20.3%

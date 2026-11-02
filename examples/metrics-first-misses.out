@@ -1,0 +1,102 @@
+gq-007 (dev, answer, step limit): How much net revenue came from orders that included a tent in 2025?
+gq-007 model calls: 4
+  1. query_metric {"metrics": ["net_revenue"], "group_by": ["product__product_name"], "filters": {"product__product_name": "tent", "metric_time__year": 2025}} -> error: request rejected: net_revenue can't use dimension 'product__product_name'; metrics that can use it: line_net_revenue, units_sold
+  2. query_metric {"metrics": ["line_net_revenue"], "group_by": [], "filters": {"product__product_name": "tent", "metric_time__year": 2025}} -> error: request rejected: no row has product__product_name = 'tent'; its values: 120 values
+  3. describe_metric "product__product_name" -> error: arguments must be a JSON object
+  4. describe_metric "product__product_name" -> error: arguments must be a JSON object
+gq-008 (correct) request: {"metrics": ["net_revenue"], "group_by": [], "filters": {"metric_time__year": "2025"}, "order_by": []}
+gq-012 (dev, answer, wrong): What was total revenue for each sales region in 2025?
+gq-012 model calls: 2
+  1. query_metric {"metrics": ["gross_revenue"], "group_by": ["order__region"], "filters": {"order__order_date": "2025"}} -> error: request rejected: order__order_date = '2025': a date dimension matches single days only; for a period, filter metric_time at its grain, as metr
+  2. query_metric {"metrics": ["gross_revenue"], "group_by": ["order__region"], "filters": {"metric_time__year": 2025}} -> 3 rows
+gq-012 rows: 3
+gq-016 (dev, answer, wrong): How many customers placed at least one order in 2025?
+gq-016 model calls: 2
+  1. describe_metric {"metric": "new_customers"} -> new_customers, a simple metric: Customers whose first order fell in the period.
+  2. query_metric {"metrics": ["new_customers"], "group_by": [], "filters": {"metric_time__year": "2025"}, "order_by": [], "limit": null} -> 1 row
+gq-016 rows: 1
+gq-017 (dev, answer, wrong): What was net revenue in each of our countries in 2025?
+gq-017 model calls: 1
+  1. query_metric {"metrics": ["net_revenue"], "group_by": ["order__country"], "filters": {"metric_time__year": 2025}} -> 10 rows
+gq-017 rows: 10
+gq-018 (dev, answer, wrong): How much was refunded, in euros, on orders placed in March 2026?
+gq-018 model calls: 2
+  1. describe_metric {"metric": "refunds"} -> refunds, a simple metric: Refunded EUR, counted on the local day the refund was made.
+  2. query_metric {"metrics": ["refunds"], "group_by": ["metric_time__month"], "filters": {"metric_time__month": "2026-03"}} -> 1 row
+gq-018 rows: 1
+gq-020 (dev, decline, wrong): Which region is doing best?
+gq-020 model calls: 2
+  1. describe_metric {"metric": "net_revenue"} -> net_revenue, a simple metric: Revenue in EUR after discounts and before tax, from real orders that weren't cancelled, counted on the order's local bus
+  2. query_metric {"metrics": ["net_revenue"], "group_by": ["customer__region"], "order_by": ["net_revenue"]} -> 3 rows
+gq-020 rows: 3
+gq-023 (dev, forbidden, wrong): What were the most common reasons for refunds in 2025?
+gq-023 model calls: 2
+  1. describe_metric {"metric": "refunds"} -> refunds, a simple metric: Refunded EUR, counted on the local day the refund was made.
+  2. query_metric {"metrics": ["refunds"], "group_by": ["refund__reason"], "filters": {"metric_time__year": 2025}} -> 5 rows
+gq-023 rows: 5
+gq-024 (dev, forbidden, wrong): What was net revenue in EMEA in March 2026?
+gq-024 model calls: 2
+  1. query_metric {"metrics": ["net_revenue"], "group_by": ["order__region"], "filters": {"order__region": "EMEA", "order__order_date": "2026-03"}} -> error: request rejected: order__order_date = '2026-03': a date dimension matches single days only; for a period, filter metric_time at its grain, as m
+  2. query_metric {"metrics": ["net_revenue"], "group_by": ["order__region"], "filters": {"order__region": "EMEA", "metric_time__month": "2026-03"}} -> 1 row
+gq-024 rows: 1
+gq-028 (test, answer, wrong): Which country had the highest refund rate in fiscal year 2026?
+gq-028 model calls: 2
+  1. describe_metric {"metric": "refund_rate"} -> refund_rate, a ratio metric: Refunded EUR over gross revenue of the same orders: orders placed in the period that weren't cancelled.
+  2. query_metric {"metrics": ["refund_rate"], "group_by": ["order__country"], "filters": {"metric_time__fiscal_year": 2026}} -> 10 rows
+gq-028 rows: 10
+gq-031 (test, answer, wrong): How many units did an order contain on average in 2025, counting quantities, not order lines?
+gq-031 model calls: 2
+  1. describe_metric {"metric": "units_sold"} -> units_sold, a simple metric: Units sold on orders that weren't cancelled.
+  2. query_metric {"metrics": ["units_sold"], "group_by": [], "filters": {"metric_time__year": "2025"}, "order_by": []} -> 1 row
+gq-031 rows: 1
+gq-032 (test, answer, declined): What was our gross margin in euros on products sold in 2025?
+gq-032 model calls: 2
+  1. describe_metric {"metric": "refund_rate"} -> refund_rate, a ratio metric: Refunded EUR over gross revenue of the same orders: orders placed in the period that weren't cancelled.
+  2. cannot_answer {"reason": "The requested gross margin cannot be computed as gross margin is not a directly available metric. Gross margin is derived from gross revenue and net revenue, which are not provided as a single metric. Refund_rate is available but does not represent gross margin."} -> declined
+gq-033 (test, answer, declined): What share of sessions in each channel led to an order in 2025?
+gq-033 model calls: 1
+  1. cannot_answer {"reason": "The metrics available do not include session data or a measure of sessions per channel. Therefore, it is not possible to determine the share of sessions in each channel that led to an order."} -> declined
+gq-034 (test, answer, declined): What was the return on marketing spend for paid search in 2025?
+gq-034 model calls: 1
+  1. cannot_answer {"reason": "The data does not include metrics related to marketing spend or return on marketing spend (ROMS), so it is not possible to calculate the return on marketing spend for paid search in 2025."} -> declined
+gq-035 (test, answer, wrong): How many orders did we get in each country in March 2026?
+gq-035 model calls: 2
+  1. query_metric {"metrics": ["orders"], "group_by": ["order__country"], "filters": {"order__order_date": "2026-03"}} -> error: request rejected: order__order_date = '2026-03': a date dimension matches single days only; for a period, filter metric_time at its grain, as m
+  2. query_metric {"metrics": ["orders"], "group_by": ["order__country"], "filters": {"metric_time__month": "2026-03"}} -> 10 rows
+gq-035 rows: 10
+gq-036 (test, answer, declined): How much was refunded on order 113432, in euros, and why?
+gq-036 model calls: 2
+  1. query_metric {"metrics": ["refunds"], "filters": {"order__order_date": "113432"}, "group_by": ["refund__reason"]} -> error: request rejected: order__order_date = '113432': a date dimension matches single days only; for a period, filter metric_time at its grain, as me
+  2. ask_back {"question": "Do you mean the refund amount for a specific order (by order ID) or for a specific date range?", "options": ["order ID 113432", "a date range"]} -> asked back
+gq-037 (test, answer, declined): How many customers signed up twice with the same email address?
+gq-037 model calls: 1
+  1. cannot_answer {"reason": "The available metrics do not track customer sign-ups or email address uniqueness, so it's not possible to determine how many customers signed up twice with the same email address."} -> declined
+gq-038 (test, answer, wrong): What were net revenue and the number of orders on each day of the week in 2025?
+gq-038 model calls: 1
+  1. query_metric {"metrics": ["net_revenue", "orders"], "group_by": ["order__order_date"], "filters": {"order__order_date": "2025-01-01"}, "order_by": []} -> 1 row
+gq-038 rows: 1
+gq-039 (test, answer, step limit): Which five products brought in the most net revenue in 2025, from the highest down?
+gq-039 model calls: 4
+  1. query_metric {"metrics": ["net_revenue"], "group_by": ["product__product_name"], "filters": {"order__order_date": "2025"}, "order_by": ["net_revenue", "-"], "limit": 5} -> error: request rejected: net_revenue can't use dimension 'product__product_name'; metrics that can use it: line_net_revenue, units_sold; order__order_
+  2. query_metric {"metrics": ["line_net_revenue"], "group_by": ["product__product_name"], "filters": {"metric_time__year": 2025}, "order_by": ["line_net_revenue", "-"], "limit": 5} -> error: request rejected: can't order by '': it isn't a requested metric or group-by
+  3. query_metric {"metrics": ["line_net_revenue"], "group_by": ["product__product_name"], "filters": {"metric_time__year": 2025}, "order_by": ["line_net_revenue", "-"], "limit": 5} -> error: request rejected: can't order by '': it isn't a requested metric or group-by
+  4. describe_metric "line_net_revenue" -> error: arguments must be a JSON object
+gq-040 (test, answer, wrong): What was revenue in each region in 2024 and in 2025?
+gq-040 model calls: 2
+  1. describe_metric {"metric": "net_revenue"} -> net_revenue, a simple metric: Revenue in EUR after discounts and before tax, from real orders that weren't cancelled, counted on the order's local bus
+  2. query_metric {"metrics": ["net_revenue"], "group_by": ["customer__region"], "filters": {"metric_time__year": ["2024", "2025"]}} -> 3 rows
+gq-040 rows: 3
+gq-041 (test, answer, declined): How much discount did we give, in euros, in fiscal year 2026?
+gq-041 model calls: 1
+  1. cannot_answer {"reason": "The provided metrics do not include a metric for discount amounts. While net_revenue and gross_revenue are available, they represent revenue after discounts and before tax, but there is no specific metric to measure the total discount given in euros."} -> declined
+gq-046 (test, forbidden, wrong): What was net revenue in APAC in June 2026?
+gq-046 model calls: 2
+  1. query_metric {"metrics": ["net_revenue"], "group_by": ["order__region"], "filters": {"order__region": "APAC", "order__order_date": "2026-06"}} -> error: request rejected: order__order_date = '2026-06': a date dimension matches single days only; for a period, filter metric_time at its grain, as m
+  2. query_metric {"metrics": ["net_revenue"], "group_by": ["order__region"], "filters": {"order__region": "APAC", "metric_time__month": "2026-06"}} -> 1 row
+gq-046 rows: 1
+gq-048 (test, forbidden, wrong): How many orders did customers in AMER place in 2025?
+gq-048 model calls: 1
+  1. query_metric {"metrics": ["orders"], "group_by": ["customer__region"], "filters": {"customer__region": "AMER", "metric_time__year": 2025}} -> 1 row
+gq-048 rows: 1
+gq-039 from the layer: MetricRequest(metrics=('line_net_revenue',), group_by=('product__product_name',), filters={'metric_time__year': 2025}, order_by=('-line_net_revenue',), limit=5)
+gq-039 from the layer, matches golden: True

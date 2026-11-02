@@ -1,0 +1,245 @@
+{
+  "script": "recordings/record_metrics_first.py",
+  "prompt": "METRICS_FIRST (examples/lib/prompts.py), filled by metrics_first_prompt() with catalog() from examples/lib/metric_tools.py",
+  "prompt_sha256": "c2f72b75072e0405bf0f3e2e167dc9da0ef6dfd1bf0900607ad9d46bed1377cc",
+  "system_prompt_sha256": "693e9de24c9625a59fac2b626a375a08e9f33a0f467d3c01db76e2bcf64fbbc6",
+  "max_model_calls_per_question": 4,
+  "splits": "parts 1-4: dev; parts 5-8: test",
+  "model": "Qwen/Qwen3-4B-Instruct-2507 (unsloth/Qwen3-4B-Instruct-2507-GGUF/Qwen3-4B-Instruct-2507-Q4_K_M.gguf)",
+  "model_version": "a06e946bb6b655725eafa393f4a9745d460374c9 sha256:3605803b982cb64aead44f6c1b2ae36e3acdb41d8e46c8a94c6533bc4c67e597",
+  "quantization": "Q4_K_M",
+  "chat_template": "Qwen/Qwen3-4B-Instruct-2507@cdbee75f17c01a7cc42f958dc650907174af0554 tokenizer_config.json sha256:a62ff0a2472a0fa1b8eaabcb57c59b58afa42a22831dc141400b6e0cf2b65ce3",
+  "embedded_template_matches": false,
+  "runner": "llama-cpp-python 0.3.36 on CPU, 4 threads (x86_64)",
+  "sampling": {
+    "temperature": 0.7,
+    "top_p": 0.8,
+    "top_k": 20,
+    "min_p": 0.0,
+    "seed": 2718,
+    "max_tokens": 256,
+    "seed_reset": "before every call"
+  },
+  "tuning": "The dev split (parts 1-4) was recorded three times while the prompt and tools were tuned; only the final recording is kept, and the two discarded ones are not. The test split (parts 5-8) was recorded once, after tuning ended.",
+  "created": "2026-11-01",
+  "outputs": [
+    "part-1.jsonl",
+    "part-2.jsonl",
+    "part-3.jsonl",
+    "part-4.jsonl",
+    "part-5.jsonl",
+    "part-6.jsonl",
+    "part-7.jsonl",
+    "part-8.jsonl"
+  ],
+  "calls": 79,
+  "parts": [
+    {
+      "output": "part-1.jsonl",
+      "part": 1,
+      "created": "2026-11-01",
+      "calls": 10,
+      "question_ids": [
+        "gq-001",
+        "gq-002",
+        "gq-003",
+        "gq-004",
+        "gq-005",
+        "gq-006"
+      ],
+      "seconds_per_call": [
+        31.2,
+        16.6,
+        7.9,
+        9.4,
+        7.2,
+        3.3,
+        14.4,
+        7.4,
+        8.5,
+        9.5
+      ]
+    },
+    {
+      "output": "part-2.jsonl",
+      "part": 2,
+      "created": "2026-11-01",
+      "calls": 13,
+      "question_ids": [
+        "gq-007",
+        "gq-008",
+        "gq-009",
+        "gq-010",
+        "gq-011",
+        "gq-012"
+      ],
+      "seconds_per_call": [
+        37.3,
+        9.2,
+        3.9,
+        3.7,
+        3.6,
+        17.0,
+        8.2,
+        10.4,
+        3.8,
+        17.3,
+        8.5,
+        7.9,
+        9.6
+      ]
+    },
+    {
+      "output": "part-3.jsonl",
+      "part": 3,
+      "created": "2026-11-01",
+      "calls": 11,
+      "question_ids": [
+        "gq-013",
+        "gq-014",
+        "gq-015",
+        "gq-016",
+        "gq-017",
+        "gq-018"
+      ],
+      "seconds_per_call": [
+        34.1,
+        9.3,
+        8.0,
+        9.1,
+        6.7,
+        8.5,
+        3.6,
+        15.2,
+        7.5,
+        3.8,
+        18.4
+      ]
+    },
+    {
+      "output": "part-4.jsonl",
+      "part": 4,
+      "created": "2026-11-01",
+      "calls": 9,
+      "question_ids": [
+        "gq-019",
+        "gq-020",
+        "gq-021",
+        "gq-022",
+        "gq-023",
+        "gq-024"
+      ],
+      "seconds_per_call": [
+        41.8,
+        3.8,
+        16.5,
+        5.5,
+        10.0,
+        3.6,
+        16.8,
+        9.9,
+        11.6
+      ]
+    },
+    {
+      "output": "part-5.jsonl",
+      "part": 5,
+      "created": "2026-11-01",
+      "calls": 8,
+      "question_ids": [
+        "gq-025",
+        "gq-026",
+        "gq-027",
+        "gq-028",
+        "gq-029",
+        "gq-030"
+      ],
+      "seconds_per_call": [
+        38.7,
+        59.3,
+        30.4,
+        9.0,
+        3.7,
+        16.2,
+        8.1,
+        8.6
+      ]
+    },
+    {
+      "output": "part-6.jsonl",
+      "part": 6,
+      "created": "2026-11-01",
+      "calls": 10,
+      "question_ids": [
+        "gq-031",
+        "gq-032",
+        "gq-033",
+        "gq-034",
+        "gq-035",
+        "gq-036"
+      ],
+      "seconds_per_call": [
+        41.2,
+        20.4,
+        7.7,
+        19.3,
+        9.4,
+        10.3,
+        8.5,
+        10.7,
+        8.8,
+        12.6
+      ]
+    },
+    {
+      "output": "part-7.jsonl",
+      "part": 7,
+      "created": "2026-11-01",
+      "calls": 10,
+      "question_ids": [
+        "gq-037",
+        "gq-038",
+        "gq-039",
+        "gq-040",
+        "gq-041",
+        "gq-042"
+      ],
+      "seconds_per_call": [
+        43.0,
+        12.4,
+        13.9,
+        17.7,
+        14.7,
+        5.1,
+        5.9,
+        22.9,
+        14.7,
+        6.7
+      ]
+    },
+    {
+      "output": "part-8.jsonl",
+      "part": 8,
+      "created": "2026-11-01",
+      "calls": 8,
+      "question_ids": [
+        "gq-043",
+        "gq-044",
+        "gq-045",
+        "gq-046",
+        "gq-047",
+        "gq-048"
+      ],
+      "seconds_per_call": [
+        43.8,
+        4.0,
+        23.8,
+        10.7,
+        11.0,
+        12.5,
+        9.6,
+        10.1
+      ]
+    }
+  ]
+}

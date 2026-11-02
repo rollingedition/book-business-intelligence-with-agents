@@ -1,0 +1,15 @@
+SELECT SUM(f.net_revenue_eur) AS net_revenue
+FROM analytics.fct_orders f
+JOIN analytics.fct_order_lines fl ON f.order_id = fl.order_id
+JOIN analytics.dim_products p ON fl.product_id = p.product_id
+WHERE p.product_name LIKE '%tent%'
+  AND EXTRACT(YEAR FROM f.placed_at) = 2025
+rows the join matched: 493
+orders behind them: 480
+model's answer: 256,467.71
+each order counted once: 246,717.82
+inflated by: 4.0%
+tents and shelters, counted once: 400,909.10
+golden: 377,497.40
+lines per order: 2.56
+all 2025 orders joined to their lines, sum over true sum: 3.38

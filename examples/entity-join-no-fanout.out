@@ -1,0 +1,30 @@
+refused: 'net_revenue' is summed per order, but 'product' is reached through 'order_lines', which has many rows per order; each order would count once per row. Use a metric defined on 'order_lines': line_net_revenue, units_sold
+net revenue, 2025: 1,651,527.86
+summed over the joined lines: 5,573,978.43
+inflated by: 238%
+SELECT
+  products.category AS product__category,
+  SUM(order_lines.net_amount_eur) AS line_net_revenue
+FROM semantic.order_lines AS order_lines
+LEFT JOIN analytics.dim_products AS products
+  ON order_lines.product_id = products.product_id
+LEFT JOIN analytics.fct_orders AS orders
+  ON order_lines.order_id = orders.order_id
+WHERE
+  orders.status <> 'cancelled'
+  AND CAST(DATE_TRUNC('YEAR', CAST(order_lines.order_date_local AS DATE)) AS DATE) = CAST('2025-01-01' AS DATE)
+GROUP BY
+  products.category
+ORDER BY
+  line_net_revenue DESC
+product__category  line_net_revenue
+Sleeping bags      279,693.27
+Backpacks          246,002.99
+Tents              230,502.32
+Footwear           216,840.39
+Navigation         212,322.26
+Cooking            202,007.56
+Clothing           178,584.24
+Lighting           85,573.93
+categories add up to: 1,651,526.96
+difference from net revenue: 0.90

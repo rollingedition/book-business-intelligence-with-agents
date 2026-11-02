@@ -1,0 +1,264 @@
+{
+  "script": "recordings/record_judge_verdicts.py",
+  "prompt": "JUDGE_ANSWER (filled with the glossary) and JUDGE_PAIR (examples/lib/prompts.py)",
+  "prompt_sha256": "e9f9dea1ba738768274739defc93fa23d15e93a5f58ac23f7118578605b40479",
+  "prompt_sha256_answer": "9ee376747e62cf8bec924ab050560d3fa68899bba9e62b76c190e8badfc9b115",
+  "prompt_sha256_pair": "d4e1bb7f07644015c2104ab7a58dbb4ad60a3c1b11ed8b1bc8d4a5a301230c89",
+  "cases": 72,
+  "splits": "answers from both splits, as the agents' recordings hold them; the judge never sees golden results",
+  "tuning": "The judge prompts were written once; no verdict was used to change them.",
+  "recorded": "Recorded once, in full, from scratch. judge.shown() sorts the rows of a query without ORDER BY, so that a replay builds the same prompt; an earlier recording, made before that fix, was set aside and none of its calls is kept here.",
+  "model": "Qwen/Qwen3-4B-Instruct-2507 (unsloth/Qwen3-4B-Instruct-2507-GGUF/Qwen3-4B-Instruct-2507-Q4_K_M.gguf)",
+  "model_version": "a06e946bb6b655725eafa393f4a9745d460374c9 sha256:3605803b982cb64aead44f6c1b2ae36e3acdb41d8e46c8a94c6533bc4c67e597",
+  "quantization": "Q4_K_M",
+  "chat_template": "Qwen/Qwen3-4B-Instruct-2507@cdbee75f17c01a7cc42f958dc650907174af0554 tokenizer_config.json sha256:a62ff0a2472a0fa1b8eaabcb57c59b58afa42a22831dc141400b6e0cf2b65ce3",
+  "embedded_template_matches": false,
+  "runner": "llama-cpp-python 0.3.36 on CPU, 4 threads (x86_64)",
+  "sampling": {
+    "temperature": 0.7,
+    "top_p": 0.8,
+    "top_k": 20,
+    "min_p": 0.0,
+    "seed": 2718,
+    "max_tokens": 256,
+    "seed_reset": "before every call"
+  },
+  "created": "2026-11-01",
+  "outputs": [
+    "part-1.jsonl",
+    "part-2.jsonl",
+    "part-3.jsonl",
+    "part-4.jsonl",
+    "part-5.jsonl",
+    "part-6.jsonl",
+    "part-7.jsonl",
+    "part-8.jsonl"
+  ],
+  "calls": 72,
+  "parts": [
+    {
+      "output": "part-1.jsonl",
+      "part": 1,
+      "created": "2026-11-01",
+      "calls": 9,
+      "question_ids": [
+        "gq-002 schema-only",
+        "gq-004 schema-only",
+        "gq-007 schema-only",
+        "gq-008 schema-only",
+        "gq-009 schema-only",
+        "gq-012 schema-only",
+        "gq-013 schema-only",
+        "gq-014 schema-only",
+        "gq-015 schema-only"
+      ],
+      "seconds_per_call": [
+        27.3,
+        11.6,
+        9.6,
+        9.1,
+        8.9,
+        10.1,
+        11.0,
+        10.0,
+        13.6
+      ]
+    },
+    {
+      "output": "part-2.jsonl",
+      "part": 2,
+      "created": "2026-11-01",
+      "calls": 9,
+      "question_ids": [
+        "gq-016 schema-only",
+        "gq-017 schema-only",
+        "gq-027 schema-only",
+        "gq-028 schema-only",
+        "gq-030 schema-only",
+        "gq-031 schema-only",
+        "gq-032 schema-only",
+        "gq-033 schema-only",
+        "gq-035 schema-only"
+      ],
+      "seconds_per_call": [
+        24.4,
+        14.8,
+        9.8,
+        10.8,
+        13.2,
+        15.7,
+        12.6,
+        14.5,
+        12.7
+      ]
+    },
+    {
+      "output": "part-3.jsonl",
+      "part": 3,
+      "created": "2026-11-01",
+      "calls": 9,
+      "question_ids": [
+        "gq-001 metrics-first",
+        "gq-002 metrics-first",
+        "gq-003 metrics-first",
+        "gq-004 metrics-first",
+        "gq-036 schema-only",
+        "gq-037 schema-only",
+        "gq-038 schema-only",
+        "gq-039 schema-only",
+        "gq-040 schema-only"
+      ],
+      "seconds_per_call": [
+        26.4,
+        13.1,
+        15.9,
+        15.6,
+        11.5,
+        10.4,
+        15.5,
+        13.0,
+        10.6
+      ]
+    },
+    {
+      "output": "part-4.jsonl",
+      "part": 4,
+      "created": "2026-11-01",
+      "calls": 9,
+      "question_ids": [
+        "gq-006 metrics-first",
+        "gq-008 metrics-first",
+        "gq-009 metrics-first",
+        "gq-010 metrics-first",
+        "gq-011 metrics-first",
+        "gq-012 metrics-first",
+        "gq-013 metrics-first",
+        "gq-014 metrics-first",
+        "gq-015 metrics-first"
+      ],
+      "seconds_per_call": [
+        33.8,
+        10.6,
+        18.0,
+        11.1,
+        11.5,
+        11.4,
+        10.0,
+        12.9,
+        14.1
+      ]
+    },
+    {
+      "output": "part-5.jsonl",
+      "part": 5,
+      "created": "2026-11-01",
+      "calls": 9,
+      "question_ids": [
+        "gq-016 metrics-first",
+        "gq-017 metrics-first",
+        "gq-018 metrics-first",
+        "gq-025 metrics-first",
+        "gq-026 metrics-first",
+        "gq-027 metrics-first",
+        "gq-028 metrics-first",
+        "gq-029 metrics-first",
+        "gq-030 metrics-first"
+      ],
+      "seconds_per_call": [
+        28.9,
+        15.1,
+        13.2,
+        9.7,
+        15.4,
+        10.5,
+        23.6,
+        15.0,
+        16.2
+      ]
+    },
+    {
+      "output": "part-6.jsonl",
+      "part": 6,
+      "created": "2026-11-01",
+      "calls": 9,
+      "question_ids": [
+        "gq-001 declining",
+        "gq-008 declining",
+        "gq-010 declining",
+        "gq-018 declining",
+        "gq-025 declining",
+        "gq-031 metrics-first",
+        "gq-035 metrics-first",
+        "gq-038 metrics-first",
+        "gq-040 metrics-first"
+      ],
+      "seconds_per_call": [
+        25.7,
+        14.1,
+        18.9,
+        20.2,
+        12.6,
+        13.8,
+        13.2,
+        15.6,
+        13.0
+      ]
+    },
+    {
+      "output": "part-7.jsonl",
+      "part": 7,
+      "created": "2026-11-01",
+      "calls": 9,
+      "question_ids": [
+        "gq-021 pair declining first",
+        "gq-021 pair metrics-first first",
+        "gq-026 declining",
+        "gq-031 declining",
+        "gq-032 pair declining first",
+        "gq-032 pair metrics-first first",
+        "gq-033 pair declining first",
+        "gq-033 pair metrics-first first",
+        "gq-034 pair metrics-first first"
+      ],
+      "seconds_per_call": [
+        31.9,
+        15.3,
+        10.3,
+        7.7,
+        10.7,
+        10.2,
+        10.0,
+        9.0,
+        9.2
+      ]
+    },
+    {
+      "output": "part-8.jsonl",
+      "part": 8,
+      "created": "2026-11-01",
+      "calls": 9,
+      "question_ids": [
+        "gq-034 pair declining first",
+        "gq-037 pair declining first",
+        "gq-037 pair metrics-first first",
+        "gq-041 pair declining first",
+        "gq-041 pair metrics-first first",
+        "gq-042 pair declining first",
+        "gq-042 pair metrics-first first",
+        "gq-045 pair declining first",
+        "gq-045 pair metrics-first first"
+      ],
+      "seconds_per_call": [
+        11.8,
+        9.7,
+        8.4,
+        9.3,
+        9.0,
+        8.8,
+        7.5,
+        9.1,
+        8.8
+      ]
+    }
+  ]
+}

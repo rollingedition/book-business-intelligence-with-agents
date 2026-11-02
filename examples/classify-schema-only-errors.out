@@ -1,0 +1,34 @@
+question  outcome  kinds
+gq-001    error    unwritten filter
+gq-002    wrong    unwritten filter
+gq-003    error    unwritten filter
+gq-004    wrong    time
+gq-006    error    time, unwritten filter
+gq-007    wrong    fan-out, time, unwritten filter
+gq-008    wrong    definition, time, unwritten filter
+gq-009    wrong    definition, unwritten filter
+gq-010    error    unwritten filter
+gq-011    error    time, unwritten filter
+gq-012    wrong    definition, time, unwritten filter
+gq-013    wrong    time
+gq-014    correct  time
+gq-015    wrong    time, unwritten filter
+gq-016    correct  time
+gq-001 error: Binder Error: Referenced column "fiscal_year" not found in FROM clause!
+gq-003 error: Binder Error: Referenced column "calendar_year" not found in FROM clause!
+gq-006 error: Binder Error: Referenced column "quantity" not found in FROM clause!
+gq-010 error: Binder Error: Referenced column "fiscal_quarter" not found in FROM clause!
+gq-011 error: Binder Error: No function matches the given name and argument types '~~(TIMESTAMP, STRING_LITERAL)'. You might need to add explicit type casts.
+questions graded: 15
+correct: 2 of 15
+wrong: 8 of 15
+error: 5 of 15
+errors with a missing column: 4
+errors with a type mismatch: 1
+wrong answers with fan-out: 1
+wrong answers with definition: 3
+wrong answers with time: 6
+wrong answers with tempting table: 0
+wrong answers with unwritten filter: 6
+gq-016 customers with an order across 2025's edges: 6
+gq-016 of them, with other 2025 orders by both clocks: 6

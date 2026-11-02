@@ -1,0 +1,7 @@
+gq-031 golden: 3.4117
+items wording: How many items did an order contain on average in 2025?
+baseline answer, items wording: 2.5691
+baseline outcome, items wording: wrong
+units wording: How many units did an order contain on average in 2025, counting quantities, not order lines?
+baseline answer, units wording: 3.4124
+baseline outcome, units wording: correct

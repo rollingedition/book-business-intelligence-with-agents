@@ -1,0 +1,6 @@
+column notes: 33
+column notes tokens (estimated): 1087
+analytics.fct_orders.status: One of placed, shipped, delivered, cancelled, returned. Revenue leaves out cancelled orders; order and customer counts include them. Returned orders count everywhere.
+analytics.fct_orders.placed_at: When the order was placed, in UTC. Don't filter or group dates on it; use order_date_local.
+fixed by column notes: 7 (gq-001, gq-002, gq-003, gq-004, gq-008, gq-009, gq-011)
+broken by column notes: 1 (gq-018)

@@ -1,0 +1,10 @@
+task 5: answered 'NL', expected 'NL', correct: True
+task 5 SQL ran: True
+task 49: answered '3. ES', expected 'B. BE', correct: False
+task 49 SQL ran: False
+task 70: answered '```sql\nSELECT \n  AVG(CAST(p.has_fraudule', expected 'Not Applicable', correct: False
+task 70 SQL ran: False
+DABstep correct: 1 of 3
+task 49 top by count of frauds: NL
+task 49 top by fraud volume ratio: BE
+shop dev correct: 2 of 24

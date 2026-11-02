@@ -1,0 +1,20 @@
+gq-005 (dev, unanswerable): beyond SQL: a forecast
+  columns matching 'forecast|predict': none
+gq-019 (dev, ambiguous): ambiguous SELECT column
+gq-020 (dev, ambiguous): ambiguous SELECT column
+gq-021 (dev, unanswerable): nonexistent SELECT column
+  columns matching 'ship': none
+gq-042 (test, ambiguous): ambiguous filter criteria
+gq-043 (test, ambiguous): ambiguous values within a column
+gq-044 (test, unanswerable): unsupported join
+  columns matching 'view|page': none
+gq-045 (test, unanswerable): nonexistent WHERE column
+  columns matching 'deliver|promise': none
+columns named for cost: dim_products.unit_cost, products.unit_cost
+refund reasons: changed_mind, damaged, late_delivery, other, wrong_size
+last order day: 2026-06-30
+best region by net_revenue: EMEA
+best region by orders: EMEA
+best region by refund_rate (lowest): APAC
+net revenue, quarter 2025-04-01: 415,495.84
+net revenue, fiscal_quarter 2026-Q2: 467,081.90

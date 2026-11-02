@@ -1,0 +1,57 @@
+# The shop's business glossary, written for the book; CC BY 4.0. Each entry says what a word in a question means
+# at the shop, in terms of the warehouse's tables. The finance and marketing teams own these definitions; the golden
+# questions' SQL follows them. Chapter 4 gives them to the agent as a context layer.
+
+[[terms]]
+term = "revenue"
+meaning = "Net revenue unless the question says gross: sum of analytics.fct_orders.net_revenue_eur over orders whose status isn't 'cancelled'. In EUR."
+
+[[terms]]
+term = "gross revenue"
+meaning = "Sum of analytics.fct_orders.gross_revenue_eur over orders whose status isn't 'cancelled'. Includes tax."
+
+[[terms]]
+term = "orders"
+meaning = "Rows of analytics.fct_orders of every status: a cancelled order was still placed. Only revenue leaves cancelled orders out."
+
+[[terms]]
+term = "average order value"
+meaning = "Net revenue divided by the number of orders that weren't cancelled."
+
+[[terms]]
+term = "dates and months"
+meaning = "An order's day is analytics.fct_orders.order_date_local, its region's business day, never placed_at."
+
+[[terms]]
+term = "year, quarter"
+meaning = "Calendar periods unless the question says fiscal. A fiscal year or quarter comes from analytics.dim_date joined on date_day = order_date_local."
+
+[[terms]]
+term = "customers"
+meaning = "Rows of analytics.dim_customers, which has duplicates merged and test accounts removed. A new customer in a period is one whose first_order_on falls in it. Customers who ordered in a period are the distinct customer_id values of their orders, of any status."
+
+[[terms]]
+term = "refunds"
+meaning = "Rows of analytics.fct_refunds. Refunds in a month are counted by refund_month, when they were paid, unless the question asks about the orders of a month."
+
+# Gross, not net, revenue: a refund pays back what the customer paid, tax included, and only gross revenue includes tax.
+# This is a comment, not part of the entry, so the context the recordings were made with is unchanged.
+[[terms]]
+term = "refund rate"
+meaning = "Refunded amount (amount_eur) for orders of a period, divided by the gross revenue (gross_revenue_eur) of the same orders, leaving out cancelled orders; both by order month."
+
+[[terms]]
+term = "conversion rate"
+meaning = "Sessions in analytics.fct_sessions with a converted_order_id, divided by all sessions in the period, by session start date."
+
+[[terms]]
+term = "channel"
+meaning = "For orders and revenue, analytics.fct_orders.channel (web, app, marketplace, (none)). For sessions and traffic, analytics.fct_sessions.channel."
+
+[[terms]]
+term = "product category"
+meaning = "analytics.dim_products.category, joined to analytics.fct_order_lines on product_id. Revenue by product or category is the sum of net_amount_eur over lines of orders that weren't cancelled."
+
+[[terms]]
+term = "units sold"
+meaning = "Sum of analytics.fct_order_lines.quantity over lines of orders that weren't cancelled. To show units beside order revenue, sum the lines per order first, so each order's revenue is counted once."

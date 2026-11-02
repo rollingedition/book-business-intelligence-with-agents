@@ -1,0 +1,23 @@
+# One row per customer, duplicates merged. Names, emails and phone digits are left out of the layer on purpose.
+semantic_model:
+  name: customers
+  description: One row per customer, duplicates merged, with no personal fields.
+  node_relation:
+    schema_name: analytics
+    alias: dim_customers
+  defaults:
+    agg_time_dimension: first_order_date
+  entities:
+    - name: customer
+      type: primary
+      expr: customer_id
+  dimensions:
+    - name: first_order_date
+      type: time
+      expr: first_order_on
+      type_params:
+        time_granularity: day
+    - name: region
+      type: categorical
+    - name: country
+      type: categorical

@@ -1,0 +1,5 @@
+EXPLAIN with a small constant, shop's connection, folding on: UNGROUPED_AGGREGATE > EMPTY_RESULT
+EXPLAIN with a small constant, agent's database, folding off: UNGROUPED_AGGREGATE > EMPTY_RESULT
+EXPLAIN in a worker with a half-second deadline, shop's connection, plan returned: False
+EXPLAIN in a worker, still running afterwards: False
+slow plan through the guard (function): list_sum() isn't a function the guard allows; use aggregates, window functions, casts, and date, number and text functions

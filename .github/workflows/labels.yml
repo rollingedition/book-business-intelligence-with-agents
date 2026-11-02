@@ -1,0 +1,13 @@
+# Reruns the kind-label check whenever labels change, so the triage agent's labels turn it green.
+name: Labels
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, labeled, unlabeled]
+
+permissions:
+  contents: read
+
+jobs:
+  labels:
+    uses: rollingedition/standards/.github/workflows/kind-label.yml@v1

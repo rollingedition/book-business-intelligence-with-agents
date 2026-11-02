@@ -1,0 +1,16 @@
+# The shop's semantic layer, in MetricFlow's standalone YAML: one top-level key per document.
+# Written for the book; CC BY 4.0. Read by lib/semantic.py (the book's compiler) and by MetricFlow 0.213.0.
+#
+# The time spine: one row per day. Its custom grains name the fiscal year (2026) and the fiscal quarter (2026-Q1);
+# the fiscal year starts on February 1 and is named for the year it ends in.
+project_configuration:
+  time_spines:
+    - node_relation:
+        schema_name: semantic
+        alias: calendar
+      primary_column:
+        name: date_day
+        time_granularity: day
+      custom_granularities:
+        - name: fiscal_year
+        - name: fiscal_quarter

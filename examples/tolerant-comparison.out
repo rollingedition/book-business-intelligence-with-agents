@@ -1,0 +1,15 @@
+golden: [('AMER', 51762.14), ('APAC', 35296.93), ('EMEA', 63023.76)]
+tolerance: 0.05% relative
+absolute slack: 0.005
+rows reversed: True
+columns swapped: True
+extra month column: True
+rounded to whole euros: True
+rounded to thousands: False
+in thousands of euros: False
+one region missing: False
+ranking reversed, order matters: False
+gq-033 rates: 0.1156 to 0.1284
+gq-033 absolute slack: 0.00005
+rates 0.004 higher, gq-033's rule: False
+rates 0.004 higher, half a cent of slack: True

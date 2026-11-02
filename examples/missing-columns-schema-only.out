@@ -1,0 +1,9 @@
+gq-001: no column fiscal_year; it is in analytics.dim_date
+gq-003: no column calendar_year; it is in analytics.dim_date
+gq-006: no column quantity; it is in analytics.fct_order_lines
+gq-010: no column fiscal_quarter; it is in analytics.dim_date
+gq-013: no column order_date; it is in analytics.orders_legacy
+schema-only queries that don't run: 5
+missing column only analytics.dim_date has: 3
+missing column only analytics.fct_order_lines has: 1
+missing column only analytics.orders_legacy has: 1

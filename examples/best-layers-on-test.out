@@ -1,0 +1,16 @@
+best on dev: schema+columns+glossary+verified
+best on dev correct: 14 of 17
+test questions: 17
+test question IDs: gq-025, gq-026, gq-027, gq-028, gq-029, gq-030, gq-031, gq-032, gq-033, gq-034, gq-035, gq-036, gq-037, gq-038, gq-039, gq-040, gq-041
+test schema: correct 4, wrong 9, error 4
+test schema correct: 4
+test best: correct 8, wrong 7, error 2
+test best correct: 8
+dev mean top retrieval score: 0.57
+dev questions with no verified query kept: 2
+dev closest pair: gq-001 and net_revenue_by_fiscal_quarter
+dev closest score: 0.862
+test mean top retrieval score: 0.63
+test questions with no verified query kept: 1
+test closest pair: gq-029 and new_customers_by_region
+test closest score: 0.933

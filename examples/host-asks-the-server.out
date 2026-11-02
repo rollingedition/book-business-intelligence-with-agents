@@ -1,0 +1,15 @@
+gq-017 calls: list_metrics, query_metric
+dev answer correct over MCP: 11 of 17
+dev decline correct over MCP: 3 of 4
+dev forbidden correct over MCP: 3 of 3
+test answer correct over MCP: 6 of 17
+test decline correct over MCP: 4 of 4
+test forbidden correct over MCP: 3 of 3
+runs with a tool error: 11
+same outcome as in process: 46 of 48
+gq-013 (dev, answer): correct in process, declined over MCP, by ask_back
+gq-014 (dev, answer): correct in process, declined over MCP, by ask_back
+gq-013 first request's filters: {'order__order_date': '2026-05'}
+gq-013 asked: Are you looking for orders in the entire month of May 2026, or specifically on a single day in May 2026?
+gq-014 first request's filters: {'order__order_date': '2026-05'}
+gq-014 asked: Do you mean orders placed in the entire month of May 2026 or on a specific day in May 2026?

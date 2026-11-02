@@ -1,0 +1,7 @@
+golden SQL that fails: 16 of 34
+golden questions affected: gq-001, gq-002, gq-003, gq-006, gq-007, gq-008, gq-009, gq-010, gq-011, gq-012, gq-017, gq-025, gq-026, gq-034, gq-038, gq-040
+metrics that fail: net_revenue, average_order_value
+recorded dev runs that no longer replay: 8 of 21
+runs that stop: gq-001, gq-002, gq-003, gq-006, gq-009, gq-010, gq-011, gq-017
+after the fix, metrics that fail: none
+after the fix, recorded dev runs that no longer replay: 0

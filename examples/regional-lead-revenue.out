@@ -1,0 +1,29 @@
+question: What was net revenue in each of our countries in 2025? (regional_lead, EMEA)
+metric, no policy, outcome: wrong
+metric, no policy, countries: AU, CA, DE, ES, FR, GB, JP, NL, SG, US
+metric, policy, outcome: correct
+metric, policy, countries: DE, ES, FR, GB, NL
+request: {'metrics': ['net_revenue'], 'group_by': ['order__country'], 'filters': {'metric_time__year': 2025}}
+metric, policy, provenance filters: {'metric_time__year': 2025, 'row filter': 'EMEA only'}
+SELECT
+  orders.country AS order__country,
+  SUM(orders.net_revenue_eur) AS net_revenue
+FROM (
+  SELECT ... FROM analytics.fct_orders
+  WHERE
+    region = 'EMEA'
+) AS orders
+WHERE
+  orders.status <> 'cancelled'
+  AND CAST(DATE_TRUNC('YEAR', CAST(orders.order_date_local AS DATE)) AS DATE) = CAST('2025-01-01' AS DATE)
+GROUP BY
+  orders.country
+ORDER BY
+  order__country ASC
+SQL, no policy, outcome: wrong
+SQL, no policy, countries: 10
+SQL, no policy, sessions with no customer: 31733
+SQL, policy, outcome: correct
+SQL, policy, countries: 5
+SQL, policy, sessions with no customer: 0
+sessions with no row filter written: refused

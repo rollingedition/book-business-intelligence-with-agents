@@ -1,0 +1,29 @@
+# One row per refund, in EUR, with the local day it was made and its order's local day.
+semantic_model:
+  name: refunds
+  description: One row per refund, in EUR.
+  node_relation:
+    schema_name: semantic
+    alias: refunds
+  defaults:
+    agg_time_dimension: refund_date
+  entities:
+    - name: refund
+      type: primary
+      expr: refund_id
+    - name: order
+      type: foreign
+      expr: order_id
+  dimensions:
+    - name: refund_date
+      type: time
+      expr: refund_date_local
+      type_params:
+        time_granularity: day
+    - name: order_date
+      type: time
+      expr: order_date_local
+      type_params:
+        time_granularity: day
+    - name: reason
+      type: categorical

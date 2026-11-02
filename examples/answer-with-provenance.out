@@ -1,0 +1,40 @@
+gq-002: What was net revenue in each region in March 2026?
+order__region  net_revenue
+AMER           51,762.14
+APAC           35,296.93
+EMEA           63,023.76
+metric: net_revenue: Revenue in EUR after discounts and before tax, from real orders that weren't cancelled, counted on the order's local business day. Returned orders count; refunds are not subtracted.
+filters: {'metric_time__month': '2026-03'}
+role: analyst
+data as of: 2026-07-02 02:00:00
+freshness: analytics.fct_orders last loaded 2026-07-02 02:00, period ends 2026-03-31: complete
+sql:
+SELECT
+  orders.region AS order__region,
+  SUM(orders.net_revenue_eur) AS net_revenue
+FROM analytics.fct_orders AS orders
+WHERE
+  orders.status <> 'cancelled'
+  AND CAST(DATE_TRUNC('MONTH', CAST(orders.order_date_local AS DATE)) AS DATE) = CAST('2026-03-01' AS DATE)
+GROUP BY
+  orders.region
+ORDER BY
+  order__region ASC
+gq-002 outcome: correct
+
+gq-012: What was total revenue for each sales region in 2025?
+order__region  gross_revenue
+AMER           538,429.66
+APAC           444,472.81
+EMEA           897,698.19
+metric: gross_revenue: Revenue in EUR including tax, before refunds, from real orders that weren't cancelled.
+filters: {'metric_time__year': 2025}
+role: analyst
+data as of: 2026-07-02 02:00:00
+freshness: analytics.fct_orders last loaded 2026-07-02 02:00, period ends 2025-12-31: complete
+gq-012 outcome: wrong
+
+gq-021: How much did shipping cost us in fiscal year 2026?
+declined: not_in_data: The shop's data does not include a metric for shipping costs.
+role: finance
+gq-021 outcome: correct

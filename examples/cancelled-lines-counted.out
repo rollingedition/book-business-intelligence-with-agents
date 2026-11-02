@@ -1,0 +1,25 @@
+SELECT
+    p.category,
+    SUM(ol.quantity) AS total_units_sold
+FROM
+    analytics.fct_order_lines ol
+JOIN
+    analytics.dim_products p ON ol.product_id = p.product_id
+WHERE
+    ol.order_id IN (
+        SELECT order_id
+        FROM analytics.fct_orders
+        WHERE placed_at >= '2025-01-01' AND placed_at < '2026-01-01'
+    )
+GROUP BY
+    p.category
+ORDER BY
+    total_units_sold DESC
+Cooking model: 5727
+Cooking golden: 5427
+all categories model: 22324
+all categories golden: 21108
+units on cancelled orders, in the model's dates: 1206
+overstated by: 5.8%
+units on test orders, which the marts already leave out: 202
+net units on orders across the year's edges: 10

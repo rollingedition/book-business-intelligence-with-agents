@@ -1,0 +1,52 @@
+# Who may see what at the shop: one entry per role, read by examples/lib/policies.py. Written for the book; CC BY 4.0.
+# Deny by default: a role reads only the tables listed for it, every column of them except those it is denied, with
+# the columns it masks replaced by MASK, and, if it has a row filter, only the rows the filter keeps. The raw schema
+# and the legacy mart are on no list. A table a row filter doesn't name is refused for a filtered role, unless it is
+# listed under `unfiltered`, because it holds no rows about a region's customers or orders.
+
+mask = "'(masked)'"
+
+# Every table the agent's two paths read: the marts (guarded SQL) and the semantic layer's views and calendar.
+tables = [
+    "analytics.dim_customers", "analytics.dim_date", "analytics.dim_products", "analytics.fct_order_lines",
+    "analytics.fct_orders", "analytics.fct_refunds", "analytics.fct_sessions",
+    "semantic.calendar", "semantic.order_lines", "semantic.refunds",
+]
+
+# A regional lead's filter, per table: `:region` is the lead's region, bound as a literal, never pasted into SQL.
+# Sessions without a customer can't be placed in a region, so the filter drops them.
+[row_filters.region]
+"analytics.dim_customers" = "region = :region"
+"analytics.fct_orders" = "region = :region"
+"analytics.fct_refunds" = "region = :region"
+"semantic.refunds" = "region = :region"
+"analytics.fct_order_lines" = "order_id IN (SELECT order_id FROM analytics.fct_orders WHERE region = :region)"
+"semantic.order_lines" = "order_id IN (SELECT order_id FROM analytics.fct_orders WHERE region = :region)"
+"analytics.fct_sessions" = "customer_id IN (SELECT customer_id FROM analytics.dim_customers WHERE region = :region)"
+unfiltered = ["analytics.dim_date", "analytics.dim_products", "semantic.calendar"]
+
+[roles.analyst]
+description = "Asks about anything and sees everything: the role the early chapters use."
+
+[roles.finance]
+description = "Revenue, refunds and margin by fiscal period, in every region; customer names and emails masked."
+mask = { "analytics.dim_customers" = ["customer_name", "email"] }
+
+[roles.marketing]
+description = "Sessions, conversion, spend and return on spend by channel, in every region."
+deny = { "analytics.fct_refunds" = ["reason"], "semantic.refunds" = ["reason"] }
+mask = { "analytics.dim_customers" = ["customer_name", "email", "phone_last2"] }
+minimum_group_size = 10           # a policy choice; the SDC Handbook's usual minimum frequency is 3
+guarded_sql = false               # the guard can't count the customers behind an arbitrary query's groups
+
+[roles.regional_lead]
+description = "Their own region's orders, revenue and customers."
+row_filter = "region"
+
+[roles.support]
+description = "An order's status and refunds; emails visible; no revenue."
+tables = [
+    "analytics.dim_customers", "analytics.dim_date", "analytics.dim_products", "analytics.fct_order_lines",
+    "analytics.fct_orders", "analytics.fct_refunds", "semantic.calendar", "semantic.order_lines", "semantic.refunds",
+]
+deny = { "analytics.fct_orders" = ["gross_revenue_eur", "net_revenue_eur", "discount_eur", "tax_eur"], "analytics.fct_order_lines" = ["unit_price_eur", "discount_eur", "tax_eur", "net_amount_eur"], "semantic.order_lines" = ["unit_price_eur", "discount_eur", "tax_eur", "net_amount_eur"] }

@@ -1,0 +1,46 @@
+WITH order_refunds AS (
+  SELECT
+    orders.region AS order__region,
+    SUM(refunds.amount_eur) AS order_refunds
+  FROM semantic.refunds AS refunds
+  LEFT JOIN analytics.fct_orders AS orders
+    ON refunds.order_id = orders.order_id
+  LEFT JOIN semantic.calendar AS calendar
+    ON calendar.date_day = refunds.order_date_local
+  WHERE
+    orders.status <> 'cancelled' AND calendar.fiscal_year = 2026
+  GROUP BY
+    orders.region
+), gross_revenue AS (
+  SELECT
+    orders.region AS order__region,
+    SUM(orders.gross_revenue_eur) AS gross_revenue
+  FROM analytics.fct_orders AS orders
+  LEFT JOIN semantic.calendar AS calendar
+    ON calendar.date_day = orders.order_date_local
+  WHERE
+    orders.status <> 'cancelled' AND calendar.fiscal_year = 2026
+  GROUP BY
+    orders.region
+)
+SELECT
+  COALESCE(order_refunds.order__region, gross_revenue.order__region) AS order__region,
+  order_refunds.order_refunds / NULLIF(gross_revenue.gross_revenue, 0) AS refund_rate
+FROM order_refunds
+FULL OUTER JOIN gross_revenue
+  ON gross_revenue.order__region = order_refunds.order__region
+ORDER BY
+  order__region ASC
+refund rate, AMER: 7.11%
+refund rate, APAC: 6.02%
+refund rate, EMEA: 8.45%
+average of per-order rates, AMER: 7.77%
+average of per-order rates, APAC: 6.78%
+average of per-order rates, EMEA: 8.38%
+highest refund rate: NL
+gq-028 matches golden: True
+order__region  average_order_value
+AMER           300.94
+APAC           291.71
+EMEA           272.83
+gq-009 matches golden: True

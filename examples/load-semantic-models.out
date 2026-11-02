@@ -1,0 +1,10 @@
+semantic models: 5
+metrics: 10
+customers: analytics.dim_customers; entities: customer (primary); dimensions: first_order_date, region, country
+order_lines: semantic.order_lines; entities: order_line (primary), order (foreign), product (foreign); dimensions: order_date
+orders: analytics.fct_orders; entities: order (primary), customer (foreign); dimensions: order_date, region, country, channel, status
+products: analytics.dim_products; entities: product (primary); dimensions: product_name, category, subcategory
+refunds: semantic.refunds; entities: refund (primary), order (foreign); dimensions: refund_date, order_date, reason
+net_revenue: sum of net_revenue_eur in orders, where {{ Dimension('order__status') }} != 'cancelled'
+problems in the shop's definitions: 0
+problem: order_lines: primary entity 'order' repeats in 23,215 rows

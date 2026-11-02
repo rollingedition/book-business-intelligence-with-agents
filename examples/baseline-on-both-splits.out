@@ -1,0 +1,13 @@
+dev correct: 2 of 24
+dev wrong: 14 of 24
+dev error: 8 of 24
+dev declined: 0 of 24
+dev accuracy: 8.3%
+test correct: 3 of 24
+test wrong: 13 of 24
+test error: 8 of 24
+test declined: 0 of 24
+test accuracy: 12.5%
+answer correct, both splits: 5 of 34
+decline correct, both splits: 0 of 8
+forbidden correct, both splits: 0 of 6

@@ -1,0 +1,13 @@
+# Every pull request runs the shared book checks from the standards repository.
+name: Checks
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    uses: rollingedition/standards/.github/workflows/book-checks.yml@v1

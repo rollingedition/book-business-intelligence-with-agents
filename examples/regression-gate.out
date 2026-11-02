@@ -1,0 +1,25 @@
+one run: fixed 1 (gq-020), broken 1 (gq-008)
+one run sign test p: 1.00
+one run stable breaks: gq-008
+gq-001: metrics-first 5 of 5, declining 5 of 5
+gq-002: metrics-first 5 of 5, declining 5 of 5
+gq-003: metrics-first 5 of 5, declining 5 of 5
+gq-004: metrics-first 5 of 5, declining 5 of 5
+gq-005: metrics-first 5 of 5, declining 5 of 5
+gq-007: metrics-first 0 of 5, declining 0 of 5
+gq-008: metrics-first 4 of 5, declining 0 of 5
+gq-012: metrics-first 0 of 5, declining 0 of 5
+gq-016: metrics-first 0 of 5, declining 0 of 5
+gq-017: metrics-first 0 of 5, declining 0 of 5
+gq-018: metrics-first 0 of 5, declining 0 of 5
+gq-020: metrics-first 0 of 5, declining 5 of 5
+five runs: fixed 1 (gq-020), broken 1 (gq-008)
+five runs mean paired difference: +0.02
+five runs 95% interval: -0.23 to +0.26
+t multiplier, 11 degrees of freedom: 2.20
+five runs interval half-width: 0.25
+fewest clean flips the mean rule detects: 4 of 12
+smallest mean change the mean rule detects: 0.33
+five runs sign test p: 1.00
+gate: fail
+gate reason: stable break: gq-008

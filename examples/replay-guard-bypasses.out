@@ -1,0 +1,30 @@
+CTE named duckdb_tables, database alone: 7 rows, one per table, all in analytics: True
+CTE named duckdb_tables, guard: refused (table), duckdb_tables is DuckDB's catalog, not a table you may read
+CTE named pg_settings, database alone: 170 rows of settings
+CTE named pg_settings, guard: refused (table), pg_settings is DuckDB's catalog, not a table you may read
+slow plan, guard: refused (function), list_sum() isn't a function the guard allows
+unnest in FROM, guard: refused (table), UNNEST(RANGE(0, 200000)) AS t(x) makes rows from a function, not a table
+unnest in a subquery, guard: refused (function), unnest() isn't a function the guard allows
+every email in one row, database alone: 1 row of 106,670 characters
+every email in one row, guard: refused (size), the result is 106,670 characters long, over the limit of 50,000
+a setting read by a function, database alone: 1 row, a folder's path
+a setting read by a function, guard: refused (table), current_setting() reads the database's settings or catalog
+a table named with its database, database alone: 14,856 orders
+a table named with its database, guard: refused (table), agent.analytics.fct_orders names a database
+regex on a repeated email, guard: refused (function), regexp_matches() isn't a function the guard allows
+database name and version, database alone: agent, v2.0.0
+database name and version, guard: refused (table), current_database() reads the database's settings or catalog
+600 nested subqueries, guard: refused (parse), the SQL is nested too deeply to check (the limit is 200 levels)
+SIMILAR TO on an email, guard: refused (function), SIMILAR TO isn't an operator the guard allows
+temp macro named sum, guard: refused (statement), only queries may run, and this is a Create statement
+join on inequality, guard: ran
+upper-case names, guard: ran
+temp macro named sum, database alone, the next sum: 42
+temp macro named sum, guard's worker, the next sum is the real one: True
+regex, characters to match in one batch of 2,048 rows: 10,649,600,000
+regex, guard without the function list: stopped, no answer
+regex, worker still running afterwards: False
+regex, the guard's next query: ran
+join on inequality, estimate under the limit: True
+join on inequality, rows it joined: 45,147,384
+join on inequality, rows joined more than 100 times the estimate: True

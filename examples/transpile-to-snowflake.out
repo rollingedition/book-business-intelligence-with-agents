@@ -1,0 +1,17 @@
+kept quoted, Snowflake reads: "analytics"."fct_orders" AS "fct_orders"
+SELECT
+  DAYNAME(fct_orders.order_date_local) AS weekday,
+  TO_CHAR(fct_orders.order_date_local, 'yyyy-mm') AS month,
+  ROUND(SUM(fct_orders.net_revenue_eur), 2) AS net_revenue
+FROM analytics.fct_orders AS fct_orders
+WHERE
+  fct_orders.status <> 'cancelled' AND YEAR(fct_orders.order_date_local) = 2025
+GROUP BY ALL
+ORDER BY
+  month,
+  weekday
+LIMIT 1001
+functions passed through unchanged: none
+DuckDB's first weekday: Friday
+channel mix in Snowflake: SELECT fct_orders.region AS region, HISTOGRAM(fct_orders.channel) AS orders_by_channel
+functions passed through in the channel mix: histogram

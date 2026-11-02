@@ -1,0 +1,21 @@
+analytics.dim_customers: masks customer_name, email
+customer_id  customer_name  email     country
+1            (masked)       (masked)  US
+2            (masked)       (masked)  ES
+reads: 6
+a WHERE on the email, analyst: 1
+a WHERE on the email, finance: 0
+a LIKE on its first letters, analyst: 10
+a LIKE on its first letters, finance: 0
+distinct emails, analyst: 3040
+distinct emails, finance: 1
+the email's length, analyst: 26
+the email's length, finance: 8
+the largest group by email, analyst: 1
+the largest group by email, finance: 3040
+the raw table, analyst: refused (table)
+the raw table, finance: refused (table)
+support, a revenue column: refused (column)
+support, money columns the refusal lists: none
+support, revenue metrics in its catalog: none
+marketing, any SQL: refused (policy)

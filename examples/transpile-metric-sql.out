@@ -1,0 +1,14 @@
+duckdb quarter: CAST(DATE_TRUNC('QUARTER', CAST(refunds.order_date_local AS DATE)) AS DATE) AS metric_time__quarter
+duckdb ratio: order_refunds.order_refunds / NULLIF(gross_revenue.gross_revenue, 0) AS refund_rate
+snowflake quarter: CAST(DATE_TRUNC('QUARTER', CAST(refunds.order_date_local AS DATE)) AS DATE) AS metric_time__quarter
+snowflake ratio: order_refunds.order_refunds / NULLIF(gross_revenue.gross_revenue, 0) AS refund_rate
+bigquery quarter: CAST(DATE_TRUNC(CAST(refunds.order_date_local AS DATE), QUARTER) AS DATE) AS metric_time__quarter
+bigquery ratio: order_refunds.order_refunds / NULLIF(gross_revenue.gross_revenue, 0) AS refund_rate
+databricks quarter: CAST(TRUNC(CAST(refunds.order_date_local AS DATE), 'QUARTER') AS DATE) AS metric_time__quarter
+databricks ratio: order_refunds.order_refunds / NULLIF(gross_revenue.gross_revenue, 0) AS refund_rate
+postgres quarter: CAST(DATE_TRUNC('QUARTER', CAST(refunds.order_date_local AS DATE)) AS DATE) AS metric_time__quarter
+postgres ratio: CAST(order_refunds.order_refunds AS DOUBLE PRECISION) / NULLIF(gross_revenue.gross_revenue, 0) AS refund_rate
+tsql quarter: CAST(DATE_TRUNC('QUARTER', CAST(refunds.order_date_local AS DATE)) AS DATE) AS metric_time__quarter
+tsql ratio: CAST(order_refunds.order_refunds AS FLOAT) / NULLIF(gross_revenue.gross_revenue, 0) AS refund_rate
+bigquery without the cast: SELECT TIMESTAMP_TRUNC(order_date_local, QUARTER)
+ILIKE in T-SQL: SELECT * FROM customers WHERE country ILIKE 'g%'

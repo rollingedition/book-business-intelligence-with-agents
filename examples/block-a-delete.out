@@ -1,0 +1,7 @@
+root: Select
+statements in the tree: Select, Delete
+guard refuses (write): the query contains a Delete statement; only reads may run
+read-only database: Invalid Input Error: Cannot execute statement of type "SELECT" on database "agent" which is attached in read-only mode!
+writable copy, refunds before: 1068
+writable copy, the query's answer: 931
+writable copy, refunds after: 137

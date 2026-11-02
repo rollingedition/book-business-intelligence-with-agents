@@ -1,0 +1,9 @@
+allowed tables: analytics.dim_customers, analytics.dim_date, analytics.dim_products, analytics.fct_order_lines, analytics.fct_orders, analytics.fct_refunds, analytics.fct_sessions
+raw table: refused (table), raw.customers isn't a table you may read
+legacy mart: refused (table), analytics.orders_legacy isn't a table you may read
+no schema: refused (table), fct_orders isn't a table you may read
+file as a table: refused (table), data/golden/questions.toml isn't a table you may read
+table function: refused (table), READ_CSV('data/golden/questions.toml') reads data through a function
+CTE named like the catalog: refused (table), duckdb_tables is DuckDB's catalog, not a table you may read
+golden queries the allowlist refuses: 2 of 34
+refused golden queries: gq-034 (raw.marketing_spend), gq-037 (raw.customers)

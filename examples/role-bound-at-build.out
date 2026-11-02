@@ -1,0 +1,6 @@
+role as argument, countries: AU, CA, DE, ES, FR, GB, JP, NL, SG, US
+role bound at build, countries: DE, ES, FR, GB, NL
+role bound at build, provenance: role regional_lead, row filter EMEA only
+role from the environment, countries: DE, ES, FR, GB, NL
+role from the environment, provenance: role regional_lead, row filter EMEA only
+role from the environment, no policy, countries: DE, ES, FR, GB, NL

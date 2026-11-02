@@ -1,0 +1,19 @@
+minimum group size: 10
+metrics marketing can't be given: line_net_revenue, order_refunds, refund_rate, refunds, units_sold
+order__channel  order__country  net_revenue  orders
+(none)          AU              (under 10)   (under 10)
+(none)          JP              (under 10)   (under 10)
+(none)          SG              (under 10)   (under 10)
+app             AU              4,916.20     20
+app             JP              4,499.52     20
+app             SG              (under 10)   (under 10)
+marketplace     AU              (under 10)   (under 10)
+marketplace     JP              (under 10)   (under 10)
+marketplace     SG              (under 10)   (under 10)
+web             AU              10,899.86    41
+web             JP              12,754.83    45
+web             SG              9,130.56     25
+groups: 12
+groups suppressed: 7
+customers behind app in SG: 7
+customers behind web in SG: 13

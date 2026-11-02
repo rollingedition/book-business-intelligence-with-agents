@@ -1,0 +1,40 @@
+dev split questions: 24
+dev questions: 17
+dev questions to decline: 7
+schema: correct 3, wrong 9, error 5
+schema correct: 3
+schema error: 5
+schema tokens: 912
+schema+columns: correct 9, wrong 7, error 1
+schema+columns correct: 9
+schema+columns error: 1
+schema+columns tokens: 1999
+schema+columns+glossary: correct 9, wrong 8, error 0
+schema+columns+glossary correct: 9
+schema+columns+glossary error: 0
+schema+columns+glossary tokens: 2608
+schema+columns+glossary+verified: correct 14, wrong 2, error 1
+schema+columns+glossary+verified correct: 14
+schema+columns+glossary+verified error: 1
+schema+columns+glossary+verified tokens: 2775
+question  1  2  3  4
+gq-001    e  c  c  c
+gq-002    w  c  w  c
+gq-003    e  c  c  c
+gq-004    w  c  c  c
+gq-006    e  e  w  w
+gq-007    w  w  w  w
+gq-008    w  c  c  c
+gq-009    w  c  w  c
+gq-010    e  w  w  c
+gq-011    w  c  c  c
+gq-012    w  w  c  c
+gq-013    e  w  w  c
+gq-014    c  c  c  c
+gq-015    w  w  c  c
+gq-016    c  c  w  c
+gq-017    w  w  w  e
+gq-018    c  w  c  c
+fixed by verified queries: 5
+fixed by verified queries, IDs: gq-002, gq-009, gq-010, gq-013, gq-016
+broken by verified queries: 0

@@ -1,0 +1,1 @@
+{"completion_tokens": 27, "messages_sha256": "dcfd891c1a92219dc36909a71c3f12148d04b6660a6746f976eb3d2456d38d2f", "prompt_tokens": 751, "question_id": "gq-023", "reply": "{\"tool\": \"cannot_answer\", \"arguments\": {\"reason\": \"The available metrics do not include information about reasons for refunds.\"}}", "seconds": 26.5}

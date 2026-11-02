@@ -1,0 +1,32 @@
+schema-only, questions: 17
+schema-only, ran first time: 11
+schema-only, correct first time: 2
+schema-only, wrong first time: 9
+schema-only, refused or failed first: 6
+schema-only, ran after repair: 5
+schema-only, correct after repair: 0
+schema-only, wrong after repair: 5
+schema-only, declined after repair: 0
+layered, questions: 17
+layered, ran first time: 16
+layered, correct first time: 14
+layered, wrong first time: 2
+layered, refused or failed first: 1
+layered, ran after repair: 1
+layered, correct after repair: 0
+layered, wrong after repair: 1
+layered, declined after repair: 0
+gq-017 layered, refused: Unknown column: country
+SELECT o.country, round(sum(o.net_revenue_eur), 2) AS net_revenue
+FROM analytics.fct_orders AS o
+JOIN analytics.dim_date AS d ON d.date_day = o.order_date_local
+WHERE o.status <> 'cancelled'
+  AND d.calendar_year = 2025
+GROUP BY o.country
+ORDER BY net_revenue DESC
+gq-017 layered, after repair: ran and returned 10 rows
+gq-001 schema-only, refused: Column 'fiscal_year' could not be resolved. Line: 3, Col: 17
+SELECT SUM(net_revenue_eur) AS net_revenue
+FROM analytics.fct_orders
+WHERE EXTRACT(YEAR FROM placed_at) = 2026
+gq-001 schema-only, after repair: ran and returned 1 row

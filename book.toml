@@ -1,0 +1,11 @@
+# Book manifest: how this book is cataloged. Validated against the taxonomy on every pull request.
+slug = "business-intelligence-with-agents"
+title = "Business Intelligence with Agents"
+summary = "Agents that turn business questions into trusted insights, from your warehouse: layered context, governed metrics in a semantic layer, guarded SQL, answers that say when they can't be given, access rules the agent can't talk its way past, and evaluation on your own golden questions, served over MCP, all on DuckDB, sqlglot and MetricFlow."
+status = "live"                      # draft | live | unmaintained | retired
+level = "in-practice"                 # foundations | in-practice
+reader = "For analytics engineers, BI developers and data scientists who write SQL, know their warehouse, and have been asked to let people ask the data questions, with an assistant that gets the number right."
+skills = ["ai-agents", "data-warehousing", "llm-evaluation", "data-governance", "large-language-models"]   # 1 to 5; the first is primary
+line = "main"                         # edition line
+core_libraries = ["duckdb", "sqlglot", "metricflow", "mcp"]   # names only; versions are pinned in examples/requirements.txt
+sponsor = ""

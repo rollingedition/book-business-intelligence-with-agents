@@ -1,0 +1,7 @@
+tables in the schema: 16
+schema tokens (estimated): 912
+CREATE TABLE analytics.fct_orders (order_id INTEGER, customer_id INTEGER, region VARCHAR, country VARCHAR, channel VARCHAR, status VARCHAR, placed_at TIMESTAMP, order_date_local DATE, currency VARCHAR, line_count BIGINT, gross_revenue_eur DECIMAL(12,2), net_revenue_eur DECIMAL(12,2), discount_eur DECIMAL(12,2), tax_eur DECIMAL(12,2), _loaded_at TIMESTAMP);
+CREATE TABLE analytics.orders_legacy (id INTEGER, cust_id INTEGER, order_date DATE, order_status VARCHAR, sales_region VARCHAR, revenue DECIMAL(12,2));
+orders_legacy.revenue: 186,635.93
+fct_orders.net_revenue_eur, every order: 162,542.79
+fct_orders.net_revenue_eur, not cancelled: 150,082.83

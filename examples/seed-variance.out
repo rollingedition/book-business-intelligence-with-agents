@@ -1,0 +1,21 @@
+metrics-first seed 2718: 6 of 12 correct
+metrics-first seed 1: 6 of 12 correct
+metrics-first seed 2: 6 of 12 correct
+metrics-first seed 3: 6 of 12 correct
+metrics-first seed 4: 5 of 12 correct
+metrics-first correct across seeds: 5 to 6
+metrics-first questions that flip: 1
+metrics-first flipping: gq-008 (4 of 5)
+metrics-first always correct: 5
+metrics-first never correct: 6
+declining seed 2718: 6 of 12 correct
+declining seed 1: 6 of 12 correct
+declining seed 2: 6 of 12 correct
+declining seed 3: 6 of 12 correct
+declining seed 4: 6 of 12 correct
+declining correct across seeds: 6 at every seed
+declining questions that flip: 0
+declining flipping:
+declining always correct: 6
+declining never correct: 6
+seed 2718 again: 24 of 24 calls identical to decline-runs

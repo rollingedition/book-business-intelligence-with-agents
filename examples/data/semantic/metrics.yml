@@ -1,0 +1,109 @@
+# The shop's metrics. Simple metrics name their semantic model and aggregation directly, with no measures,
+# the direction dbt's latest spec takes; MetricFlow 0.213.0 reads this shape as well.
+metric:
+  name: net_revenue
+  description: "Revenue in EUR after discounts and before tax, from real orders that weren't cancelled, counted on the order's local business day. Returned orders count; refunds are not subtracted."
+  type: simple
+  type_params:
+    expr: net_revenue_eur
+    metric_aggregation_params:
+      semantic_model: orders
+      agg: sum
+  filter: "{{ Dimension('order__status') }} != 'cancelled'"
+---
+metric:
+  name: gross_revenue
+  description: "Revenue in EUR including tax, before refunds, from real orders that weren't cancelled."
+  type: simple
+  type_params:
+    expr: gross_revenue_eur
+    metric_aggregation_params:
+      semantic_model: orders
+      agg: sum
+  filter: "{{ Dimension('order__status') }} != 'cancelled'"
+---
+metric:
+  name: orders
+  description: "The number of real orders, cancelled ones included."
+  type: simple
+  type_params:
+    expr: order_id
+    metric_aggregation_params:
+      semantic_model: orders
+      agg: count
+---
+metric:
+  name: line_net_revenue
+  description: "Net revenue counted line by line, so it can be grouped by product. Same rules as net_revenue."
+  type: simple
+  type_params:
+    expr: net_amount_eur
+    metric_aggregation_params:
+      semantic_model: order_lines
+      agg: sum
+  filter: "{{ Dimension('order__status') }} != 'cancelled'"
+---
+metric:
+  name: units_sold
+  description: "Units sold on orders that weren't cancelled."
+  type: simple
+  type_params:
+    expr: quantity
+    metric_aggregation_params:
+      semantic_model: order_lines
+      agg: sum
+  filter: "{{ Dimension('order__status') }} != 'cancelled'"
+---
+metric:
+  name: refunds
+  description: "Refunded EUR, counted on the local day the refund was made."
+  type: simple
+  type_params:
+    expr: amount_eur
+    metric_aggregation_params:
+      semantic_model: refunds
+      agg: sum
+---
+metric:
+  name: order_refunds
+  description: "Refunded EUR, counted on the local day of the order refunded, whenever the refund was made."
+  type: simple
+  type_params:
+    expr: amount_eur
+    metric_aggregation_params:
+      semantic_model: refunds
+      agg: sum
+      agg_time_dimension: order_date
+---
+metric:
+  name: new_customers
+  description: "Customers whose first order fell in the period."
+  type: simple
+  type_params:
+    expr: customer_id
+    metric_aggregation_params:
+      semantic_model: customers
+      agg: count
+---
+metric:
+  name: refund_rate
+  description: "Refunded EUR over gross revenue of the same orders: orders placed in the period that weren't cancelled."
+  type: ratio
+  type_params:
+    numerator:
+      name: order_refunds
+      filter: "{{ Dimension('order__status') }} != 'cancelled'"
+    denominator:
+      name: gross_revenue
+---
+metric:
+  name: average_order_value
+  description: "Net revenue per order that wasn't cancelled."
+  type: derived
+  type_params:
+    expr: net_revenue / kept_orders
+    metrics:
+      - name: net_revenue
+      - name: orders
+        alias: kept_orders
+        filter: "{{ Dimension('order__status') }} != 'cancelled'"

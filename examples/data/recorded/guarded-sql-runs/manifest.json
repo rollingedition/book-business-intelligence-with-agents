@@ -1,0 +1,92 @@
+{
+  "script": "recordings/record_guarded_sql.py",
+  "prompt": "GUARD_REPAIR (examples/lib/prompts.py), after a first reply replayed from schema-only-sql (part 1-2) or context-layers and context-layers-test (part 3), with SqlGuard's message",
+  "prompt_sha256": "28816e679c12e7a779d1503c03929775f0a7204292701c27892d64ece1166dd4",
+  "context_part_1": "schema-only",
+  "model": "Qwen/Qwen3-4B-Instruct-2507 (unsloth/Qwen3-4B-Instruct-2507-GGUF/Qwen3-4B-Instruct-2507-Q4_K_M.gguf)",
+  "model_version": "a06e946bb6b655725eafa393f4a9745d460374c9 sha256:3605803b982cb64aead44f6c1b2ae36e3acdb41d8e46c8a94c6533bc4c67e597",
+  "quantization": "Q4_K_M",
+  "chat_template": "Qwen/Qwen3-4B-Instruct-2507@cdbee75f17c01a7cc42f958dc650907174af0554 tokenizer_config.json sha256:a62ff0a2472a0fa1b8eaabcb57c59b58afa42a22831dc141400b6e0cf2b65ce3",
+  "embedded_template_matches": false,
+  "runner": "llama-cpp-python 0.3.36 on CPU, 4 threads (x86_64)",
+  "sampling": {
+    "temperature": 0.7,
+    "top_p": 0.8,
+    "top_k": 20,
+    "min_p": 0.0,
+    "seed": 2718,
+    "max_tokens": 384,
+    "seed_reset": "before every call"
+  },
+  "created": "2026-11-01",
+  "outputs": [
+    "part-1.jsonl",
+    "part-2.jsonl",
+    "part-3.jsonl"
+  ],
+  "calls": 15,
+  "parts": [
+    {
+      "output": "part-1.jsonl",
+      "part": 1,
+      "created": "2026-11-01",
+      "calls": 6,
+      "question_ids": [
+        "gq-001",
+        "gq-003",
+        "gq-006",
+        "gq-010",
+        "gq-011",
+        "gq-018"
+      ],
+      "seconds_per_call": [
+        160.7,
+        39.1,
+        52.1,
+        16.1,
+        36.1,
+        15.9
+      ]
+    },
+    {
+      "output": "part-2.jsonl",
+      "part": 2,
+      "created": "2026-11-01",
+      "calls": 5,
+      "question_ids": [
+        "gq-025",
+        "gq-026",
+        "gq-029",
+        "gq-034",
+        "gq-041"
+      ],
+      "seconds_per_call": [
+        38.3,
+        36.7,
+        37.8,
+        75.4,
+        13.3
+      ]
+    },
+    {
+      "output": "part-3.jsonl",
+      "part": 3,
+      "created": "2026-11-01",
+      "calls": 4,
+      "question_ids": [
+        "gq-017",
+        "gq-026",
+        "gq-028",
+        "gq-034"
+      ],
+      "seconds_per_call": [
+        115.4,
+        36.5,
+        97.1,
+        19.0
+      ]
+    }
+  ],
+  "context_part_2": "schema-only",
+  "context_part_3": "layered"
+}

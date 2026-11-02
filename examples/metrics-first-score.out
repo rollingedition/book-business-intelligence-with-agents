@@ -1,0 +1,40 @@
+dev schema-only correct: 2 of 24
+dev schema-only wrong: 14 of 24
+dev schema-only error: 8 of 24
+dev schema-only declined: 0 of 24
+dev metrics-first correct: 16 of 24
+dev metrics-first wrong: 7 of 24
+dev metrics-first error: 0 of 24
+dev metrics-first declined: 0 of 24
+dev metrics-first step limit: 1 of 24
+dev metrics-first answer correct: 12 of 17
+dev metrics-first decline correct: 3 of 4
+dev metrics-first forbidden correct: 1 of 3
+dev forbidden answered: 2
+dev model calls: 43
+dev requests rejected: 10
+dev correct after a rejection: 6
+dev asked back, answer: 0
+dev asked back, decline: 2
+dev asked back, forbidden: 0
+dev not correct: gq-007 answer step limit, gq-012 answer wrong, gq-016 answer wrong, gq-017 answer wrong, gq-018 answer wrong, gq-020 decline wrong, gq-023 forbidden wrong, gq-024 forbidden wrong
+test schema-only correct: 3 of 24
+test schema-only wrong: 13 of 24
+test schema-only error: 8 of 24
+test schema-only declined: 0 of 24
+test metrics-first correct: 10 of 24
+test metrics-first wrong: 7 of 24
+test metrics-first error: 0 of 24
+test metrics-first declined: 6 of 24
+test metrics-first step limit: 1 of 24
+test metrics-first answer correct: 5 of 17
+test metrics-first decline correct: 4 of 4
+test metrics-first forbidden correct: 1 of 3
+test forbidden answered: 2
+test model calls: 36
+test requests rejected: 6
+test correct after a rejection: 0
+test asked back, answer: 1
+test asked back, decline: 2
+test asked back, forbidden: 0
+test not correct: gq-028 answer wrong, gq-031 answer wrong, gq-032 answer declined, gq-033 answer declined, gq-034 answer declined, gq-035 answer wrong, gq-036 answer declined, gq-037 answer declined, gq-038 answer wrong, gq-039 answer step limit, gq-040 answer wrong, gq-041 answer declined, gq-046 forbidden wrong, gq-048 forbidden wrong

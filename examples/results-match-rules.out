@@ -1,0 +1,8 @@
+by lines: 1,664,762.75 against golden 1,664,763.72
+by lines same text: False
+by lines same normalized text: False
+by lines results match: True
+forgets cancelled: 1,755,242.00 against golden 1,664,763.72
+forgets cancelled same text: False
+forgets cancelled same normalized text: False
+forgets cancelled results match: False

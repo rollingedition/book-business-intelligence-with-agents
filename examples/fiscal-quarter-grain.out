@@ -1,0 +1,26 @@
+SELECT
+  calendar.fiscal_quarter AS metric_time__fiscal_quarter,
+  SUM(orders.net_revenue_eur) AS net_revenue
+FROM analytics.fct_orders AS orders
+LEFT JOIN semantic.calendar AS calendar
+  ON calendar.date_day = orders.order_date_local
+WHERE
+  orders.status <> 'cancelled' AND calendar.fiscal_year = 2026
+GROUP BY
+  calendar.fiscal_quarter
+ORDER BY
+  metric_time__fiscal_quarter ASC
+metric_time__fiscal_quarter  net_revenue
+2026-Q1                      324,929.25
+2026-Q2                      467,081.90
+2026-Q3                      420,686.84
+2026-Q4                      452,065.73
+metric_time__quarter  net_revenue
+2025-01-01            302,935.85
+2025-04-01            415,495.84
+2025-07-01            457,906.36
+2025-10-01            475,189.81
+fiscal 2026-Q1, February to April 2025: 324,929.25
+calendar 2025 Q1, January to March 2025: 302,935.85
+gq-010 matches golden: True
+gq-026 matches golden: True

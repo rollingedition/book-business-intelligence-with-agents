@@ -1,0 +1,8 @@
+question: How many customers placed their first order in fiscal year 2026?
+step 1 (model):
+  {"tool": "cannot_answer", "arguments": {"reason": "The data does not include information about the number of customers who placed their first order in a fiscal year."}}
+step 2 (tool):
+  declined: The data does not include information about the number of customers who placed their first order in a fiscal year.
+model calls: 1
+answered: False
+reason: The data does not include information about the number of customers who placed their first order in a fiscal year.
