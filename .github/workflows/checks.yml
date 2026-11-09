@@ -1,9 +1,13 @@
-# Every pull request runs the shared book checks from the standards repository.
+# The shared book checks from the standards repository. A pull request runs the examples its change could affect,
+# against its base, and every week every example runs again on main, whatever changed, as it can also be run by hand.
 name: Checks
 
 on:
   pull_request:
     types: [opened, synchronize, reopened]
+  schedule:
+    - cron: "17 4 * * 1"
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -11,3 +15,5 @@ permissions:
 jobs:
   checks:
     uses: rollingedition/standards/.github/workflows/book-checks.yml@v1
+    with:
+      examples-scope: ${{ github.event_name == 'pull_request' && 'affected' || 'all' }}
