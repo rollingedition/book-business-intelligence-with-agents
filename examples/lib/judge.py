@@ -23,7 +23,7 @@ import sqlglot
 
 from .answers import Answer
 from .context import load_glossary
-from .golden import GoldenQuestion, _key, _normal, results_match
+from .golden import GoldenQuestion, _key, _normal, results_match, tie_breaks
 from .prompts import JUDGE_ANSWER, JUDGE_PAIR
 
 LABELS = ("correct", "incorrect")
@@ -66,6 +66,16 @@ def shown(answer: Answer) -> Answer:
     if ordered:
         return answer
     return replace(answer, rows=tuple(sorted(answer.rows, key=lambda row: _key(tuple(map(_normal, row))))))
+
+
+def settled(con, answer: Answer | None) -> Answer | None:
+    """The answer with rows that tie on its ORDER BY, or at its LIMIT, settled by the first of `tie_breaks()`. Which
+    tied row a LIMIT keeps depends on how the database's threads finish, so it would change the prompt from one replay
+    to the next. The judge still sees the agent's own SQL."""
+    variants = tie_breaks(answer.provenance.sql, len(answer.columns)) if answer and answer.answered else []
+    if not variants:
+        return answer
+    return replace(answer, rows=tuple(con.execute(variants[0]).fetchall()))
 
 
 def answer_messages(question: GoldenQuestion, answer: Answer) -> list[dict]:
@@ -177,7 +187,8 @@ def recorded_cases(con, layer) -> tuple[list[JudgeCase], list[PairCase]]:
     questions = [q for q in load_golden() if q.kind in ("answer", "decline")]
     golden = {q.question_id: golden_result(con, q) for q in questions}
     runs = {agent: replay(con, layer, agent, questions) for agent in AGENTS}
-    answers = distinct_cases([r for agent in AGENTS for r in runs[agent]], golden)
+    answers = distinct_cases([replace(r, answer=settled(con, r.answer)) for agent in AGENTS for r in runs[agent]],
+                             golden)
     pairs = []
     for first, second in zip(runs["metrics-first"], runs["declining"]):
         a, b, q = first.answer, second.answer, first.question
