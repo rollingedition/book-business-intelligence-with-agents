@@ -7,10 +7,10 @@ description: "Use when building, checking or hardening an agent that answers bus
 **When:** An agent answers business questions from a warehouse, and someone asks how often its numbers are right. Use this before reporting a change as an improvement.
 
 1. Take each question with its golden result and kind, including questions that should be declined ([Score both on five golden questions](#score-five-questions)).
-2. Sort each reply as correct, wrong, error or declined. Count a result as correct when it has the golden rows and every golden column's values, in any order ([Score both on five golden questions](#score-five-questions)).
+2. Sort each reply as correct, wrong, error or declined. A result is correct when it has as many rows as the golden result and every golden column's values, within 0.05 percent or half a cent, in any row order unless the question sets one. A decline is correct on a question that should be declined, and any result there is wrong ([Score both on five golden questions](#score-five-questions)).
 3. Report the four counts separately. A decline is not a wrong number ([Score both on five golden questions](#score-five-questions)).
 4. Read each decline's trace. Check that its reason is about what the agent was given ([Read the trace of one run](#read-one-trace)).
-5. Score a metric-based agent and a schema-only SQL agent on the same questions, with the same rule ([Answer from one defined metric](#answer-from-a-metric)).
+5. Score a metric-based agent and a schema-only SQL agent on the same questions, with the same rule ([Score both on five golden questions](#score-five-questions)).
 
 **Check:** Run [the example](examples/score-five-golden.py) and compare its `metric correct: …` line, {{out:score-five-golden:metric correct}}, with your own run.
 
@@ -26,7 +26,7 @@ description: "Use when building, checking or hardening an agent that answers bus
 2. Look up each business word, such as "revenue", as a definition with its owner. If none is written, the agent asks or declines ([Definitions the schema doesn't hold](#definitions-not-in-schema)).
 3. Check period questions at boundaries where UTC and local days, or calendar and fiscal years, disagree ([Time zones and the fiscal calendar](#time-and-calendars)).
 4. Check each table the query reads against the allowed list, which leaves out legacy tables ([The table with the tempting name](#the-tempting-table)).
-5. Check that the marts apply each row-filtering rule, such as cancelled orders ([Filters nobody wrote down](#unwritten-filters)).
+5. Move each rule about which rows count into the marts where you can. Where a mart keeps the rows, as with cancelled orders, write the rule into the definition the agent uses, and add a golden question that fails when the rule is left out ([Filters nobody wrote down](#unwritten-filters)).
 6. Grade each answer against its golden result, and count the wrong numbers by kind ([Count the failures by kind](#count-failures-by-kind)).
 
 **Check:** Run [the example](examples/classify-schema-only-errors.py) and compare its `wrong answers with time: …` line, {{out:classify-schema-only-errors:wrong answers with time}}, with your own run.
@@ -41,9 +41,9 @@ description: "Use when building, checking or hardening an agent that answers bus
 
 1. Collect real requests from the team's queue, keeping each asker's wording ([Write questions from the work people do](#write-golden-questions)).
 2. Give each question a role, a kind and a note naming the definition its gold follows. A note needing more than one sentence means a decline ([Write questions from the work people do](#write-golden-questions)).
-3. Check each gold before it scores: it must run, return rows without NULLs, and agree with an independent check query ([Check the gold before you trust it](#check-the-gold)).
+3. Check each gold before it scores: it must run, return rows without NULLs, and, where you can, agree with an independent check query ([Check the gold before you trust it](#check-the-gold)).
 4. Compare answers with one function that ignores row order and column names, unless the question ranks ([Order, rounding and column names](#order-rounding-names)).
-5. Include ambiguous and unanswerable declines and forbidden questions for each role ([Cover declines and roles](#cover-declines-and-roles)).
+5. Include ambiguous and unanswerable declines and forbidden questions, tag each question with the traps it tests, and count kinds, roles and traps per split before scoring ([Cover declines and roles, not only answers](#cover-declines-and-roles)).
 6. Split into dev and test before tuning, and report both scores ([Hold out a test split](#hold-out-a-test-split)).
 
 **Check:** Run [the example](examples/golden-coverage.py) and compare its `traps missing from a split: …` line, {{out:golden-coverage:traps missing from a split}}, with your count.
@@ -59,8 +59,8 @@ description: "Use when building, checking or hardening an agent that answers bus
 1. List each reading of the schema that answers one real question, and keep the whole schema while it fits. ([What the schema says, and what it doesn't](#what-the-schema-says))
 2. Write column notes only where a name misleads. ([Describe columns where names mislead](#describe-columns))
 3. Write a glossary entry for each business word whose meaning was chosen. ([Add the business glossary](#add-the-glossary))
-4. Retrieve at most three verified queries per question, never a golden question. ([Retrieve verified queries as examples](#retrieve-verified-queries))
-5. Fit each question's context to a measured token budget, and never drop the schema. ([Fit the context to a budget](#fit-a-context-budget))
+4. Retrieve a few verified queries per question by similarity, set a minimum score and check it on questions the warehouse can't answer, and never let a golden question into the verified set. ([Retrieve verified queries as examples](#retrieve-verified-queries))
+5. Set a token budget well inside the model's window, fit each question's context to it by a priority you have measured, and never drop the schema when it fits. ([Fit the context to a budget](#fit-a-context-budget))
 6. Measure one layer at a time on dev, then check the chosen set once on test. ([Measure what each layer adds](#measure-each-layer)), ([Check the chosen layers on test](#check-layers-on-test))
 
 **Check:** run [the example](examples/layer-ablation-dev.py) and compare its line `schema+columns correct: …`, written as {{out:layer-ablation-dev:schema+columns correct}}.
@@ -91,9 +91,9 @@ description: "Use when building, checking or hardening an agent that answers bus
 **When:** An agent answers business questions from a semantic layer, and its wrong answers are valid requests for the wrong metric, filter or period.
 
 1. Give the agent the layer's metrics and their dimensions, and keep tables out of its tools. ([Give the agent metrics, not tables](#metrics-not-tables))
-2. Have the model reply with one bare JSON tool call, parsed into a typed request before anything runs. ([Ask for a request, not SQL](#request-not-sql))
+2. Have the model return the request as structured tool arguments, and parse it into a typed request before anything runs. ([Ask for a request, not SQL](#request-not-sql))
 3. Validate names, categorical values and date grains before compiling, and return each refusal with the allowed alternatives. ([Validate the request against the layer](#validate-the-request))
-4. Ask back only when every option leads to a request the layer can serve. Otherwise decline. ([Ask back when a question is ambiguous](#ask-back-when-ambiguous))
+4. Ask back only when every option leads to a request the layer can serve; when none does, decline. ([Ask back when a question is ambiguous](#ask-back-when-ambiguous))
 5. Score on golden questions, tuning on dev only. ([Measure metrics-first on the golden questions](#measure-metrics-first))
 
 **Check:** run [the example](examples/reject-unknown-dimension.py) and compare its line `matches golden: …`, written as {{out:reject-unknown-dimension:matches golden}}.
@@ -109,7 +109,7 @@ description: "Use when building, checking or hardening an agent that answers bus
 1. Connect read-only to a database holding only the tables the agent may read, with file access off ([Give the agent a database with only what it may read](#least-privilege-database)).
 2. Parse the SQL into a tree and accept exactly one statement. Check nodes, not text ([Parse the SQL before it runs](#parse-before-running)).
 3. Accept only a query at the root, walk every node for writes, and allow only listed tables ([Allow only read-only queries on known tables](#read-only-allowlist)).
-4. Refuse results over the size limit, and plans with a step that has no estimate ([Bound the rows and the cost](#bound-rows-and-cost)).
+4. Add a row limit that keeps any smaller one the agent wrote, refuse a result over a size limit, and refuse a plan whose `EXPLAIN` estimate is over a limit set from your known-good queries, or that has a step with no estimate ([Bound the rows and the cost](#bound-rows-and-cost)).
 5. Run the query in a worker process that a deadline kills ([Enforce the deadline by killing a process](#time-the-plan)).
 6. Repair at most once, from the guard's refusal or the warehouse's error ([Repair once from the error](#repair-once)).
 
@@ -128,7 +128,7 @@ description: "Use when building, checking or hardening an agent that answers bus
 2. Ask back on an ambiguous question only when every reading is answerable. Otherwise decline ([Kinds of questions the warehouse can't answer](#kinds-of-unanswerable)).
 3. Make declining a run-ending tool with a fixed kind and a sentence naming what is missing ([Decline with a reason](#decline-with-a-reason)).
 4. Before each answer that names a period, compare each feed's newest load with the period's end plus the metric's settling window. Decline as stale when a feed stops short ([Check freshness before answering](#check-freshness)).
-5. Show each answer and decline with its metric definition, filters, role and data as of ([Show the provenance with every answer](#show-provenance)).
+5. Show each answer with its metric name and definition first, then its filters, period, role and data as of; show each decline with its kind, reason and role ([Show the provenance with every answer](#show-provenance)).
 
 **Check:** run [the example](examples/cannot-answer-tool.py) and compare its line `gq-019 ended with: …`, written as {{out:cannot-answer-tool:gq-019 ended with}}.
 
@@ -160,9 +160,9 @@ description: "Use when building, checking or hardening an agent that answers bus
 **When:** A change to an agent's prompt, context or metrics needs a merge decision, and the project has golden questions and recorded runs.
 
 1. Score the base and the candidate on the same questions: correct with a Wilson interval, wrong numbers, declines and failures ([Score a run on more than accuracy](#score-a-run)).
-2. Record the candidate with several seeds per question, at the sampling settings you serve ([Repeat runs to see the variance](#repeat-to-see-variance)).
+2. Record the base and the candidate with several seeds per question, at the sampling settings you serve, and confirm once that a seed replays exactly ([Repeat runs to see the variance](#repeat-to-see-variance)).
 3. For each question, take the share of runs correct under each configuration, and their difference ([Gate a change in CI](#gate-a-change)).
-4. Fail on any stable break, and on a mean paired difference whose t interval lies below zero ([Gate a change in CI](#gate-a-change)).
+4. Fail on any stable break (a question the base got right in at least four of five runs and the candidate in at most one), and on a mean paired difference whose t interval lies below zero. Write both rules down as your choice ([Gate a change in CI](#gate-a-change)).
 5. Compute the smallest change these rules detect on your set, and read the questions that moved before you change a rule ([Gate a change in CI](#gate-a-change)).
 
 **Check:** run [the example](examples/regression-gate.py) and compare its line `gate: {{out:regression-gate:gate}}`.
@@ -180,7 +180,7 @@ description: "Use when building, checking or hardening an agent that answers bus
 2. Bind the role at sign-in: from the environment for stdio, or from a verified token on each HTTP request ([Carry the caller's role into every query](#carry-the-role)).
 3. Leave `role` out of every input schema ([Carry the caller's role into every query](#carry-the-role)).
 4. Open the role's own read-only database when the server binds the role ([Carry the caller's role into every query](#carry-the-role)).
-5. Return answers as structured content with provenance, and refused requests as declines ([Return answers with their provenance](#return-provenance)).
+5. Return answers as structured content with provenance. Raise a tool error, saying how to fix it, for a request the model can correct, and return an access refusal as an answer that declines ([Return answers with their provenance](#return-provenance)).
 6. Test each role's server in memory, including a check that fails on a wrong binding ([Test the server in memory](#test-the-server)).
 
 **Check:** run [the example](examples/role-bound-at-build.py) and compare its line `role bound at build, countries: {{out:role-bound-at-build:role bound at build, countries}}`.
