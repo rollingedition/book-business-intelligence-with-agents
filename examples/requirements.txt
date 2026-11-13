@@ -31,7 +31,7 @@ rapidfuzz==3.14.6
 referencing==0.37.0
 rpds-py==2026.9.1
 six==1.17.0
-sqlglot==30.30.0
+sqlglot==30.31.0
 sse-starlette==3.7.0
 starlette==1.10.0
 tabulate==0.10.0
