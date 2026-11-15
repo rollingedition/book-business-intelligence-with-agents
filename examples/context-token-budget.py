@@ -1,4 +1,5 @@
-"""Fit one question's layered context to a token budget, and check the token estimate against the model's count."""
+"""Fit one question's layered context to a token budget, and check the token estimate against the model's count. The
+estimate runs high, the safe side for a budget, and the dropped lines show what each priority gives up."""
 from lib.context import LAYERS, build_context, estimate_tokens
 from lib.golden import load_golden
 from lib.model import RecordedModel
@@ -13,11 +14,11 @@ for layer, tokens in full.layer_tokens().items():
 
 messages = layered_sql_messages(full.text, question)
 call = RecordedModel("context-layers").call_for(messages)
-print(f"prompt tokens (estimated): {estimate_tokens(''.join(m['content'] for m in messages))}")
+print(f"prompt tokens (estimated): {estimate_tokens(''.join(m['content'] for m in messages))}")   # every message, joined
 print(f"prompt tokens (model's tokenizer): {call['prompt_tokens']}")
 
-budget = 2400
-for name, priority in (("default", LAYERS), ("examples first", ("schema", "columns", "verified", "glossary"))):
+budget = 2400          # an illustrative budget, well inside the 8,192-token window the recordings use
+for name, priority in (("default", LAYERS), ("examples first", ("schema", "columns", "verified", "glossary"))):   # verified ranks above glossary
     fitted = build_context(con, question, layers=priority, budget=budget)
     kept = {layer: len(items) for layer, items in fitted.items.items()}
     print(f"{name} priority: {fitted.tokens} tokens, kept {kept}")

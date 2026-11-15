@@ -1,4 +1,5 @@
-"""Why the dev queries written with the schema alone don't run: the column each one names, and the tables that have it."""
+"""Why the dev queries written with the schema alone don't run: the column each one names, and the analytics tables that have it.
+The per-table counts are the evidence the prose rests on: every failure is a column on the wrong table."""
 import re
 from collections import Counter
 
@@ -20,10 +21,10 @@ for q in dev:
         run_sql(con, sql)
         continue
     except duckdb.Error as e:
-        column = re.search(r'column (?:named )?"(\w+)"', str(e)).group(1)
+        column = re.search(r'column (?:named )?"(\w+)"', str(e)).group(1)   # DuckDB says either form; take the name
     (tables,), = con.execute(
-        "SELECT string_agg(table_schema || '.' || table_name, ', ' ORDER BY 1) FROM information_schema.columns "
-        "WHERE table_schema = 'analytics' AND column_name = ?", [column]).fetchall()
+        "SELECT string_agg(table_schema || '.' || table_name, ', ' ORDER BY 1) FROM information_schema.columns "   # sorted, so a column in two tables lists them in a fixed order
+        "WHERE table_schema = 'analytics' AND column_name = ?", [column]).fetchall()   # the marts only: where the model should have looked
     where[tables] += 1
     print(f"{q.question_id}: no column {column}; it is in {tables}")
 print(f"schema-only queries that don't run: {where.total()}")

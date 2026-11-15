@@ -1,5 +1,5 @@
 """Check the gold before trusting it: every golden SQL runs and returns rows, and each check query agrees with it.
-The prose's gold claims rest on the three counts after the first print, and its refund point on the last two readings."""
+The prose's gold claims rest on the counts of runs, empty results and agreeing checks, and its refund point on the last two readings."""
 import duckdb
 from lib.golden import golden_result, load_golden, results_match
 from lib.warehouse import connect
