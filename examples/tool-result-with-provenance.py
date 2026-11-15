@@ -28,8 +28,9 @@ async def main():
             continue
         answer = result.structured_content["answer"]
         answered = answer["answered"]
+        assert answered == (role != "support")   # support may see no revenue, so its answer declines
         print(f"{name}, answered: {'yes' if answered else 'no'}")
-        same = json.loads(result.content[0].text) == result.structured_content   # the text block carries the same JSON as the structured answer
+        same = json.loads(result.content[0].text) == result.structured_content   # the specification asks for this JSON in the text block
         assert same
         print(f"{name}, text block is the same JSON: {'yes' if same else 'no'}")
         if answer["answered"]:
@@ -37,7 +38,7 @@ async def main():
             print(f"{name}, provenance fields: {', '.join(answer['provenance'])}")
             print(f"{name}, provenance: {json.dumps({k: v for k, v in answer['provenance'].items() if k != 'sql'})}")
         else:
-            assert answered is False               # a role may not see revenue, so the answer declines rather than erring
+            assert answer["reason"].startswith("forbidden")   # the access rules refuse the request, so it declines rather than erring
             print(f"{name}, reason: {answer['reason']}")
     print(f"output schema requires: {', '.join(tool.output_schema['required'])}")
 

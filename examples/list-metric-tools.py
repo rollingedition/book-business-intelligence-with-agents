@@ -20,7 +20,7 @@ async def main():
             tools = (await client.list_tools()).tools
             text = (await client.call_tool("list_metrics", {})).structured_content["text"]
         listed[role] = [t.name for t in tools]
-        metrics = [line[2:].split(":")[0] for line in text.splitlines()]
+        metrics = [line[2:].split(":")[0] for line in text.splitlines()]   # catalog lines start with "- ", then the name
         print(f"{role}, tools: {', '.join(listed[role])}")
         print(f"{role}, metrics in list_metrics: {len(metrics)}")
         print(f"{role}, metrics: {', '.join(metrics)}")

@@ -1,5 +1,5 @@
 """The book's agent as an MCP host on every golden question, each tool on the asker's server, against chapter 9.
-The prose's point rests on the same-outcome line and the two changed questions, whose first requests hit a tool error."""
+The prose's point rests on the same-outcome line and the changed questions, whose runs each met a tool error."""
 from collections import Counter
 
 import anyio
@@ -29,9 +29,10 @@ async def main():
         counts[q.split, q.kind, "correct"] += outcomes[1] == "correct"
         errors += any("is_error" in c for c in calls)
         if outcomes[0] != outcomes[1]:
+            assert any("is_error" in c for c in calls)   # each changed question's run met a tool error
             changed.append(f"{q.question_id} ({q.split}, {q.kind}): {outcomes[0]} in process, "
-                           f"{outcomes[1]} over MCP, by {trace.steps[-2].tool}")
-            details += [f"{q.question_id} first request's filters: {trace.steps[0].arguments['filters']}",
+                           f"{outcomes[1]} over MCP, by {trace.steps[-2].tool}")   # the last tool call ended the run
+            details += [f"{q.question_id} first request's filters: {trace.steps[0].arguments['filters']}",   # the model's first call
                         f"{q.question_id} asked: {trace.answer.reason.splitlines()[0]}"]
         if q.question_id == "gq-017":
             print(f"gq-017 calls: {', '.join(calls)}")
@@ -42,6 +43,7 @@ async def main():
     print(f"runs with a tool error: {errors}")
     total = len(load_golden())
     print(f"same outcome as in process: {total - len(changed)} of {total}")
+    print(f"outcomes changed over MCP: {len(changed)}")
     print("\n".join(changed + details) or "no outcome changed")   # one line per changed question, then details
 
 
