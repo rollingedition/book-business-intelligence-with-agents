@@ -1,4 +1,6 @@
-"""Score the book's agents on more than accuracy: dev to compare them, and the held-out test split once, at the end."""
+"""Score the book's agents on more than accuracy, on dev to compare them and on the held-out test split once.
+The chapter's points rest on the dev and test lines for correct answers, wrong numbers and decline recall,
+and on the fixed and broken lines for the declining prompt."""
 from lib.golden import load_golden
 from lib.regressions import Scorecard, replay
 from lib.semantic import load
@@ -14,6 +16,7 @@ for split in ("dev", "test"):
     for agent, agent_runs in runs.items():
         print("\n".join(Scorecard(agent_runs).lines(f"{split} {agent}")))
     for label, was, now in (("fixed", False, True), ("broken", True, False)):
+        # both agents' runs follow the same question order, so zip pairs one question's two outcomes
         ids = [a.question.question_id for a, b in zip(runs["metrics-first"], runs["declining"])
                if (a.outcome == "correct") == was and (b.outcome == "correct") == now]
         print(f"{split} {label} by the declining prompt: {', '.join(ids) or 'none'}")

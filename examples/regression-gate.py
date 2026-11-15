@@ -1,4 +1,5 @@
-"""Gate a prompt change on paired, per-question differences over five recorded runs of each question."""
+"""Gate a prompt change on paired, per-question differences over five recorded runs of each question.
+The one-run and five-run lines and the gate's reasons are the printed lines the chapter's points rest on."""
 from lib.golden import load_golden
 from lib.regressions import ORIGINAL_SEED, Comparison, gate, replay, smallest_detectable, t_quantile
 from lib.semantic import load
@@ -31,8 +32,10 @@ print(f"five runs: fixed {len(fixed)} ({', '.join(fixed) or 'none'}), broken {le
 low, high = five.interval()
 print(f"five runs mean paired difference: {five.mean_difference:+.2f}")
 print(f"five runs 95% interval: {low:+.2f} to {high:+.2f}")
+# a t interval over the questions uses one fewer degree of freedom than there are questions
 print(f"t multiplier, {len(five.questions) - 1} degrees of freedom: {t_quantile(0.975, len(five.questions) - 1):.2f}")
 print(f"five runs interval half-width: {five.half_width():.2f}")
+# the mean rule's smallest detectable change, for this many paired questions
 k = smallest_detectable(len(five.questions))
 print(f"fewest clean flips the mean rule detects: {k} of {len(five.questions)}")
 print(f"smallest mean change the mean rule detects: {k / len(five.questions):.2f}")
