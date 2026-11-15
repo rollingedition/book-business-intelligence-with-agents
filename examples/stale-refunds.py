@@ -1,4 +1,5 @@
-"""Check freshness: refunds stopped loading after June 26, 2026, and come weeks after the order."""
+"""Check freshness before answering: refunds stopped loading after June 26, 2026, and arrive weeks after the order.
+The prose's point rests on the unchecked June rate, the shortfall lines that split June's gap, and the 'stale' decline."""
 from datetime import date
 
 from lib.declining import (FEEDS, SETTLING_DAYS, DecliningToolbox, check_freshness, refund_delays, refund_shortfall,
@@ -7,6 +8,7 @@ from lib.semantic import MetricRequest, load
 from lib.warehouse import connect, data_as_of
 
 con, layer = connect(), load()
+# the catalog's column types, filtered for any type containing TIME: DuckDB's catalog has none, so the list is empty
 catalog = [c for (c, t, *_) in con.execute("DESCRIBE SELECT * FROM duckdb_tables()").fetchall() if "TIME" in t]
 print(f"duckdb_tables() time columns: {', '.join(catalog) or 'none'}")
 for table in ("analytics.fct_orders", "analytics.fct_refunds", "analytics.dim_customers"):
@@ -23,6 +25,7 @@ for month in ("2026-04", "2026-05", "2026-06"):           # without a check, the
 # Why May and June are short, estimated from the twelve months whose refunds have all come.
 print(f"refund rate, settled months: {settled_refund_rate(con):.2%}")
 for month, end in (("2026-05", date(2026, 6, 1)), ("2026-06", date(2026, 7, 1))):
+    # refund_shortfall takes the first day after the month, so the month's events are all before it
     short = refund_shortfall(con, end)
     print(f"{month}, settled months' rate with refunds as loaded: {short['as loaded']:.2%}\n"
           f"{month}, points short, refunds not loaded: {short['not loaded'] * 100:.2f}\n"
@@ -35,6 +38,7 @@ for name, metric in (("refund rate", "refund_rate"), ("new customers", "new_cust
         print(f"{name}, 2026-06: {check.describe()}")
 for month in ("2026-06", "2026-05", "2026-04"):
     query = {"metrics": ["refund_rate"], "filters": {"metric_time__month": month}}
+    # r keeps the tool's result, so a declined call can print its reason in place of a number
     a = (r := DecliningToolbox(con, layer).call("query_metric", query)).answer
     print(f"refund rate, {month}, checked: "
           + (f"{a.rows[0][0]:.2%}, data as of {a.provenance.data_as_of}" if a.answered else r.content))
