@@ -15,7 +15,7 @@ order__region  net_revenue
 AMER           51,762.14
 APAC           35,296.93
 EMEA           63,023.76
-matches golden: True
+matches golden: yes
 hostile filter compiles to: WHERE orders.status <> 'cancelled' AND orders.region = 'EMEA'' OR ''1''=''1'
 rows for the hostile value: ((None,),)
 refused: unknown dimension 'order__colour'; 'net_revenue' can use: metric_time__day, metric_time__week, metric_time__month, metric_time__quarter, metric_time__year, metric_time__fiscal_year, metric_time__fiscal_quarter, customer__country, customer__first_order_date, customer__region, order__channel, order__country, order__order_date, order__region, order__status

@@ -1,4 +1,5 @@
-"""Load the shop's 48 golden questions, show what one holds and how the set divides, and compute one gold's other reading."""
+"""Load the shop's golden questions, show what one holds and how the set divides, and compute one gold's other reading.
+The prose's refund point rests on the last two lines, which group the same refunds by the order's month and by the refund's."""
 from collections import Counter
 
 from lib.golden import golden_result, load_golden
@@ -24,5 +25,5 @@ print(f"note: {q.note}")
 # The other reading: refunds grouped by the month they were made, not the month the order was placed.
 by_refund_month = con.execute(
     "SELECT round(sum(amount_eur), 2) FROM analytics.fct_refunds WHERE refund_month = DATE '2026-03-01'").fetchall()
-print(f"refunded on orders placed in March 2026: {golden_result(con, q)[0][0]:,.2f}")
+print(f"refunded on orders placed in March 2026: {golden_result(con, q)[0][0]:,.2f}")  # gq-018's gold: by the order's month
 print(f"refunded in March 2026, by refund month: {by_refund_month[0][0]:,.2f}")

@@ -1,4 +1,5 @@
-"""gq-017, asked by EMEA's regional lead, on both of the agent's paths: without the policy, then with it."""
+"""gq-017 for EMEA's regional lead, answered on the metric path and on the guarded SQL path, each without the policy and then with it.
+The countries lines show the narrowing on both paths, from the whole shop to the lead's region."""
 import re
 from dataclasses import replace
 
@@ -24,14 +25,14 @@ for name, toolbox in (("metric, no policy", MetricToolbox(con, layer, role=q.rol
                       max_steps=4)
     print(f"{name}, outcome: {grade(q, trace.answer, golden_result(con, q))}")
     print(f"{name}, countries: {', '.join(row[0] for row in trace.answer.rows)}")
-print(f"request: {trace.steps[-2].arguments}")
+print(f"request: {trace.steps[-2].arguments}")     # the last step is the answer; the request is the step before it
 print(f"metric, policy, provenance filters: {trace.answer.provenance.filters}")
 # The subquery lists all 15 columns of fct_orders; they're shortened to "..." here.
 print(re.sub(r'SELECT\s+"order_id".*?FROM', "SELECT ... FROM", trace.answer.provenance.sql, flags=re.S))
 
 # Guarded SQL (chapter 7): the recorded layered SQL and its one repair, through each guard.
 messages = layered_sql_messages(build_context(con, q.question, LAYERS).text, q.question)
-sessions = "SELECT count(*) - count(customer_id) FROM analytics.fct_sessions"   # sessions with no region
+sessions = "SELECT count(*) - count(customer_id) FROM analytics.fct_sessions"   # count(customer_id) skips sessions with no customer
 for name, guard in (("SQL, no policy", SqlGuard(agent := agent_warehouse(con))),   # every allowed mart, whole
                     ("SQL, policy", PolicyGuard(agent_warehouse(con, policy=policy), policy=policy))):  # EMEA only
     run = answer_with_repair(guard, RecordedModels("context-layers", "guarded-sql-runs"), messages, q.question, q.role)

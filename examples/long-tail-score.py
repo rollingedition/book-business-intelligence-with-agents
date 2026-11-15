@@ -41,3 +41,4 @@ with tempfile.TemporaryDirectory() as folder:        # promote gq-038: one dimen
     layer = load(copy)
 answer = layer.query(con, MetricRequest(("net_revenue", "orders"), ("order__weekday",), {"metric_time__year": 2025}))
 print("gq-038 as a metric request matches golden:", results_match(answer.rows, golden_result(con, golden["gq-038"])))
+assert results_match(answer.rows, golden_result(con, golden["gq-038"]))   # the promotion gives the golden answer

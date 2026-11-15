@@ -1,4 +1,5 @@
-"""Metrics-first on every golden question, as chapter 6 ran it and under each asker's policy, on both splits."""
+"""Metrics-first on every golden question, as chapter 6 ran it and under each asker's policy, on both splits.
+The forbidden lines for each split, with and without the policy, carry the claim that the policy helps most on forbidden questions."""
 from collections import Counter
 
 from lib.agent import run_agent
@@ -11,10 +12,10 @@ from lib.semantic import load
 from lib.warehouse import connect
 
 con, layer = connect(), load()
-model = RecordedModels("metric-agent-runs", "policy-agent-runs")   # this chapter recorded only the calls ch 6 lacks
+model = RecordedModels("metric-agent-runs", "policy-agent-runs")   # chapter 6's recorded calls, then the policy calls this chapter recorded
 counts, changed, declines = Counter(), [], []
 for q in load_golden():
-    seen_as = PolicyLayer(layer, policy_for(q.role, q.region or None), con)
+    seen_as = PolicyLayer(layer, policy_for(q.role, q.region or None), con)     # a question that names no region gives the policy none
     runs = {"no policy": (catalog(layer), MetricToolbox(con, layer, role=q.role)),
             "policy": (catalog(seen_as), PolicyToolbox(con, seen_as))}
     outcomes = {}
@@ -22,6 +23,7 @@ for q in load_golden():
         trace = run_agent(q.question, metrics_first_prompt(listed), model, toolbox, max_steps=4)
         outcomes[name] = grade(q, trace.answer, golden_result(con, q))
         if name == "policy" and q.kind == "forbidden":
+            # a code decline begins "forbidden:"; a decline by the model does not
             by = "code" if (trace.answer.reason or "").startswith("forbidden") else "the model"
             declines.append(f"{q.question_id} ({q.role}), declined by {by}: {trace.answer.reason}")
         counts[q.split, name, q.kind] += outcomes[name] == "correct"

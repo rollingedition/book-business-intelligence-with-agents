@@ -1,4 +1,4 @@
-"""Score both approaches on five golden questions: schema-only SQL, and the agent with one defined metric."""
+"""Score both approaches on five golden questions: schema-only SQL, and the agent with one defined metric. The prose's counts are the totals printed on the last lines, one per outcome and approach."""
 from collections import Counter
 
 import duckdb
@@ -21,7 +21,7 @@ for q in load_golden()[:5]:      # the first five; chapter 3 builds the full set
     try:
         sql = extract_sql(sql_model.complete(schema_only_messages(schema, q.question)))
         sql_outcome = grade(q, run_sql(con, sql), golden)
-    except duckdb.Error:
+    except duckdb.Error:         # a query that doesn't run raises a DuckDB error, which the score counts as an error
         sql_outcome = "error"
     metric_outcome = grade(q, run_agent(q.question, system, metric_model, Toolbox(con)).answer, golden)
     totals["schema-only"][sql_outcome] += 1

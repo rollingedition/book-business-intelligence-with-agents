@@ -1,4 +1,5 @@
-"""Repair once from the guard's message: one repaired run, then how often repair acts at all, on the dev split."""
+"""Repair once from the guard's message: how often one repair turns a refusal into an answer on the dev split, and two
+repairs in full. The counts are the figures the prose quotes; the repaired SQL is printed for the reader to check."""
 from collections import Counter
 
 from lib.context import LAYERS, build_context
@@ -36,7 +37,7 @@ for context, messages in MESSAGES.items():
 
 for context, question_id in (("layered", "gq-017"), ("schema-only", "gq-001")):
     run = shown[context, question_id]
-    print(f"{question_id} {context}, refused: {run.attempts[0].message.split('. The tables')[0]}")
-    print(run.attempts[1].sql)
+    print(f"{question_id} {context}, refused: {run.attempts[0].message.split('. The tables')[0]}")   # the refusal, without its list of tables
+    print(run.attempts[1].sql)                       # attempt 0 is the first reply, attempt 1 the repair
     rows = len(run.answer.rows)
     print(f"{question_id} {context}, after repair: {run.attempts[1].outcome} and returned {rows} row{'s' * (rows != 1)}")

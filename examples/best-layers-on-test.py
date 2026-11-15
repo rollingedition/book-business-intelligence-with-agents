@@ -1,4 +1,5 @@
-"""Choose the best layer set on the dev split, then score it once on the held-out test split beside the schema alone."""
+"""Choose the best layer set on the dev split, then score it once on the held-out test split beside the schema alone. The
+correct counts are the numbers the prose rests on, and the retrieval scores measure how close each split sits to the verified queries."""
 from collections import Counter
 
 from lib.context import LAYER_SETS, QueryIndex, grade_with_context, layer_set_name, load_verified_queries
@@ -7,11 +8,11 @@ from lib.model import RecordedModel
 from lib.warehouse import connect
 
 con = connect()
-questions = [q for q in load_golden() if q.kind == "answer"]
+questions = [q for q in load_golden() if q.kind == "answer"]   # the answer questions only, as in the ablation
 dev = [q for q in questions if q.split == "dev"]
 test = [q for q in questions if q.split == "test"]
 
-dev_model = RecordedModel("context-layers")
+dev_model = RecordedModel("context-layers")          # dev and test replies come from separate recordings; the test one plays no part in the choice
 dev_correct = {layers: sum(grade_with_context(con, dev_model, q, layers) == "correct" for q in dev)
                for layers in LAYER_SETS}
 best = max(LAYER_SETS, key=lambda layers: (dev_correct[layers], -len(layers)))   # ties go to fewer layers
@@ -29,7 +30,7 @@ for name, layers in (("schema", LAYER_SETS[0]), ("best", best)):
 # How close each split's questions sit to the verified queries, by the retriever's own score.
 index = QueryIndex(load_verified_queries())
 for split, qs in (("dev", dev), ("test", test)):
-    best_match = [(index.search(q.question, k=1, min_score=0.0)[0], q) for q in qs]
+    best_match = [(index.search(q.question, k=1, min_score=0.0)[0], q) for q in qs]   # the best match, whatever its score
     print(f"{split} mean top retrieval score: {sum(score for (score, _), _ in best_match) / len(qs):.2f}")
     print(f"{split} questions with no verified query kept: {sum(not index.search(q.question) for q in qs)}")
     (score, query), q = max(best_match, key=lambda pair: pair[0][0])

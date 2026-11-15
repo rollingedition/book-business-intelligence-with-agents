@@ -1,4 +1,5 @@
-"""Marketing's minimum group size: groups behind fewer than 10 customers are suppressed in the answer."""
+"""Marketing's answer to the June breakdown by channel and country, with every group behind fewer than the minimum held back.
+The customer counts behind Singapore's web and app orders show why its app group is suppressed."""
 from lib.policies import PolicyLayer, policy_for
 from lib.semantic import MetricRequest, load
 from lib.warehouse import connect
@@ -15,5 +16,5 @@ print(answer.show())
 print(f"groups: {len(answer.rows)}")
 print(f"groups suppressed: {marketing.suppressed}")
 counts = marketing.people_counts(con, request)
-print(f"customers behind app in SG: {counts['app', 'SG']}")
+print(f"customers behind app in SG: {counts['app', 'SG']}")     # keys follow the group-by: channel, then country
 print(f"customers behind web in SG: {counts['web', 'SG']}")

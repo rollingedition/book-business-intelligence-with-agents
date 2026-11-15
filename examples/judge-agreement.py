@@ -1,4 +1,5 @@
-"""Calibrate the judge: its verdicts on the book's recorded answers against labels from results_match()."""
+"""Calibrate the judge: its verdicts on the book's recorded answers against labels from results_match().
+The overall and per-agent agreement lines, and the one-verdict kappa ranges, are the figures the chapter's points rest on."""
 from lib.judge import agreement, answer_messages, kappa_one_verdict, parse_verdict, recorded_cases
 from lib.model import RecordedModel
 from lib.semantic import load
@@ -13,6 +14,7 @@ print(f"cases: {len(cases)}")
 print(f"reference correct: {sum(c.reference == 'correct' for c in cases)}")
 print(f"judge correct: {list(verdicts.values()).count('correct')}")
 print(f"judge unparsed: {list(verdicts.values()).count('unparsed')}")
+# a case ID ends with the agent that gave the answer, so the metric agents' cases are all the rest
 subsets = {"all": cases, "schema-only": [c for c in cases if c.case_id.endswith("schema-only")],
            "metric agents": [c for c in cases if not c.case_id.endswith("schema-only")]}
 for name, subset in subsets.items():
@@ -22,6 +24,7 @@ for name, subset in subsets.items():
     print(f"{name} observed agreement: {a.observed:.2f}")
     print(f"{name} Cohen's kappa: {a.kappa:.2f}")
     print(f"{name} Scott's pi: {a.pi:.2f}")
+    # kappa with each single verdict flipped in turn, to show how far one case moves it
     low, high = kappa_one_verdict([c.reference for c in subset], [verdicts[c.case_id] for c in subset])
     print(f"{name} kappa with any one verdict changed: {low:.2f} to {high:.2f}")
 for reference, verdict, label in (("incorrect", "correct", "wrong answers the judge called correct"),

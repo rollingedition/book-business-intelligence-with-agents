@@ -1,4 +1,4 @@
-"""Two time traps in the model's SQL: a calendar year where the question meant a fiscal one, and UTC days."""
+"""Two time traps in the model's SQL: a calendar year where the question meant a fiscal one, and UTC days. Read the `gq-004 model` line, the `gq-013` lines, and the counts of orders whose two clocks disagree."""
 from lib.golden import golden_result, load_golden
 from lib.model import RecordedModel
 from lib.prompts import schema_only_messages
@@ -21,15 +21,18 @@ print(f"gq-004 model: {model_answer('gq-004')[0][0]}")
 print(f"gq-004 golden: {golden_result(con, golden['gq-004'])[0][0]}")
 
 # gq-013: orders per region in May 2026. The model filters on placed_at, in UTC; the shop counts local days.
+# Both queries return (region, count) rows, which dict turns into a lookup by region.
 model_rows, golden_rows = dict(model_answer("gq-013")), dict(golden_result(con, golden["gq-013"]))
 for region in sorted(golden_rows):
     print(f"gq-013 {region} model: {model_rows[region]}")
     print(f"gq-013 {region} golden: {golden_rows[region]}")
+# Orders in May by exactly one of the two clocks, counting 2026 by local day.
 (moved,), = con.execute("""SELECT count(*) FROM analytics.fct_orders
     WHERE (month(placed_at) = 5) <> (month(order_date_local) = 5) AND year(order_date_local) = 2026""").fetchall()
 print(f"orders across May's edges: {moved}")
 
 # Which way each of those orders crossed, by region: in May by the model's UTC filter only, or by the local day only.
+# UTC is a half-open range that ends before June 1; the local day is a date, so BETWEEN also takes May 31.
 crossings = con.execute("""SELECT region,
     count(*) FILTER (WHERE in_utc AND NOT in_local), count(*) FILTER (WHERE in_local AND NOT in_utc)
     FROM (SELECT region, placed_at >= '2026-05-01' AND placed_at < '2026-06-01' AS in_utc,

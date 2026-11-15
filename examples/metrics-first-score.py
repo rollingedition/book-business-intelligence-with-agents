@@ -1,4 +1,5 @@
-"""Score metrics-first against the schema-only baseline on both splits: dev for tuning, test once for the final number."""
+"""Score metrics-first against the schema-only baseline on both splits: dev for tuning, test once for the final number.
+The prose rests on the correct counts per split and on the step-limit lines, which count runs out of model calls."""
 from collections import Counter, defaultdict
 
 from lib.agent import run_agent
@@ -15,13 +16,13 @@ agent_model, sql_model = RecordedModel("metric-agent-runs"), RecordedModel("sche
 counts, facts, missed = defaultdict(Counter), defaultdict(Counter), defaultdict(list)
 for q in load_golden():
     toolbox = MetricToolbox(con, layer, role=q.role)
-    trace = run_agent(q.question, system, agent_model, toolbox, max_steps=4)
-    outcome = grade(q, trace.answer, golden_result(con, q))
+    trace = run_agent(q.question, system, agent_model, toolbox, max_steps=4)      # four calls at most, as in every run
+    outcome = grade(q, trace.answer, golden_result(con, q))                       # 'step limit' when the calls ran out
     counts[q.split, "metrics-first"][outcome] += 1
     counts[q.split, "schema-only"][schema_only_outcome(con, sql_model, schema, q)] += 1
     facts[q.split][f"{q.kind} questions"] += 1
     facts[q.split][f"{q.kind} correct"] += outcome == "correct"
-    facts[q.split]["forbidden answered"] += q.kind == "forbidden" and trace.answer.answered
+    facts[q.split]["forbidden answered"] += q.kind == "forbidden" and trace.answer.answered   # a forbidden question answered is a leak
     facts[q.split]["model calls"] += sum(step.kind == "model" for step in trace.steps)
     facts[q.split]["requests rejected"] += len(toolbox.rejected)
     facts[q.split]["correct after a rejection"] += bool(toolbox.rejected) and outcome == "correct"
@@ -32,7 +33,7 @@ for q in load_golden():
 for split in ("dev", "test"):
     for approach in ("schema-only", "metrics-first"):     # only an agent run can hit the step limit
         for outcome in ("correct", "wrong", "error", "declined") + (("step limit",) if approach != "schema-only" else ()):
-            print(f"{split} {approach} {outcome}: {counts[split, approach][outcome]} of 24")
+            print(f"{split} {approach} {outcome}: {counts[split, approach][outcome]} of 24")    # each split holds 24 golden questions
     for kind in ("answer", "decline", "forbidden"):
         print(f"{split} metrics-first {kind} correct: {facts[split][kind + ' correct']} of {facts[split][kind + ' questions']}")
     for fact in ("forbidden answered", "model calls", "requests rejected", "correct after a rejection",

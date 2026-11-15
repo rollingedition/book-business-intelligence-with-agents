@@ -1,4 +1,5 @@
-"""An upstream rename of one column, caught by three checks that need no model, and the one-line fix."""
+"""An upstream rename of one column, caught by three checks that need no model, and the one-line fix.
+The golden, metric and replay lines before the fix are the printed lines the chapter's points rest on."""
 import shutil
 import tempfile
 from pathlib import Path
@@ -16,6 +17,7 @@ failed = schema_checks(con, load(), golden)
 print(f"golden SQL that fails: {len(failed['golden SQL'])} of {sum(bool(q.golden_sql) for q in golden)}")
 print(f"golden questions affected: {', '.join(failed['golden SQL'])}")
 print(f"metrics that fail: {', '.join(failed['metrics'])}")
+# forbidden questions are decided below the model, so they have no recording to replay
 replays = schema_checks(con, load(), dev)["replays"]
 print(f"recorded dev runs that no longer replay: {len(replays)} of {sum(q.kind != 'forbidden' for q in dev)}")
 print(f"runs that stop: {', '.join(replays)}")

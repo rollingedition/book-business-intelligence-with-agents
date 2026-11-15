@@ -1,4 +1,4 @@
-"""Ask for net revenue by product category: the layer refuses the fan-out join and points to a line-level metric."""
+"""Ask for net revenue by product category: the layer refuses the fan-out join and points to a line-level metric. The printed `inflated by` and `difference from net revenue` lines are the facts the prose states."""
 from lib.semantic import FanOutError, MetricRequest, load
 from lib.warehouse import connect
 
@@ -20,7 +20,7 @@ print(f"net revenue, 2025: {total:,.2f}")
 print(f"summed over the joined lines: {joined:,.2f}")
 print(f"inflated by: {joined / total - 1:.0%}")
 
-request = MetricRequest(("line_net_revenue",), ("product__category",), in_2025, order_by=("-line_net_revenue",))
+request = MetricRequest(("line_net_revenue",), ("product__category",), in_2025, order_by=("-line_net_revenue",))  # a leading minus sorts descending, so the largest category prints first
 print(layer.sql(request))
 answer = layer.query(con, request)
 print(answer.show())

@@ -1,5 +1,6 @@
 """Stop a slow plan: DuckDB computes a constant while it plans, before any row is read, so a timer's interrupt has
-nothing to stop it at; a killed worker stops wherever it is."""
+nothing to stop; a killed worker stops wherever it is. The prose's claim that the plan never returns and the worker is
+stopped rests on the assert after the worker's run."""
 import json
 
 from lib.sql_guard import GuardError, SqlGuard, Worker, check
@@ -19,7 +20,7 @@ planned = check(SLOW_PLAN, guard.schema, functions=guard.functions | LIST_FUNCTI
 small = planned.replace("30000000", "3").replace("RANGE(0, 40)", "RANGE(0, 4)")
 for label, connection in (("shop's connection, folding on", shop), ("agent's database, folding off", agent)):
     (_, plan), = connection.execute(f"EXPLAIN (FORMAT json) {small}").fetchall()
-    steps, nodes = [], json.loads(plan)
+    steps, nodes = [], json.loads(plan)              # the plan's tree, followed down its first child at each step
     while nodes:
         steps.append(nodes[0]["name"])
         nodes = nodes[0]["children"]
@@ -32,6 +33,7 @@ except GuardError as e:
     outcome = e.kind                                  # timeout, memory or worker_failed: the machine decides which
 print("EXPLAIN in a worker with a half-second deadline, shop's connection, plan returned:", outcome == "planned")
 print("EXPLAIN in a worker, still running afterwards:", worker.running)
+assert outcome != "planned" and not worker.running   # the half-second deadline stops the plan, and the kill leaves no worker
 try:
     guard.run(SLOW_PLAN)
 except GuardError as e:

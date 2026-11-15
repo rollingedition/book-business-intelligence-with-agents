@@ -5,4 +5,4 @@ test_support_catalog_hides_every_revenue_metric: passed
 test_marketing_small_groups_are_suppressed: passed
 test_unknown_dimension_is_a_tool_error_with_a_hint: passed
 tests passed: 6 of 6
-the lead's request on an analyst's server differs from the lead's gold: True
+the lead's request on an analyst's server differs from the lead's gold: yes

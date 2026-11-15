@@ -1,5 +1,5 @@
-"""The critics' attempts to get past the guard (lib/guard_attacks.py), replayed on the agent's database, a temporary
-copy of the marts: what the database alone allows, and what the guard does."""
+"""The critics' attempts to get past the guard (lib/guard_attacks.py), replayed on a temporary copy of the marts: what the
+database alone allows and what the guard does. The asserts back the claims the prose makes without a number."""
 import duckdb
 
 from lib.guard_attacks import ALONE, ATTEMPTS, alone, attempt, macro_then_sum
@@ -18,6 +18,7 @@ print("upper-case names, guard:", attempt(guard.run, "SELECT count(*) AS n FROM 
 alone_sum, real = macro_then_sum(agent, guard.worker)
 print("temp macro named sum, database alone, the next sum:", alone_sum)
 print("temp macro named sum, guard's worker, the next sum is the real one:", real)
+assert real                                   # the worker's fresh cursor dropped the macro, so the next sum is real
 
 # The regex attempt. In-process, a timer's interrupt waits for the end of a batch of rows, and one batch is this much
 # text. With repeat() and regexp_matches() (sqlglot's REGEXP_LIKE) allowed, the guard's worker runs it under the
@@ -29,11 +30,13 @@ print(f"regex, characters to match in one batch of {BATCH:,} rows: {text:,}")
 wider = SqlGuard(agent, timeout=2.0, functions=guard.functions | {"repeat", "regexp_like"})
 print("regex, guard without the function list:", attempt(wider.run, REGEX)[1])
 print("regex, worker still running afterwards:", wider.worker_running)
+assert not wider.worker_running                # the worker is gone, however it was stopped
 print("regex, the guard's next query:", attempt(wider.run, "SELECT count(*) AS n FROM analytics.fct_orders")[0])
 
 # The inequality join ran. Its estimate varies a little between runs, so only its size is printed.
 JOIN = ATTEMPTS["join on inequality"]
-estimate, joined = explain(agent, JOIN).largest_estimate, guard.run(JOIN).rows[0][0]
+estimate, joined = explain(agent, JOIN).largest_estimate, guard.run(JOIN).rows[0][0]   # the count is the only row and column
 print("join on inequality, estimate under the limit:", estimate < guard.max_estimated_rows)
 print(f"join on inequality, rows it joined: {joined:,}")
 print("join on inequality, rows joined more than 100 times the estimate:", joined > 100 * estimate)
+assert estimate < guard.max_estimated_rows and joined > 100 * estimate   # under the limit, yet far more rows than estimated

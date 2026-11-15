@@ -1,4 +1,5 @@
-"""Read a wrong answer: gq-031 once asked about "items", which allows units or order lines. It now asks for units."""
+"""Read a wrong answer: gq-031 once asked about "items", which allows units or order lines. It now asks for units.
+The two `outcome` lines settle whether each wording's baseline answer is right against the gold printed first."""
 from dataclasses import replace
 
 from lib.golden import golden_result, load_golden, schema_only_outcome
@@ -11,7 +12,7 @@ con = connect()
 schema, model = describe_schema(con), RecordedModel("schema-only-sql")
 q = next(q for q in load_golden() if q.question_id == "gq-031")
 print(f"gq-031 golden: {golden_result(con, q)[0][0]}")
-for wording, asked in [("items", replace(q, question="How many items did an order contain on average in 2025?")),
+for wording, asked in [("items", replace(q, question="How many items did an order contain on average in 2025?")),  # the old wording; the recording keys replies by question text
                        ("units", q)]:
     sql = extract_sql(model.complete(schema_only_messages(schema, asked.question)))
     print(f"{wording} wording: {asked.question}")

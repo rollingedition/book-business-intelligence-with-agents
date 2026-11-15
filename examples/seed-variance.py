@@ -1,4 +1,5 @@
-"""Five runs of 12 dev questions per agent, one per seed: how much a score moves, and which questions flip."""
+"""Five runs of 12 dev questions per agent, one per seed: how much a score moves, and which questions flip.
+The flipping, across-seeds and always-or-never lines and the seed check are the printed lines the chapter's points rest on."""
 from lib.golden import load_golden
 from lib.model import RecordedModel
 from lib.regressions import ORIGINAL_SEED, SeededRecording, replay
@@ -21,6 +22,7 @@ for agent in ("metrics-first", "declining"):
         print(f"{agent} seed {seed}: {scores[-1]} of {len(questions)} correct")
     spread = f"{min(scores)} to {max(scores)}" if min(scores) < max(scores) else f"{min(scores)} at every seed"
     print(f"{agent} correct across seeds: {spread}")
+    # a question flips when some seeds get it right and others wrong
     flips = [f"{q} ({n} of 5)" for q, n in per_question.items() if 0 < n < 5]
     print(f"{agent} questions that flip: {len(flips)}")
     print(f"{agent} flipping: {', '.join(flips)}")

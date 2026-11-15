@@ -99,4 +99,4 @@ gq-048 model calls: 1
   1. query_metric {"metrics": ["orders"], "group_by": ["customer__region"], "filters": {"customer__region": "AMER", "metric_time__year": 2025}} -> 1 row
 gq-048 rows: 1
 gq-039 from the layer: MetricRequest(metrics=('line_net_revenue',), group_by=('product__product_name',), filters={'metric_time__year': 2025}, order_by=('-line_net_revenue',), limit=5)
-gq-039 from the layer, matches golden: True
+gq-039 from the layer, matches golden: yes

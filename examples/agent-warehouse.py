@@ -1,4 +1,5 @@
-"""The agent's own database: copies of the allowed marts, read-only, with files, extensions and settings locked."""
+"""The agent's own database holds copies of the seven allowed marts, opened read-only with files, extensions and settings
+locked. The attempts show what those locks refuse, and the catalog lines show what they can't hide."""
 import duckdb
 
 from lib.warehouse import agent_warehouse, connect
@@ -25,7 +26,7 @@ for label, sql in ATTEMPTS.items():
         agent.execute(sql).fetchall()
         print(f"{label}: allowed")
     except duckdb.Error as e:
-        kind, message = str(e).splitlines()[0].split(": ", 1)
+        kind, message = str(e).splitlines()[0].split(": ", 1)   # the error's kind, then its message
         print(f"{label}: {kind}, {message.split(' - ')[-1]}")   # the file's path is left out of the output
 
 # What no setting hides: DuckDB's own catalog, which every database has.

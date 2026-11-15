@@ -1,4 +1,4 @@
-"""Run schema-only SQL on the golden questions that have an answer, and label each query's failures by kind."""
+"""Run the model's schema-only SQL on each golden question that has an answer, grade each result, and label the failure kinds of each query. The counts of correct, wrong and error answers, and the kinds the wrong ones carry, are what the prose quotes."""
 from collections import Counter
 
 import duckdb
@@ -11,6 +11,7 @@ from lib.warehouse import connect, describe_schema
 
 con = connect()
 schema, model = describe_schema(con), RecordedModel("schema-only-sql")
+# Kind "answer" leaves out gq-005, the forecast to decline; IDs are zero-padded, so gq-001 to gq-016 is a text range.
 questions = [q for q in load_golden() if q.kind == "answer" and q.question_id <= "gq-016"]
 outcomes, kinds_in_wrong, errors = Counter(), Counter(), {}
 
@@ -20,7 +21,9 @@ for q in questions:
     try:
         outcome = grade(q, run_sql(con, sql), golden_result(con, q))
     except duckdb.Error as e:
+        # A query the database refuses to run is an error, not a wrong number.
         outcome, errors[q.question_id] = "error", str(e).splitlines()[0]
+    # Each kind is a rule in lib/failure_kinds.py that compares the query with the golden SQL; a query can carry none or several.
     kinds = failure_kinds(sql, q.golden_sql)
     outcomes[outcome] += 1
     if outcome == "wrong":
@@ -32,6 +35,7 @@ for question_id, message in errors.items():
 print(f"questions graded: {len(questions)}")
 for outcome in ("correct", "wrong", "error"):
     print(f"{outcome}: {outcomes[outcome]} of {len(questions)}")
+# DuckDB's messages: one for a column the table read does not have, one for a type mismatch such as LIKE on a timestamp.
 print(f"errors with a missing column: {sum('Referenced column' in m for m in errors.values())}")
 print(f"errors with a type mismatch: {sum('No function matches' in m for m in errors.values())}")
 for kind in KINDS:

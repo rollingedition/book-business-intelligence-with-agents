@@ -22,5 +22,5 @@ metric_time__quarter  net_revenue
 2025-10-01            475,189.81
 fiscal 2026-Q1, February to April 2025: 324,929.25
 calendar 2025 Q1, January to March 2025: 302,935.85
-gq-010 matches golden: True
-gq-026 matches golden: True
+gq-010 matches golden: yes
+gq-026 matches golden: yes

@@ -1,4 +1,5 @@
-"""The dev questions that stay wrong with all four layers: each one's query, and whether gq-007 fails only on spelling."""
+"""The dev questions that stay wrong with all four layers, each with its query, and a check of whether gq-007 fails only on
+the spelling of 'tents'. The count line settles how many dev questions stay wrong, and the gq-007 line settles whether the spelling alone causes its failure."""
 import duckdb
 from lib.context import LAYERS, build_context, grade_with_context
 from lib.golden import golden_result, grade, load_golden
@@ -15,7 +16,7 @@ def sql_with_all_layers(q):
     return extract_sql(model.complete(layered_sql_messages(build_context(con, q.question, LAYERS).text, q.question)))
 
 
-unsolved = [(q, outcome) for q in dev if (outcome := grade_with_context(con, model, q, LAYERS)) != "correct"]
+unsolved = [(q, outcome) for q in dev if (outcome := grade_with_context(con, model, q, LAYERS)) != "correct"]   # LAYERS is all four
 print(f"not correct with all four layers: {len(unsolved)}")
 for q, outcome in unsolved:
     sql = sql_with_all_layers(q)
@@ -28,5 +29,5 @@ for q, outcome in unsolved:
             print(f"    -- {str(e).splitlines()[0]}")
 
 gq007 = next(q for q in dev if q.question_id == "gq-007")
-respelled = sql_with_all_layers(gq007).replace("'tents'", "'Tents'")
+respelled = sql_with_all_layers(gq007).replace("'tents'", "'Tents'")   # change the spelling only, to see whether it is the whole failure
 print(f"gq-007 with 'Tents' spelled as stored: {grade(gq007, run_sql(con, respelled), golden_result(con, gq007))}")

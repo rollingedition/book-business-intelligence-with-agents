@@ -1,4 +1,5 @@
-"""Add notes on columns whose names mislead, and see which dev questions the recorded model now gets right."""
+"""Add the column notes on columns whose names mislead, and count the dev questions they fix and break under the recorded
+model. The `fixed` and `broken` lines settle the net effect of the notes, and the broken question shows how a note misleads."""
 from lib.context import LAYER_SETS, build_context, grade_with_context, load_column_notes
 from lib.golden import load_golden
 from lib.model import RecordedModel
@@ -13,12 +14,12 @@ for note in notes:
         print(note)
 
 model = RecordedModel("context-layers")
-before, after = LAYER_SETS[0], LAYER_SETS[1]          # schema; schema and column notes
+before, after = LAYER_SETS[0], LAYER_SETS[1]          # the sets are cumulative: [0] is the schema alone, [1] adds the notes
 dev = [q for q in load_golden() if q.split == "dev" and q.kind == "answer"]
 fixed, broken = [], []
 for q in dev:
     was, now = grade_with_context(con, model, q, before), grade_with_context(con, model, q, after)
-    if was != "correct" and now == "correct":
+    if was != "correct" and now == "correct":          # fixed: wrong or error without the notes, correct with them
         fixed.append(q.question_id)
     if was == "correct" and now != "correct":
         broken.append(q.question_id)

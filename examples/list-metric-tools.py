@@ -1,4 +1,6 @@
-"""The semantic layer as an MCP server: the tools it lists, what query_metric takes, and each role's catalog."""
+"""The semantic layer as an MCP server: the tools it lists, what query_metric takes, and each role's catalog.
+The `support, metrics` line settles that support's catalog holds no revenue metric, and the `same catalog as the
+in-process agent` lines settle that each catalog is the prompt's own text."""
 import anyio
 from mcp import Client
 
@@ -18,12 +20,14 @@ async def main():
             tools = (await client.list_tools()).tools
             text = (await client.call_tool("list_metrics", {})).structured_content["text"]
         listed[role] = [t.name for t in tools]
-        metrics = [line[2:].split(":")[0] for line in text.splitlines()]
+        metrics = [line[2:].split(":")[0] for line in text.splitlines()]   # catalog lines start with "- ", then the name
         print(f"{role}, tools: {', '.join(listed[role])}")
         print(f"{role}, metrics in list_metrics: {len(metrics)}")
         print(f"{role}, metrics: {', '.join(metrics)}")
         in_process = catalog(PolicyLayer(layer, policy_for(role), con))
-        print(f"{role}, same catalog as the in-process agent: {text == in_process}")
+        same = text == in_process                  # PolicyLayer builds the in-process prompt's catalog, so MCP must match it
+        assert same
+        print(f"{role}, same catalog as the in-process agent: {'yes' if same else 'no'}")
     query = next(t for t in tools if t.name == "query_metric")
     print(f"query_metric inputs: {', '.join(query.input_schema['properties'])}")
     print(f"query_metric requires: {', '.join(query.input_schema['required'])}")

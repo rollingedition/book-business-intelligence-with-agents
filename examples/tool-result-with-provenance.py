@@ -1,5 +1,7 @@
 """What a host receives from query_metric: an answer with its provenance as structured content, a request the model
-can correct as a tool error, and a request the role may not make as an answer that declines."""
+can correct as a tool error, and a request the role may not make as an answer that declines. The `text block is the same JSON: yes` line settles that
+the finance answer's text matches its structured content, and `support, net revenue` with `is_error: False` and
+`answered: no` settles that a forbidden request declines rather than errors."""
 import json
 
 import anyio
@@ -26,8 +28,12 @@ async def main():
             print(f"{name}, text: {result.content[0].text}")
             continue
         answer = result.structured_content["answer"]
-        print(f"{name}, answered: {answer['answered']}")
-        print(f"{name}, text block is the same JSON: {json.loads(result.content[0].text) == result.structured_content}")
+        answered = answer["answered"]
+        assert answered == (role != "support")   # support may see no revenue, so its answer declines
+        print(f"{name}, answered: {'yes' if answered else 'no'}")
+        same = json.loads(result.content[0].text) == result.structured_content   # the specification asks for this JSON in the text block
+        assert same
+        print(f"{name}, text block is the same JSON: {'yes' if same else 'no'}")
         if answer["answered"]:
             print(f"{name}, rows: {', '.join(f'{region} {rate:.2%}' for region, rate in answer['rows'])}")
             print(f"{name}, provenance fields: {', '.join(answer['provenance'])}")

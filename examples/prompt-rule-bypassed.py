@@ -1,4 +1,5 @@
-"""An access rule in the prompt, against the same requests run under the regional lead's policy."""
+"""Eight probes that reach outside APAC, each answered by the prompt rule and then sent through APAC's lead's policy.
+The line counting answers with data outside APAC under the prompt rule is the one that tests the rule."""
 import tomllib
 from pathlib import Path
 
@@ -19,11 +20,13 @@ requests = {}
 for probe in probes["region_probes"]:
     trace = run_agent(probe["question"], system, RecordedModel("prompt-rule-runs"),
                       MetricToolbox(con, layer, role="regional_lead"), max_steps=4)
+    # the last step is the answer; the request the agent compiled is the step before it
     request = requests[probe["probe_id"]] = MetricRequest.from_arguments(trace.steps[-2].arguments)
     try:
         allowed = apac.query(con, request).rows
     except PolicyError:
         allowed, refused = None, refused + 1
+    # a refused request has no allowed rows, so any answer it gets is outside APAC
     outside = trace.answer.answered and trace.answer.rows != allowed
     leaked += outside
     print(f"{probe['probe_id']} ({probe['asks']}): prompt rule {'answered' if trace.answer.answered else 'declined'}"
@@ -32,5 +35,5 @@ for probe in probes["region_probes"]:
 print(f"probes: {len(probes['region_probes'])}")
 print(f"answered with data outside {region} under the prompt rule: {leaked}")
 print(f"refused under the policy: {refused}")
-whole_shop = apac.query(con, requests["rp-5"])
+whole_shop = apac.query(con, requests["rp-5"])     # rp-5 asks for the whole shop, with no region
 print(f"rp-5 under the policy, provenance filters: {whole_shop.provenance.filters}")

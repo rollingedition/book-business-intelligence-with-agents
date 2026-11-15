@@ -1,4 +1,5 @@
-"""Count what the golden set covers in each split: kinds, roles and the warehouse's traps."""
+"""Count what the golden set covers in each split: kinds, roles and the warehouse's traps.
+The prose's coverage point rests on the kind counts and on the last line, which names any trap missing from a split."""
 from collections import Counter
 
 from lib.golden import load_golden
@@ -20,5 +21,5 @@ traps = {split: Counter(t for q in questions if q.split == split for t in q.trap
 print("trap                  dev  test")
 for trap in sorted(traps["dev"] | traps["test"]):
     print(f"{trap:<20}  {traps['dev'][trap]:>3}  {traps['test'][trap]:>4}")
-missing = sorted(t for t in traps["dev"] | traps["test"] if not traps["dev"][t] or not traps["test"][t])
+missing = sorted(t for t in traps["dev"] | traps["test"] if not traps["dev"][t] or not traps["test"][t])  # Counter gives 0 for an absent trap
 print(f"traps missing from a split: {', '.join(missing) or 'none'}")

@@ -1,4 +1,4 @@
-"""Compile one metric request to SQL with the book's semantic layer, run it, and compare it with the golden answer."""
+"""Compile one metric request to SQL with the book's semantic layer, run it, and check it against the golden answer. The printed `matches golden: yes` line is the fact the prose states."""
 from lib.golden import golden_result, load_golden, results_match
 from lib.semantic import MetricRequest, SemanticError, load
 from lib.warehouse import connect
@@ -8,13 +8,15 @@ question = next(q for q in load_golden() if q.question_id == "gq-002")
 print(f"question: {question.question}")
 
 request = MetricRequest(metrics=("net_revenue",), group_by=("order__region",),
-                        filters={"metric_time__month": "2026-03"})
+                        filters={"metric_time__month": "2026-03"})  # the compiler turns this text month into a date literal, compared with a date cast
 print(f"request: {request}")
 print(layer.sql(request))
 
 answer = layer.query(con, request)
 print(answer.show())
-print(f"matches golden: {results_match(answer.rows, golden_result(con, question))}")
+matches = results_match(answer.rows, golden_result(con, question))
+assert matches, "gq-002 must match its golden result"
+print(f"matches golden: {'yes' if matches else 'no'}")
 
 # A filter value becomes a literal in the expression tree, so text in it can't change the query.
 hostile = MetricRequest(("net_revenue",), filters={"order__region": "EMEA' OR '1'='1"})

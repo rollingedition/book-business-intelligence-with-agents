@@ -1,4 +1,4 @@
-"""Compile the same requests with MetricFlow and with the book's compiler, run both, and compare the results."""
+"""Compile the same requests with MetricFlow and with the book's compiler, run both, and compare the results. The printed `requests that agree` line is the fact the prose states."""
 from lib.golden import results_match
 from lib.metricflow_bridge import as_dates, engine, explain_sql
 from lib.semantic import MetricRequest as Request, load
@@ -22,21 +22,22 @@ agree = 0
 for request in requests:
     ours = con.execute(layer.sql(request)).fetchall()
     theirs = as_dates(con.execute(explain_sql(mf, request)).fetchall())
-    same = results_match(ours, theirs, tolerance=1e-9)
+    same = results_match(ours, theirs, tolerance=1e-9)  # a tolerance for float rounding differences between the two engines
     agree += same
     print(f"{', '.join(request.metrics)} by {', '.join(request.group_by)}: {len(ours)} rows, agree: {same}")
-month = requests[6]
+month = requests[6]  # the one request with a month grain, so its column types show MetricFlow's timestamp and the book's date
 print(f"MetricFlow's type for metric_time__month: {type(con.execute(explain_sql(mf, month)).fetchone()[0]).__name__}")
 print(f"the book's type for metric_time__month: {type(con.execute(layer.sql(month)).fetchone()[0]).__name__}")
 print(f"requests compared: {len(requests)}")
 print(f"requests that agree: {agree}")
 
-print(explain_sql(mf, requests[0]))
+print(explain_sql(mf, requests[0]))  # chapter 1's question: net revenue by region in March 2026
 try:
     explain_sql(mf, Request(("net_revenue",), ("product__category",), {"metric_time__year": 2025}))
 except Exception as e:
     print(f"MetricFlow on net_revenue by product__category: {type(e).__name__}")
     lines = [line.strip() for line in str(e).splitlines()]
     cause = lines.index("* No valid join paths exist from the measure to the group-by-item.")
-    print(f"one cause MetricFlow lists: {lines[cause][2:]} {lines[cause + 1]}")
+    # MetricFlow puts each cause on one line and its explanation on the next, so the line after the cause is printed too.
+    print(f"one cause MetricFlow lists: {lines[cause][2:]} {lines[cause + 1]}")  # [2:] drops the bullet's "* "
 

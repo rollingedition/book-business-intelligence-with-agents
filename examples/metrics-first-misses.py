@@ -1,4 +1,5 @@
-"""Read every metrics-first run that wasn't correct, call by call, and ask the layer what gq-039's run was reaching for."""
+"""Read every metrics-first run that wasn't correct, call by call, and ask the layer what gq-039's run was reaching for.
+The prose rests on the gq-039 line: the layer's own request for it matches the golden result, and the run never found it."""
 import json
 
 from lib.agent import run_agent
@@ -23,7 +24,7 @@ for q in golden:
     print(f"{q.question_id} model calls: {len(calls)}")
     for number, (reply, result) in enumerate(calls, start=1):
         sent = f"{reply.tool} {json.dumps(reply.arguments)}" if reply.tool else reply.content
-        got = result.content.splitlines()[0][:150]
+        got = result.content.splitlines()[0][:150]                              # the result's first line, cut to 150 characters
         ended = {"metric": f"{len(answer.rows)} row" + "s" * (len(answer.rows) != 1), "none": "declined",
                  "ask_back": "asked back"}
         if number == len(calls) and answer.provenance.source in ended:
@@ -37,5 +38,7 @@ gq039 = next(q for q in golden if q.question_id == "gq-039")
 request = MetricRequest(("line_net_revenue",), group_by=("product__product_name",),
                         filters={"metric_time__year": 2025}, order_by=("-line_net_revenue",), limit=5)
 print(f"gq-039 from the layer: {request}")
-print(f"gq-039 from the layer, matches golden: "
-      f"{results_match(layer.query(con, request).rows, golden_result(con, gq039), gq039.order_matters)}")
+# gq-039 is a ranked question, so row order counts in the comparison.
+matched = results_match(layer.query(con, request).rows, golden_result(con, gq039), gq039.order_matters)
+assert matched, "the layer's request for gq-039 should match its golden result"   # the request asks gq-039's question, the five products with the most net revenue in 2025, highest first
+print(f"gq-039 from the layer, matches golden: {'yes' if matched else 'no'}")

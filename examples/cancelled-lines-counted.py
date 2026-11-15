@@ -1,4 +1,4 @@
-"""Replay the model's SQL for units sold by category in 2025, and find the filters it left out."""
+"""Replay the model's SQL for units sold by category in 2025, and find the filters it left out. Read the `overstated by` line, and the units on cancelled orders, which the missing status filter explains."""
 from lib.golden import golden_result, load_golden
 from lib.model import RecordedModel
 from lib.prompts import schema_only_messages
@@ -9,11 +9,14 @@ con = connect()
 question = next(q for q in load_golden() if q.question_id == "gq-015")
 sql = extract_sql(RecordedModel("schema-only-sql").complete(schema_only_messages(describe_schema(con), question.question)))
 print(sql)
+# The model's query returns (category, units) rows, which dict turns into a lookup by category.
 model_units = dict(run_sql(con, sql).rows)
 golden_units = dict(golden_result(con, question))
+# The status is on the order, so the lines join to fct_orders to read it.
 (cancelled,), = con.execute("""SELECT sum(l.quantity) FROM analytics.fct_order_lines AS l
     JOIN analytics.fct_orders AS o USING (order_id)
     WHERE o.status = 'cancelled' AND o.placed_at >= '2025-01-01' AND o.placed_at < '2026-01-01'""").fetchall()
+# raw keeps test orders, which the marts drop; the is_test flag is only in raw.
 (test_units,), = con.execute("""SELECT sum(l.quantity) FROM raw.order_lines AS l JOIN raw.orders AS o USING (order_id)
     WHERE o.is_test AND year(o.placed_at) = 2025""").fetchall()
 

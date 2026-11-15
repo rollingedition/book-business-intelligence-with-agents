@@ -1,4 +1,5 @@
-"""One audit entry per question: who asked, as which role, what the agent asked for, what ran and what came back."""
+"""One audit entry per question, written by code: who asked, as which role, what the agent asked for, what ran and what came back.
+The entries and declined-as-forbidden lines count the log, and the prose reads each entry beside them."""
 from lib.agent import run_agent
 from lib.golden import load_golden
 from lib.metric_tools import catalog
@@ -17,9 +18,10 @@ for principal, question_id in (("lead-emea-01", "gq-017"), ("lead-apac-01", "gq-
     seen_as = PolicyLayer(layer, policy, con)
     trace = run_agent(q.question, metrics_first_prompt(catalog(seen_as)), RecordedModel("metric-agent-runs"),
                       PolicyToolbox(con, seen_as), max_steps=4)
-    log.record(principal, policy, q.question, trace.answer, request=trace.steps[-2].arguments)
+    log.record(principal, policy, q.question, trace.answer, request=trace.steps[-2].arguments)     # the request is the step before the answer
 
 finance = policy_for("finance")
+# the literal is the start of an email, as finance searched for it
 agent_sql = "SELECT count(*) AS n FROM analytics.dim_customers WHERE email LIKE 'customer-0004%'"
 answer = PolicyGuard(agent_warehouse(con, policy=finance), policy=finance).run(agent_sql)
 log.record("finance-03", finance, "How many customers have an email starting customer-0004?", answer,
@@ -27,4 +29,4 @@ log.record("finance-03", finance, "How many customers have an email starting cus
 
 print(log.jsonl())
 print(f"entries: {len(log.entries)}")
-print(f"declined as forbidden: {sum((e['reason'] or '').startswith('forbidden') for e in log.entries)}")
+print(f"declined as forbidden: {sum((e['reason'] or '').startswith('forbidden') for e in log.entries)}")     # an answered entry has no reason

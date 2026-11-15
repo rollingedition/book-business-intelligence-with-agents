@@ -1,4 +1,6 @@
-"""The book's agent as an MCP host on every golden question, each tool on the asker's server, against chapter 9."""
+"""The book's agent as an MCP host on every golden question, each tool on the asker's server, against chapter 9.
+The `same outcome as in process` line settles how many outcomes held, and the two questions that changed,
+`gq-013` and `gq-014`, each met a tool error."""
 from collections import Counter
 
 import anyio
@@ -29,8 +31,8 @@ async def main():
         errors += any("is_error" in c for c in calls)
         if outcomes[0] != outcomes[1]:
             changed.append(f"{q.question_id} ({q.split}, {q.kind}): {outcomes[0]} in process, "
-                           f"{outcomes[1]} over MCP, by {trace.steps[-2].tool}")
-            details += [f"{q.question_id} first request's filters: {trace.steps[0].arguments['filters']}",
+                           f"{outcomes[1]} over MCP, by {trace.steps[-2].tool}")   # the last tool call ended the run
+            details += [f"{q.question_id} first request's filters: {trace.steps[0].arguments['filters']}",   # the model's first call
                         f"{q.question_id} asked: {trace.answer.reason.splitlines()[0]}"]
         if q.question_id == "gq-017":
             print(f"gq-017 calls: {', '.join(calls)}")
