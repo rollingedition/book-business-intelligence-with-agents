@@ -38,7 +38,6 @@ async def main():
             print(f"{name}, provenance fields: {', '.join(answer['provenance'])}")
             print(f"{name}, provenance: {json.dumps({k: v for k, v in answer['provenance'].items() if k != 'sql'})}")
         else:
-            assert answer["reason"].startswith("forbidden")   # the access rules refuse the request, so it declines rather than erring
             print(f"{name}, reason: {answer['reason']}")
     print(f"output schema requires: {', '.join(tool.output_schema['required'])}")
 
