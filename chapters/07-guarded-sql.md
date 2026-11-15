@@ -186,7 +186,7 @@ Every wrong answer ran cleanly through every guard. For `gq-007`, the model made
 
 ## What goes wrong in production {#guarded-sql-in-production}
 
-A guard that passed its tests can still be wrong in use, because the warehouse, the roles and the function lists keep changing under it, and each of these has a sign that shows it.
+A guard that passed its tests can still be wrong in use, because the warehouse, the roles and the function lists keep changing under it, and each failure below comes with the symptom that reveals it.
 
 **A wrong answer passes every guard.** The database and the guards limit what a query reads and costs, not what its number means. Execution-based correction can't fix SQL that runs and is wrong, which is why Hong et al. add error detection before repair ([Hong et al.](https://arxiv.org/abs/2603.03742)), and Chaturvedi et al. guide the correction with a taxonomy of errors ([Chaturvedi et al.](https://arxiv.org/abs/2509.00581)). You notice only by scoring the guarded path on golden questions, and by reading answers whose result is empty, `NULL` or a percentage where you expected a fraction.
 

@@ -176,7 +176,7 @@ Two limits show in those lines. The same cast changes T-SQL: its quarter line re
 
 ## What goes wrong in production {#semantic-layer-in-production}
 
-The shop's layer answers the shop's golden questions. Over a real warehouse, the risks sit in the declarations, the dates and the engine, and each has a sign that shows it.
+The shop's layer answers the shop's golden questions. Over a real warehouse, the risks sit in the declarations, the dates and the engine, and each has a symptom to watch.
 
 **A wrong entity type turns off the fan-out protection.** A foreign key declared primary makes the layer join many rows as if they were one, and every sum through that join inflates. Parsing won't catch it. Count duplicates of every primary entity in the data, as `check()` does, in CI and after every load.
 
