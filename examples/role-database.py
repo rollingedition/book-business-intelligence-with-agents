@@ -38,5 +38,5 @@ support = agent_warehouse(shop, policy=roles["support"])
 listed = " ".join(str(row) for row in support.execute(ATTEMPTS["CTE named duckdb_tables"]).fetchall())
 print(f"support, catalog bypass, tables listed: {listed.count('CREATE TABLE')}")
 assert "net_revenue_eur" not in listed              # the catalog lists no net_revenue_eur for support, which its sum needs
-print(f"support, catalog bypass, names net_revenue_eur: {'net_revenue_eur' in listed}")
+print(f"support, catalog bypass, names a revenue column: {'net_revenue_eur' in listed}")
 print(f"support, a write: {first_value(support, 'DELETE FROM analytics.fct_orders')}")
