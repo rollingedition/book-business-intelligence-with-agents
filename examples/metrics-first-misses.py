@@ -38,7 +38,7 @@ gq039 = next(q for q in golden if q.question_id == "gq-039")
 request = MetricRequest(("line_net_revenue",), group_by=("product__product_name",),
                         filters={"metric_time__year": 2025}, order_by=("-line_net_revenue",), limit=5)
 print(f"gq-039 from the layer: {request}")
-# gq-039 is a ranked question, so row order counts in the comparison; the layer's request is the one the prose names.
+# gq-039 is a ranked question, so row order counts in the comparison.
 matched = results_match(layer.query(con, request).rows, golden_result(con, gq039), gq039.order_matters)
-assert matched, "the layer's request for gq-039 should match its golden result"   # the prose states this as a fact
+assert matched, "the layer's request for gq-039 should match its golden result"   # the request asks gq-039's question, the five products with the most net revenue in 2025, highest first
 print(f"gq-039 from the layer, matches golden: {'yes' if matched else 'no'}")

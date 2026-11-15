@@ -28,10 +28,10 @@ print(f"first request filters: {first.filters}")
 print(f"unchecked total: {sum(row[1] for row in unchecked.rows):,.2f}")           # row[1] is the net revenue column
 print(f"golden total: {sum(row[1] for row in golden):,.2f}")
 unchecked_matches = results_match(unchecked.rows, golden)
-assert not unchecked_matches, "the unchecked request should miss the golden result"   # the prose states this as a fact
+assert not unchecked_matches, "the unchecked request should miss the golden result"   # a month written against a daily date dimension matches only its first day, so this total can't cover the month
 print(f"unchecked matches golden: {'yes' if unchecked_matches else 'no'}")
 print(f"validation said: {trace.steps[1].content}")                               # step 1 is the refusal the layer returned
 print(f"second request filters: {second.filters}")
 matches = results_match(trace.answer.rows, golden)
-assert matches, "the second request should match the golden result"              # the prose states this as a fact
+assert matches, "the second request should match the golden result"              # filtering metric_time at the month's grain covers every day in March, the golden question's period
 print(f"matches golden: {'yes' if matches else 'no'}")

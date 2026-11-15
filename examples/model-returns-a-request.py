@@ -22,7 +22,7 @@ print(MetricRequest.from_arguments(trace.steps[0].arguments))               # th
 print(trace.answer.provenance.sql)                                          # SQL the layer compiled from the request, not SQL the model wrote
 print(trace.answer.show())
 matches = results_match(trace.answer.rows, golden_result(con, question))
-assert matches, "the layer's answer to gq-003 should match its golden result"   # the prose states this as a fact
+assert matches, "the layer's answer to gq-003 should match its golden result"   # the request asks gq-003's own question, net revenue by channel for 2025, so its rows are the golden ones
 print(f"matches golden: {'yes' if matches else 'no'}")
 
 schema = describe_schema(con)
