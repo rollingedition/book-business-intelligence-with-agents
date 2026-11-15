@@ -1,5 +1,6 @@
 """A role's database, not the guard, decides what the role reads: queries the guard accepts return less from each role's
-database than from every mart, and the catalog bypass names no revenue column. The prose rests on the last two lines."""
+database than from every mart, and the catalog bypass lists no net_revenue_eur for support. The prose rests on the last
+two lines: the bypass lists support's tables, and none of them has the net_revenue_eur column the sum needs."""
 import duckdb
 
 from lib.guard_attacks import ATTEMPTS
@@ -36,6 +37,6 @@ support = agent_warehouse(shop, policy=roles["support"])
 # the bypass's rows as text: each table's CREATE statement, as DuckDB's catalog shows it
 listed = " ".join(str(row) for row in support.execute(ATTEMPTS["CTE named duckdb_tables"]).fetchall())
 print(f"support, catalog bypass, tables listed: {listed.count('CREATE TABLE')}")
-assert "net_revenue_eur" not in listed              # the catalog lists no revenue column for support
-print(f"support, catalog bypass, names a revenue column: {'net_revenue_eur' in listed}")
+assert "net_revenue_eur" not in listed              # the catalog lists no net_revenue_eur for support, which its sum needs
+print(f"support, catalog bypass, names net_revenue_eur: {'net_revenue_eur' in listed}")
 print(f"support, a write: {first_value(support, 'DELETE FROM analytics.fct_orders')}")

@@ -16,7 +16,7 @@ for q in load_golden():
         category, words = CATEGORIES[q.question_id]
         print(f"{q.question_id} ({q.split}, {q.decline_type}): {category}")
         if words:
-            # only the two schemas hold the tables the layer reads, so a column matches only if it is in one of them
+            # raw and analytics are the only schemas with data; the layer reads from both
             found = con.execute("""SELECT string_agg(table_name || '.' || column_name, ', ') FROM information_schema.columns
                                    WHERE table_schema IN ('raw', 'analytics') AND regexp_matches(column_name, ?)""",
                                 [words]).fetchall()[0][0]

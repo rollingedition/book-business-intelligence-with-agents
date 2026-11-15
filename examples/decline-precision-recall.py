@@ -35,6 +35,6 @@ for name, (system, model, Toolbox) in agents.items():
         print(f"{name} recall, {kind}: {part.count('decline', 'abstained')} of {part.count('decline')}")
     print(f"{name} coverage: {tally.coverage:.2f}")
     print(f"{name} selective risk: {tally.selective_risk:.2f}")
-    # c is the penalty for a wrong number, in points: 3 is the cost the prompt states, 10 is the value TrustSQL uses
+    # c is the penalty for a wrong number, in points: 3 is the cost the prompt states, 10 is one of the penalties TrustSQL reports
     for c in (3, 10):
         print(f"{name} penalty score, c={c}: {tally.penalty_score(c):.2f}")

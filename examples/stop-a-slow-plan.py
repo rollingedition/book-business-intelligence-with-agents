@@ -1,6 +1,6 @@
 """Stop a slow plan: DuckDB computes a constant while it plans, before any row is read, so a timer's interrupt has
-nothing to stop; a killed worker stops wherever it is. The prose's claim that the worker is stopped rests on the two
-lines after the worker's plan."""
+nothing to stop; a killed worker stops wherever it is. The prose's claim that the plan never returns and the worker is
+stopped rests on the assert after the worker's run."""
 import json
 
 from lib.sql_guard import GuardError, SqlGuard, Worker, check

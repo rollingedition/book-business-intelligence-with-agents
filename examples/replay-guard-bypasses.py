@@ -1,5 +1,5 @@
 """The critics' attempts to get past the guard (lib/guard_attacks.py), replayed on a temporary copy of the marts: what the
-database alone allows and what the guard does. The asserts at the end back the claims the prose makes without a number."""
+database alone allows and what the guard does. The asserts back the claims the prose makes without a number."""
 import duckdb
 
 from lib.guard_attacks import ALONE, ATTEMPTS, alone, attempt, macro_then_sum
@@ -30,7 +30,7 @@ print(f"regex, characters to match in one batch of {BATCH:,} rows: {text:,}")
 wider = SqlGuard(agent, timeout=2.0, functions=guard.functions | {"repeat", "regexp_like"})
 print("regex, guard without the function list:", attempt(wider.run, REGEX)[1])
 print("regex, worker still running afterwards:", wider.worker_running)
-assert not wider.worker_running                # the deadline or the memory cap stopped the worker
+assert not wider.worker_running                # the worker is gone, however it was stopped
 print("regex, the guard's next query:", attempt(wider.run, "SELECT count(*) AS n FROM analytics.fct_orders")[0])
 
 # The inequality join ran. Its estimate varies a little between runs, so only its size is printed.

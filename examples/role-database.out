@@ -8,5 +8,5 @@ support, guard accepts: yes
 support, every mart: 4019333.37
 support, role's database: Binder Error: Referenced column "net_revenue_eur" not found in FROM clause!
 support, catalog bypass, tables listed: 6
-support, catalog bypass, names a revenue column: False
+support, catalog bypass, names net_revenue_eur: False
 support, a write: Invalid Input Error: Cannot execute statement of type "DELETE" on database "agent" which is attached in read-only mode!

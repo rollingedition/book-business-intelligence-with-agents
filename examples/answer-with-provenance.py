@@ -12,7 +12,7 @@ from lib.warehouse import connect
 con, layer = connect(), load()
 system, model = declining_prompt(catalog(layer)), RecordedModel("decline-runs")
 golden = {q.question_id: q for q in load_golden()}
-# gq-002 is right, gq-012 is wrong (it answers with gross revenue), and gq-021 is declined: the three runs the prose walks through
+# one right answer, one near-miss metric, one decline
 for question_id in ("gq-002", "gq-012", "gq-021"):
     q = golden[question_id]
     toolbox = DecliningToolbox(con, layer, role=q.role)
