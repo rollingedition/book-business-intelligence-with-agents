@@ -94,7 +94,7 @@ The shop's dev split has {{out:layer-ablation-dev:dev split questions}} golden q
 
 [Example: layer-ablation-dev](../examples/layer-ablation-dev.py)
 
-The layers add up, though the glossary alone adds nothing. The schema alone gets {{out:layer-ablation-dev:schema correct}} of the {{out:layer-ablation-dev:dev questions}} dev questions right, and column notes take it to {{out:layer-ablation-dev:schema+columns correct}}. The glossary adds nothing to that, and verified queries on top give {{out:layer-ablation-dev:schema+columns+glossary+verified correct}}, the best set on dev. The output beside this paragraph gives each set's errors and its tokens.
+The layers were added one at a time, and each was measured. The schema alone gets {{out:layer-ablation-dev:schema correct}} of the {{out:layer-ablation-dev:dev questions}} dev questions right, and column notes take it to {{out:layer-ablation-dev:schema+columns correct}}. The glossary adds nothing to that, and verified queries on top give {{out:layer-ablation-dev:schema+columns+glossary+verified correct}}, the best set on dev. The output beside this paragraph gives each set's errors and its tokens.
 
 The grid shows where the change came from. Against the run with the glossary, retrieved examples fixed {{out:layer-ablation-dev:fixed by verified queries}} questions and broke {{out:layer-ablation-dev:broken by verified queries}}. Two of the fixes are new: the fiscal-quarter question `gq-010` and the order count by region `gq-013`, whose nearest verified queries show exactly the join and the count they needed. The other three, `gq-002`, `gq-009` and `gq-016`, are the questions the glossary run had lost, so there the examples won back what the glossary had cost.
 

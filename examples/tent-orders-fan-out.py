@@ -1,5 +1,4 @@
-"""Replay the model's SQL for net revenue from orders with a tent, then count each order once. The prose's point rests on
-the `inflated by` line: the fan-out, measured with the model's own joins and filters kept as they are."""
+"""Replay the model's SQL for net revenue from orders with a tent, then count each order once. Read the `inflated by` line: it is the fan-out, measured with the model's own joins and filters kept as they are."""
 from lib.golden import golden_result, load_golden
 from lib.model import RecordedModel
 from lib.prompts import schema_only_messages

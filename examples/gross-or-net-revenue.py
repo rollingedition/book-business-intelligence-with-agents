@@ -1,5 +1,4 @@
-"""Replay the model's SQL for total revenue in 2025, then change one choice at a time until it reaches the golden result.
-The prose's point rests on the `overstated by` line and on the step from gross to net, which matches the tax in the gross figure."""
+"""Replay the model's SQL for total revenue in 2025, then change one choice at a time until it reaches the golden result. The line that matters is `overstated by`, and the step from gross to net, which matches the tax in the gross figure."""
 from lib.golden import golden_result, load_golden
 from lib.model import RecordedModel
 from lib.prompts import schema_only_messages

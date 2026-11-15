@@ -1,5 +1,4 @@
-"""Run the model's schema-only SQL on each golden question that has an answer, grade each result, and label the failure
-kinds of each query. The prose's points rest on the counts of correct, wrong and error answers, and on the kinds the wrong ones carry."""
+"""Run the model's schema-only SQL on each golden question that has an answer, grade each result, and label the failure kinds of each query. The counts of correct, wrong and error answers, and the kinds the wrong ones carry, are what the prose quotes."""
 from collections import Counter
 
 import duckdb

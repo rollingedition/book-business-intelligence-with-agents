@@ -1,5 +1,4 @@
-"""Replay the model's SQL for units sold by category in 2025, and find the filters it left out. The prose's points rest
-on the `overstated by` line and on the units on cancelled orders, which the missing status filter explains."""
+"""Replay the model's SQL for units sold by category in 2025, and find the filters it left out. Read the `overstated by` line, and the units on cancelled orders, which the missing status filter explains."""
 from lib.golden import golden_result, load_golden
 from lib.model import RecordedModel
 from lib.prompts import schema_only_messages

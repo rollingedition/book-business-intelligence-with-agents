@@ -1,5 +1,4 @@
-"""Two time traps in the model's SQL: a calendar year where the question meant a fiscal one, and UTC days. The prose's
-points rest on the `gq-004 model` and `gq-013` lines, and on the counts of orders whose two clocks disagree."""
+"""Two time traps in the model's SQL: a calendar year where the question meant a fiscal one, and UTC days. Read the `gq-004 model` line, the `gq-013` lines, and the counts of orders whose two clocks disagree."""
 from lib.golden import golden_result, load_golden
 from lib.model import RecordedModel
 from lib.prompts import schema_only_messages

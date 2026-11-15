@@ -1,5 +1,4 @@
-"""What the legacy mart says about revenue by sales region in 2025, and how often the model's queries read that mart.
-The prose's points rest on the `legacy total over golden` line and on the count of queries that read `orders_legacy`."""
+"""What the legacy mart says about revenue by sales region in 2025, and how often the model's queries read that mart. The line to read is `legacy total over golden`, and the count of queries that read `orders_legacy`."""
 from lib.golden import golden_result, load_golden
 from lib.model import RecordedModel
 from lib.prompts import schema_only_messages
@@ -26,7 +25,7 @@ print(f"test orders in the legacy rows: {test_orders}")
 model, schema = RecordedModel("schema-only-sql"), describe_schema(con)
 # IDs are zero-padded, so comparing them as text selects gq-001 to gq-016.
 asked = [q for q in load_golden() if q.question_id <= "gq-016"]
-# A query counts as reading the legacy mart when its text names orders_legacy.
 sqls = [extract_sql(model.complete(schema_only_messages(schema, q.question))) for q in asked]
+# A query counts as reading the legacy mart when its text names orders_legacy.
 print(f"model queries that read orders_legacy: {sum('orders_legacy' in sql for sql in sqls)} of {len(sqls)}")
 print(f"golden questions added in chapter 2, gq-006 to gq-016: {sum('gq-006' <= q.question_id <= 'gq-016' for q in asked)}")
