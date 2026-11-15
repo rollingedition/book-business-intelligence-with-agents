@@ -1,4 +1,5 @@
-"""Each role's own database: SQL that chapter 7's guard accepts, sent with no guard, reaches only the role's views."""
+"""A role's database, not the guard, decides what the role reads: queries the guard accepts return less from each role's
+database than from every mart, and the catalog bypass names no revenue column. The prose rests on the last two lines."""
 import duckdb
 
 from lib.guard_attacks import ATTEMPTS
@@ -18,7 +19,7 @@ QUERIES = {"EMEA's regional lead": "SELECT count(DISTINCT region) AS regions FRO
 
 def first_value(con, sql):
     try:
-        return con.execute(sql).fetchall()[0][0]
+        return con.execute(sql).fetchall()[0][0]          # the first column of the first row
     except duckdb.Error as e:
         return str(e).splitlines()[0]
 
@@ -32,7 +33,9 @@ for role, sql in QUERIES.items():
 
 # A parser bypass a draft of the guard let through: a CTE named like DuckDB's catalog, which lists every table's SQL.
 support = agent_warehouse(shop, policy=roles["support"])
+# the bypass's rows as text: each table's CREATE statement, as DuckDB's catalog shows it
 listed = " ".join(str(row) for row in support.execute(ATTEMPTS["CTE named duckdb_tables"]).fetchall())
 print(f"support, catalog bypass, tables listed: {listed.count('CREATE TABLE')}")
+assert "net_revenue_eur" not in listed              # the catalog lists no revenue column for support
 print(f"support, catalog bypass, names a revenue column: {'net_revenue_eur' in listed}")
 print(f"support, a write: {first_value(support, 'DELETE FROM analytics.fct_orders')}")

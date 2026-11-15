@@ -17,7 +17,7 @@ SELECT count(*) AS refunds_over_50 FROM gone"""
 
 tree = sqlglot.parse_one(ATTACK, read="duckdb")
 print("root:", type(tree).__name__)
-print("statements in the tree:", ", ".join(type(n).__name__ for n in tree.walk() if isinstance(n, (exp.Query, exp.DML))))
+print("statements in the tree:", ", ".join(type(n).__name__ for n in tree.walk() if isinstance(n, (exp.Query, exp.DML))))   # every node, not only the root
 
 agent = agent_warehouse(connect())                      # the agent's read-only database
 try:

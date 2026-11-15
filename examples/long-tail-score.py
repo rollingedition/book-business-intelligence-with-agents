@@ -40,4 +40,6 @@ with tempfile.TemporaryDirectory() as folder:        # promote gq-038: one dimen
         orders.write("    - name: weekday\n      type: categorical\n      expr: dayname(order_date_local)\n")
     layer = load(copy)
 answer = layer.query(con, MetricRequest(("net_revenue", "orders"), ("order__weekday",), {"metric_time__year": 2025}))
-print("gq-038 as a metric request matches golden:", results_match(answer.rows, golden_result(con, golden["gq-038"])))
+matches = results_match(answer.rows, golden_result(con, golden["gq-038"]))   # the promoted metric against gq-038's golden result
+print("gq-038 as a metric request matches golden:", matches)
+assert matches                                 # the promotion gives the golden answer, so the prose can state it

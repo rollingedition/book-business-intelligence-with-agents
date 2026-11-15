@@ -1,4 +1,4 @@
-"""Write one compiled metric request in six warehouses' dialects, and show what transpiling doesn't check."""
+"""Write one compiled metric request in six warehouses' dialects, and show what transpiling doesn't check. The printed quarter and ratio lines per dialect, and the `bigquery without the cast` line, are the facts the prose states."""
 import sqlglot
 from sqlglot import ErrorLevel
 
@@ -10,6 +10,7 @@ compiled = load().compile(request)
 for dialect in ("duckdb", "snowflake", "bigquery", "databricks", "postgres", "tsql"):
     sql = compiled.sql(dialect=dialect, pretty=True, unsupported_level=ErrorLevel.RAISE)
     lines = [line.strip().rstrip(",") for line in sql.splitlines()]
+    # the quarter line is the one that truncates the date; the ratio line is the one that divides, guarded by NULLIF
     print(f"{dialect} quarter: {next(line for line in lines if 'TRUNC' in line)}")
     print(f"{dialect} ratio: {next(line for line in lines if 'NULLIF' in line)}")
 

@@ -8,7 +8,7 @@ question = next(q for q in load_golden() if q.question_id == "gq-002")
 print(f"question: {question.question}")
 
 request = MetricRequest(metrics=("net_revenue",), group_by=("order__region",),
-                        filters={"metric_time__month": "2026-03"})  # a month written as text: 2026-03 is March 2026
+                        filters={"metric_time__month": "2026-03"})  # the compiler turns this text month into a date literal, compared with a date cast
 print(f"request: {request}")
 print(layer.sql(request))
 

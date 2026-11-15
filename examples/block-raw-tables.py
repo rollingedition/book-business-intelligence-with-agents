@@ -1,4 +1,5 @@
-"""The table allowlist: the marts the agent may read, the ways around it the guard refuses, and what it costs."""
+"""The table allowlist: the marts the agent may read, six ways around it that the guard refuses, and the two golden
+queries it can't answer. The last two lines are the cost the prose describes."""
 from lib.golden import load_golden
 from lib.sql_guard import GuardError, SqlGuard
 from lib.warehouse import agent_warehouse, connect
@@ -21,7 +22,7 @@ for label, sql in ATTEMPTS.items():
         guard.check(sql)
         print(f"{label}: allowed")
     except GuardError as e:
-        print(f"{label}: refused ({e.kind}), {str(e).split(';')[0]}")
+        print(f"{label}: refused ({e.kind}), {str(e).split(';')[0]}")   # the message's first clause
 
 golden = [q for q in load_golden() if q.golden_sql]
 outside = []
@@ -29,6 +30,6 @@ for q in golden:
     try:
         guard.check(q.golden_sql)
     except GuardError as e:
-        outside.append(f"{q.question_id} ({str(e).split(' ')[0]})")
+        outside.append(f"{q.question_id} ({str(e).split(' ')[0]})")   # the message starts with the table it refused
 print(f"golden queries the allowlist refuses: {len(outside)} of {len(golden)}")
 print("refused golden queries:", ", ".join(outside))
