@@ -92,7 +92,7 @@ The checks above find gold that is broken. Reading the agent's wrong answers fin
 
 [Example: reworded-golden-question](../examples/reworded-golden-question.py)
 
-The reworded question gets the right answer, though its query is still off. Asked about units, the baseline returned {{out:reworded-golden-question:baseline answer, units wording}} against a gold of {{out:reworded-golden-question:gq-031 golden}}. Asked about items, it returned {{out:reworded-golden-question:baseline answer, items wording}}, which is wrong. Its SQL still keeps cancelled orders and takes the year from the UTC timestamp, and on this data neither moves the average past the tolerance. That's [the blind spot of an execution match](#compare-results-not-sql): the answer is right, and the query isn't.
+The reworded question gets the right answer, though its query is still off. Asked about units, the baseline returned {{out:reworded-golden-question:baseline answer, units wording}} against a gold of {{out:reworded-golden-question:gq-031 golden}}. Asked about items, it returned {{out:reworded-golden-question:baseline answer, items wording}}, which is wrong. Its SQL keeps cancelled orders and takes the year from the UTC timestamp, and on this data neither moves the average past the tolerance. That's [the blind spot of an execution match](#compare-results-not-sql): the answer is right, and the query isn't.
 
 At a larger scale, a model can propose suspect golds for a person to check. The extended version of the CIDR audit describes an agent built for this, which flagged erroneous BIRD Mini-Dev examples with 83% precision ([Jin et al., arXiv:2601.08778](https://arxiv.org/abs/2601.08778)). A person still decides each one.
 

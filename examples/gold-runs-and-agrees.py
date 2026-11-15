@@ -24,7 +24,7 @@ print(f"questions with a check query: {len(checked)}")
 print(f"checks that agree: {len(agree)} of {len(checked)}")
 
 # One question, two readings: "top country for refunds" by number of refunds, and by refund rate (gq-028's definition).
-# orders join to their local business day; the LEFT JOIN keeps an order with no refund, which counts as zero refunds
+# orders join to their local business day; the LEFT JOIN keeps orders that have no refund, so they still count
 by_count, by_rate = con.execute("""
     SELECT arg_max(country, refunds), arg_max(country, refunded / gross) FROM (
         SELECT o.country, count(r.refund_id) AS refunds, sum(r.amount_eur) AS refunded,
