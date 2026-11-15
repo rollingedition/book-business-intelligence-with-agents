@@ -26,7 +26,6 @@ print(f"runs that stop: {', '.join(replays)}")
 fixed = Path(tempfile.mkdtemp()) / "semantic"
 shutil.copytree(SEMANTIC_DIR, fixed)
 metrics = fixed / "metrics.yml"
-# the one-line fix: the metric's expr names the renamed column
 metrics.write_text(metrics.read_text().replace("expr: net_revenue_eur", "expr: net_revenue_ex_tax_eur"))
 after = schema_checks(con, load(fixed), dev)
 print(f"after the fix, metrics that fail: {', '.join(after['metrics']) or 'none'}")

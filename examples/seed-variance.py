@@ -1,5 +1,5 @@
 """Five runs of 12 dev questions per agent, one per seed: how much a score moves, and which questions flip.
-The flipping line and the seed check are the printed lines the chapter's points rest on."""
+The flipping, across-seeds and always-or-never lines and the seed check are the printed lines the chapter's points rest on."""
 from lib.golden import load_golden
 from lib.model import RecordedModel
 from lib.regressions import ORIGINAL_SEED, SeededRecording, replay

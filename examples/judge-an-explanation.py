@@ -1,6 +1,6 @@
 """Judge only what can't be compared: two reasons for declining the same question, shown in both orders.
-The points about position and length rest on the same-verdict and consistent-winner lines, and the answerable
-lines show which reasons say the data lacks what was asked."""
+The points about position, length and which reasons won rest on the same-verdict, consistent-winner and
+won-in-both-orders lines, and the answerable lines show which reasons say the data lacks what was asked."""
 import re
 
 from lib.judge import judge_pairs, recorded_cases
