@@ -10,4 +10,4 @@ EMEA cancelled orders: 3,479.02
 model total: 162,542.79
 golden total: 150,082.83
 overstated by: 8.3%
-matches golden: False
+matches golden: no

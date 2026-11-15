@@ -15,4 +15,4 @@ source: metric (net_revenue)
 filters: {'calendar_month': 3, 'calendar_year': 2026}
 role: analyst
 data as of: 2026-07-02 02:00:00
-matches golden: True
+matches golden: yes
