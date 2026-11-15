@@ -1,5 +1,6 @@
 """gq-017 from EMEA's regional lead, sent with role "analyst": a server that takes the role as an argument obeys it,
-and one that binds the role when it is built ignores it, and queries a database that holds only the lead's rows."""
+and one that binds the role when it is built ignores it, and queries a database that holds only the lead's rows.
+The prose's point rests on the countries each server returns and the provenance of the bound server."""
 import anyio
 from mcp import Client
 from mcp.server.mcpserver import MCPServer

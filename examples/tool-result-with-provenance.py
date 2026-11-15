@@ -1,5 +1,6 @@
 """What a host receives from query_metric: an answer with its provenance as structured content, a request the model
-can correct as a tool error, and a request the role may not make as an answer that declines."""
+can correct as a tool error, and a request the role may not make as an answer that declines. The prose rests on
+the finance answer's text block matching its structured content, and on support's answer declining."""
 import json
 
 import anyio
@@ -26,13 +27,17 @@ async def main():
             print(f"{name}, text: {result.content[0].text}")
             continue
         answer = result.structured_content["answer"]
-        print(f"{name}, answered: {answer['answered']}")
-        print(f"{name}, text block is the same JSON: {json.loads(result.content[0].text) == result.structured_content}")
+        answered = answer["answered"]
+        print(f"{name}, answered: {'yes' if answered else 'no'}")
+        same = json.loads(result.content[0].text) == result.structured_content   # the text block carries the same JSON as the structured answer
+        assert same
+        print(f"{name}, text block is the same JSON: {'yes' if same else 'no'}")
         if answer["answered"]:
             print(f"{name}, rows: {', '.join(f'{region} {rate:.2%}' for region, rate in answer['rows'])}")
             print(f"{name}, provenance fields: {', '.join(answer['provenance'])}")
             print(f"{name}, provenance: {json.dumps({k: v for k, v in answer['provenance'].items() if k != 'sql'})}")
         else:
+            assert answered is False               # a role may not see revenue, so the answer declines rather than erring
             print(f"{name}, reason: {answer['reason']}")
     print(f"output schema requires: {', '.join(tool.output_schema['required'])}")
 

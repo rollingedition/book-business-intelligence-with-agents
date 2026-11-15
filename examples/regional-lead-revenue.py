@@ -1,5 +1,5 @@
-"""gq-017, asked by EMEA's regional lead, on both of the agent's paths: without the policy, then with it. The printed
- outcomes and country counts are what the prose rests on."""
+"""gq-017 for EMEA's regional lead, answered on the metric path and on the guarded SQL path, each without the policy and then with it.
+The countries lines show the narrowing on both paths, from the whole shop to the lead's region."""
 import re
 from dataclasses import replace
 

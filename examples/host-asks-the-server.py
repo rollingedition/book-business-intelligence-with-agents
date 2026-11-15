@@ -1,4 +1,5 @@
-"""The book's agent as an MCP host on every golden question, each tool on the asker's server, against chapter 9."""
+"""The book's agent as an MCP host on every golden question, each tool on the asker's server, against chapter 9.
+The prose's point rests on the same-outcome line and the two changed questions, whose first requests hit a tool error."""
 from collections import Counter
 
 import anyio

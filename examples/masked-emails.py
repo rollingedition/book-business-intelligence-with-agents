@@ -1,5 +1,5 @@
-"""Finance's masks on the guarded SQL path: reads that use the email without selecting it, with the analyst's answers beside finance's,
- and what support and marketing can't do. The printed counts are what the prose rests on."""
+"""Reads that use the email without selecting it, each run under the analyst's guard and under finance's, then support's and marketing's refusals.
+Finance's line for each read shows what the mask leaves, where the analyst's shows the real count."""
 from lib.policies import PolicyGuard, PolicyLayer, policy_for
 from lib.semantic import load
 from lib.sql_guard import GuardError, SqlGuard

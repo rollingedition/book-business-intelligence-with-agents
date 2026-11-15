@@ -1,5 +1,5 @@
-"""One audit entry per question: who asked, as which role, what the agent asked for, what ran and what came back.
- The printed entry count and declines are what the prose rests on."""
+"""One audit entry per question, written by code: who asked, as which role, what the agent asked for, what ran and what came back.
+The entries and declined-as-forbidden lines count the log, and the prose reads each entry beside them."""
 from lib.agent import run_agent
 from lib.golden import load_golden
 from lib.metric_tools import catalog

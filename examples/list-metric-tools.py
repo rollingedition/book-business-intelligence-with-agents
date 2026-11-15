@@ -1,4 +1,6 @@
-"""The semantic layer as an MCP server: the tools it lists, what query_metric takes, and each role's catalog."""
+"""The semantic layer as an MCP server: the tools it lists, what query_metric takes, and each role's catalog.
+The prose's point rests on the catalog lines: the same text as the in-process agent's prompt, and the revenue
+metrics missing for support."""
 import anyio
 from mcp import Client
 
@@ -23,7 +25,9 @@ async def main():
         print(f"{role}, metrics in list_metrics: {len(metrics)}")
         print(f"{role}, metrics: {', '.join(metrics)}")
         in_process = catalog(PolicyLayer(layer, policy_for(role), con))
-        print(f"{role}, same catalog as the in-process agent: {text == in_process}")
+        same = text == in_process                  # PolicyLayer builds the in-process prompt's catalog, so MCP must match it
+        assert same
+        print(f"{role}, same catalog as the in-process agent: {'yes' if same else 'no'}")
     query = next(t for t in tools if t.name == "query_metric")
     print(f"query_metric inputs: {', '.join(query.input_schema['properties'])}")
     print(f"query_metric requires: {', '.join(query.input_schema['required'])}")

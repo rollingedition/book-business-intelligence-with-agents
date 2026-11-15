@@ -1,5 +1,5 @@
-"""Eight probes that reach outside APAC, each run through the prompt rule and then through APAC's lead policy. The lines
- counting answers with data outside APAC, and refusals under the policy, are what the prose rests on."""
+"""Eight probes that reach outside APAC, each answered by the prompt rule and then sent through APAC's lead's policy.
+The line counting answers with data outside APAC under the prompt rule is the one that tests the rule."""
 import tomllib
 from pathlib import Path
 

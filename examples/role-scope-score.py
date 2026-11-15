@@ -1,5 +1,5 @@
-"""Metrics-first on every golden question, as chapter 6 ran it and under each asker's policy, on both splits. The printed
- counts per split and kind are what the prose rests on."""
+"""Metrics-first on every golden question, as chapter 6 ran it and under each asker's policy, on both splits.
+The forbidden lines for each split, with and without the policy, carry the claim that the policy helps most on forbidden questions."""
 from collections import Counter
 
 from lib.agent import run_agent

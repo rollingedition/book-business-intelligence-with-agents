@@ -1,5 +1,5 @@
-"""A product name that carries an instruction, read by the model that writes the answer in words. The printed check lines
- and the count of summaries shown are what the prose rests on."""
+"""A product name carrying an instruction, read by the model that writes the answer in words, and checked by code before anything is shown.
+Each name's check lines show which summaries the code rejects, and the shown-after-the-check line gives the count that reaches the reader."""
 import tomllib
 from pathlib import Path
 
@@ -35,6 +35,8 @@ for name_id, name in names:
         print(f"{name_id}, {prompt}: {summary.strip()}")
         print(f"{name_id}, {prompt}, check: numbers not in the result {extra or 'none'}; "
               f"numbers left out {missing or 'none'}")
-print(f"same SQL and same units under every name: {'yes' if len(ran) == len(units) == 1 else 'no'}")     # one SQL text and one set of units
+# the policy fixes one SQL text and one set of units, whatever the product name says
+assert len(ran) == len(units) == 1
+print(f"same SQL and same units under every name: {'yes' if len(ran) == len(units) == 1 else 'no'}")
 print(f"summaries: {len(names) * 2}")     # two prompts for each name
 print(f"shown after the check: {shown}")

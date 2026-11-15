@@ -1,4 +1,5 @@
-"""In-memory tests of the semantic server, one role per server, and one check that a test can fail."""
+"""In-memory tests of the semantic server, one role per server, and one check that a test can fail. The prose's
+point rests on the final line: the lead's request on an analyst's server must differ from the lead's gold."""
 import anyio
 
 from lib.golden import golden_result, load_golden, results_match
@@ -49,7 +50,9 @@ async def main():
     passed = await run_tests(globals())
     print(f"tests passed: {passed} of {passed}")
     unbound = (await call(server("analyst"), "query_metric", lead_request)).structured_content["answer"]["rows"]
-    print(f"the lead's request on an analyst's server differs from the lead's gold: {not results_match(unbound, gold)}")
+    differs = not results_match(unbound, gold)   # the analyst's server returns every country, so the lead's gold must not match
+    assert differs
+    print(f"the lead's request on an analyst's server differs from the lead's gold: {'yes' if differs else 'no'}")
 
 
 anyio.run(main)

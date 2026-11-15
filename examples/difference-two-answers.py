@@ -1,5 +1,5 @@
-"""Two answers marketing may see, each passing the policy, subtracted to recover the group the first one suppressed.
- The printed total minus the channels shown equals the suppressed value the analyst sees, which the prose rests on."""
+"""Two answers marketing may see, each passing the policy, and the subtraction that recovers the group the first one held back.
+The line for the total minus the channels shown matches the analyst's line for the suppressed group, and that match is the leak."""
 from decimal import Decimal
 
 from lib.policies import PolicyLayer, policy_for

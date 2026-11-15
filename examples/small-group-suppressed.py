@@ -1,5 +1,5 @@
-"""Marketing's minimum group size: groups behind fewer than 10 customers are suppressed in the answer. The printed
- groups, suppressed count and customer counts are what the prose rests on."""
+"""Marketing's answer to the June breakdown by channel and country, with every group behind fewer than the minimum held back.
+The customer counts behind Singapore's web and app orders show why its app group is suppressed."""
 from lib.policies import PolicyLayer, policy_for
 from lib.semantic import MetricRequest, load
 from lib.warehouse import connect
