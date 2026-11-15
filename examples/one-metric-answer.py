@@ -21,5 +21,5 @@ print(answer.provenance.sql)
 print(answer.show())
 print(answer.provenance.describe())
 matches = results_match(answer.rows, golden_result(con, question))
-assert matches               # the answer must equal the golden result; a change that breaks it fails this run
+assert matches               # the metric's rule drops cancelled orders, as the golden SQL does
 print(f"matches golden: {'yes' if matches else 'no'}")

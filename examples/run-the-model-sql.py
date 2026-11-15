@@ -1,4 +1,4 @@
-"""Run the SQL the model wrote for net revenue by region in March 2026, and check it against the golden result. The point rests on each region's model and golden lines, which differ by that region's cancelled orders, and on the final assertion that the two results don't match."""
+"""Run the SQL the model wrote for net revenue by region in March 2026, and check it against the golden result. The prose reads each region's model, golden and cancelled-orders lines, and the final match line."""
 from lib.golden import golden_result, load_golden, results_match
 from lib.model import RecordedModel
 from lib.prompts import schema_only_messages
@@ -23,8 +23,8 @@ for region in sorted(golden):
     print(f"{region} cancelled orders: {cancelled[region]:,.2f}")
 print(f"model total: {sum(model_answer.values()):,.2f}")
 print(f"golden total: {sum(golden.values()):,.2f}")
-# the model's total over the golden total, minus one: how far above the golden total it is
+# as a share of the golden total
 print(f"overstated by: {sum(model_answer.values()) / sum(golden.values()) - 1:.1%}")
 matches = results_match(model_answer.items(), golden.items())
-assert not matches           # the prose says these rows differ; a change that made them match would fail here
+assert not matches           # the model's SQL keeps cancelled orders, so its rows can't equal the golden rows
 print(f"matches golden: {'yes' if matches else 'no'}")
