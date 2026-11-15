@@ -18,5 +18,5 @@ order__channel  net_revenue
 app             431,258.70
 marketplace     227,826.99
 web             909,519.42
-matches golden: True
+matches golden: yes
 schema-only outcome: error

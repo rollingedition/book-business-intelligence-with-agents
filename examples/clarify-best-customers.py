@@ -1,4 +1,5 @@
-"""Ask back when a question could mean several metrics: the layer supplies each option's definition to the person."""
+"""Ask back when a question could mean several metrics: the layer supplies each option's definition to the person.
+The prose rests on the tool each dev decline ended with and on the ranking check's count of flagged runs."""
 from lib.agent import run_agent
 from lib.golden import load_golden
 from lib.metric_tools import MetricToolbox, catalog, unbounded_ranking
@@ -15,7 +16,7 @@ traces = {q.question_id: run_agent(q.question, system, model, MetricToolbox(con,
                                    max_steps=4) for q in load_golden()}
 for q in load_golden():
     if q.split == "dev" and q.kind == "decline":
-        last = next(s for s in reversed(traces[q.question_id].steps) if s.kind == "model")
+        last = next(s for s in reversed(traces[q.question_id].steps) if s.kind == "model")     # the run's final model reply
         print(f"{q.question_id} ({q.decline_type}): {last.tool}")
         print(f"  {q.question}")
 
@@ -23,7 +24,7 @@ print("gq-019 asks back:")
 print(traces["gq-019"].answer.reason)
 print("gq-005 asks back:")
 print(traces["gq-005"].answer.reason)
-answered = next(s for s in reversed(traces["gq-020"].steps) if s.tool == "query_metric")
+answered = next(s for s in reversed(traces["gq-020"].steps) if s.tool == "query_metric")   # its last query, the one that ran
 print(f"gq-020 request: {answered.arguments}")
 print(traces["gq-020"].answer.show())
 
@@ -34,6 +35,6 @@ final = {question_id: MetricRequest.from_arguments(next(s for s in reversed(t.st
          for question_id, t in traces.items() if t.answer.answered}
 flagged = [question_id for question_id, request in final.items() if unbounded_ranking(request)]
 print(f"runs with a result: {len(final)}")
-print(f"requests that order their result: {sum(bool(r.order_by) for r in final.values())}")
+print(f"requests that order their result: {sum(bool(r.order_by) for r in final.values())}")   # an empty order_by means no ranking
 print(f"ranking check flags: {', '.join(flagged) or 'none'}")
 print(f"ranking check on gq-020: {unbounded_ranking(final['gq-020'])}")

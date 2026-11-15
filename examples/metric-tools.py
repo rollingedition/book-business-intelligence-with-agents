@@ -1,4 +1,5 @@
-"""Give the agent the semantic layer's metrics instead of the warehouse's tables, and compare what each prompt holds."""
+"""Give the agent the semantic layer's metrics instead of the warehouse's tables, and compare what each prompt holds.
+The prose rests on the metric and table counts and the two prompt token counts, which come from the recordings."""
 from lib.golden import load_golden
 from lib.metric_tools import MetricToolbox, catalog
 from lib.model import RecordedModel
@@ -10,8 +11,8 @@ toolbox = MetricToolbox(con)
 system = metrics_first_prompt(catalog(toolbox.layer))
 print(f"tools: {', '.join(toolbox.tools)}")
 print(f"metrics in the prompt: {len(toolbox.layer.metrics)}")
-print(f"tables in the prompt: {system.count('CREATE TABLE')}")
-print(catalog(toolbox.layer).splitlines()[0])
+print(f"tables in the prompt: {system.count('CREATE TABLE')}")       # a table in the prompt would be written as a CREATE TABLE statement
+print(catalog(toolbox.layer).splitlines()[0])                          # the first line: net revenue, with its dimensions
 
 print(toolbox.call("describe_metric", {"metric": "refund_rate"}).content)
 

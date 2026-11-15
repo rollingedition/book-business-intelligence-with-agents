@@ -5,7 +5,7 @@ unchecked, region Europe: ((None,),)
 first request filters: {'order__order_date': '2026-03'}
 unchecked total: 4,150.82
 golden total: 150,082.83
-unchecked matches golden: False
+unchecked matches golden: no
 validation said: error: request rejected: order__order_date = '2026-03': a date dimension matches single days only; for a period, filter metric_time at its grain, as metric_time__month = "2026-03" or metric_time__year = 2025
 second request filters: {'metric_time__month': '2026-03'}
-matches golden: True
+matches golden: yes
