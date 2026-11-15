@@ -16,7 +16,7 @@ The book's measure of this is the shop's golden questions, which chapter 3 built
 
 [Example: schema-digest](../examples/schema-digest.py)
 
-The schema layer is the whole warehouse: all {{out:schema-digest:tables in the schema}} tables, about {{out:schema-digest:schema tokens (estimated)}} tokens. Read the two lines the example prints as a model would. `analytics.fct_orders` has a `net_revenue_eur` column and a `status` column, and `analytics.orders_legacy` has a `revenue` column and an `order_date`.
+The schema layer is the whole warehouse: all {{out:schema-digest:tables in the schema}} tables, about {{out:schema-digest:schema tokens (estimated)}} tokens. Read the two printed lines as a model would. `analytics.fct_orders` has a `net_revenue_eur` column and a `status` column, and `analytics.orders_legacy` has a `revenue` column and an `order_date`.
 
 Each of the three totals the example computes for March 2026 is a reasonable reading of those two lines, and they disagree. The legacy table's `revenue` gives {{out:schema-digest:orders_legacy.revenue}} euros, and the mart's `net_revenue_eur` over every order gives {{out:schema-digest:fct_orders.net_revenue_eur, every order}}, which is what chapter 1's model computed. Only the third, {{out:schema-digest:fct_orders.net_revenue_eur, not cancelled}}, follows the finance team's definition, and nothing in the schema points to it rather than the other two.
 
@@ -96,11 +96,11 @@ The shop's dev split has {{out:layer-ablation-dev:dev split questions}} golden q
 
 [Example: layer-ablation-dev](../examples/layer-ablation-dev.py)
 
-Column notes and verified queries raise the score, and the glossary doesn't. The schema alone gets {{out:layer-ablation-dev:schema correct}} of the dev questions right, column notes take it to {{out:layer-ablation-dev:schema+columns correct}}, and the glossary leaves it at {{out:layer-ablation-dev:schema+columns+glossary correct}}. Verified queries on top give {{out:layer-ablation-dev:schema+columns+glossary+verified correct}}, the best set on dev. The output beside this paragraph gives each set's errors and its tokens.
+Column notes and verified queries raise the score; the glossary doesn't. The schema alone gets {{out:layer-ablation-dev:schema correct}} of the dev questions right, column notes take it to {{out:layer-ablation-dev:schema+columns correct}}, and the glossary leaves it at {{out:layer-ablation-dev:schema+columns+glossary correct}}. Verified queries on top give {{out:layer-ablation-dev:schema+columns+glossary+verified correct}}, the best set on dev. The output beside it gives each set's errors and tokens.
 
 The grid shows where the change came from. Against the run with the glossary, retrieved examples fixed {{out:layer-ablation-dev:fixed by verified queries}} questions and broke {{out:layer-ablation-dev:broken by verified queries}}. Two of the fixes are new: the fiscal-quarter question `gq-010` and the order count by region `gq-013`, whose nearest verified queries show exactly the join and the count they needed. The other three, `gq-002`, `gq-009` and `gq-016`, are the questions the glossary run had lost, so there the examples won back what the glossary had cost.
 
-The totals say how much each layer helped. The failures say what the next layer should be, so the next two examples read them, beginning with the schema-only queries that don't run, and the columns DuckDB couldn't find in them.
+The totals say how much each layer helped. The failures say what the next layer should be, so the next two examples read them, starting with the schema-only queries that don't run.
 
 [Example: missing-columns-schema-only](../examples/missing-columns-schema-only.py)
 
@@ -124,11 +124,11 @@ The [ablation](#measure-each-layer) chose all four layers on the dev split, the 
 
 [Example: best-layers-on-test](../examples/best-layers-on-test.py)
 
-The layers still help on questions nobody tuned them on, which is the result that counts. The set that scored best on dev, {{out:best-layers-on-test:best on dev}}, which is all four layers, got {{out:best-layers-on-test:best on dev correct}} right on dev. On the test questions, the schema alone gets {{out:best-layers-on-test:test schema correct}} right and the four layers get {{out:best-layers-on-test:test best correct}}.
+The layers still help on questions nobody tuned them on, which is the result that counts. The best set on dev, {{out:best-layers-on-test:best on dev}}, got {{out:best-layers-on-test:best on dev correct}} right on dev. On test, the schema alone gets {{out:best-layers-on-test:test schema correct}} right and the four layers get {{out:best-layers-on-test:test best correct}}.
 
 The gap between the dev and test scores is the other result, and this chapter didn't measure its cause. One explanation is that the verified queries suit dev better, and the retriever's own scores contradict it: the mean score of each question's best match is {{out:best-layers-on-test:dev mean top retrieval score}} on dev and {{out:best-layers-on-test:test mean top retrieval score}} on test.
 
-The single closest pair of a golden question and a verified query is on test, too: {{out:best-layers-on-test:test closest pair}}, at {{out:best-layers-on-test:test closest score}}, the same question asked of calendar year 2024. The closest on dev scores {{out:best-layers-on-test:dev closest score}}.
+The single closest pair, a golden question and its verified match, is on test too: {{out:best-layers-on-test:test closest pair}}, at {{out:best-layers-on-test:test closest score}}, the same question asked of calendar year 2024. The closest on dev scores {{out:best-layers-on-test:dev closest score}}.
 
 Two things are known. First, dev was used for more than choosing the set. As [the glossary section](#add-the-glossary) said, the glossary was edited to agree with golden SQL as the first dev replies were recorded, and an edit like that fits the context to the questions it will be scored on, whether or not anyone means it to. That is how dev gets overfitted, and why a dev score isn't the result to report. Second, the splits ask different things: the test split asks about gross margin, sessions and marketing spend, which no dev question touches. Telling those causes apart would take more questions and repeated runs than this chapter has.
 

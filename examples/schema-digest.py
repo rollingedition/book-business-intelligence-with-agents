@@ -1,5 +1,5 @@
 """What the schema tells a model about revenue, and three March 2026 totals that all fit it. The three printed totals
-rest the paragraph's point: they differ, and only the one that leaves out cancelled orders follows the finance definition."""
+carry the paragraph's point: they differ, and only the one that leaves out cancelled orders follows the finance definition."""
 from lib.context import build_context
 from lib.warehouse import connect
 
@@ -18,7 +18,7 @@ candidates = {
         f"SELECT sum(net_revenue_eur) FROM analytics.fct_orders WHERE order_date_local {march}",
     "fct_orders.net_revenue_eur, not cancelled":
         f"SELECT sum(net_revenue_eur) FROM analytics.fct_orders WHERE order_date_local {march} "
-        "AND status <> 'cancelled'",          # cancelled orders leave out of net revenue, as the status note says
+        "AND status <> 'cancelled'",          # net revenue leaves out cancelled orders, as the status note says
 }
 for name, sql in candidates.items():
     (total,), = con.execute(sql).fetchall()

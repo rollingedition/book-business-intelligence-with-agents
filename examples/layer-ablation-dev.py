@@ -1,5 +1,5 @@
 """Score each layer set on the dev split's answer questions, replaying the recorded model's SQL for each, and print the
-totals, the average token counts and the outcome grid. The fixed and broken lines at the end are the numbers the prose rests on."""
+totals, the average token counts and the outcome grid. The correct totals and the fixed and broken lines are the numbers the prose rests on."""
 from collections import Counter
 
 from lib.context import LAYER_SETS, build_context, grade_with_context, layer_set_name

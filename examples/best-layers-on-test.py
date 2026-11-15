@@ -12,7 +12,7 @@ questions = [q for q in load_golden() if q.kind == "answer"]   # the answer ques
 dev = [q for q in questions if q.split == "dev"]
 test = [q for q in questions if q.split == "test"]
 
-dev_model = RecordedModel("context-layers")          # dev and test replies come from separate recordings, the test one is not used to choose
+dev_model = RecordedModel("context-layers")          # dev and test replies come from separate recordings; the test one plays no part in the choice
 dev_correct = {layers: sum(grade_with_context(con, dev_model, q, layers) == "correct" for q in dev)
                for layers in LAYER_SETS}
 best = max(LAYER_SETS, key=lambda layers: (dev_correct[layers], -len(layers)))   # ties go to fewer layers

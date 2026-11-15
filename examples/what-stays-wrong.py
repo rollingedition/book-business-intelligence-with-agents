@@ -22,7 +22,7 @@ for q, outcome in unsolved:
     sql = sql_with_all_layers(q)
     print(f"{q.question_id} ({outcome}): {q.question}")
     print("\n".join("    " + line for line in sql.strip().splitlines()))
-    if outcome == "error":          # only a query that doesn't run has an error to print
+    if outcome == "error":
         try:
             run_sql(con, sql)
         except duckdb.Error as e:
