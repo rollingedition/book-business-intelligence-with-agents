@@ -1,4 +1,4 @@
-"""Print the trace of one recorded agent run: every model reply and tool result, then what the run returned. The prose's point rests on the reason printed last."""
+"""Print the trace of one recorded agent run: every model reply and tool result, then what the run returned. The `reason:` line printed last settles whether the decline's stated cause is true."""
 from lib.agent import run_agent
 from lib.golden import load_golden
 from lib.metrics import METRICS

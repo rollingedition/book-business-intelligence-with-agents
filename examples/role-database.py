@@ -1,6 +1,6 @@
 """A role's database, not the guard, decides what the role reads: queries the guard accepts return less from each role's
-database than from every mart, and the catalog bypass lists no net_revenue_eur for support. The prose rests on the last
-two lines: the bypass lists support's tables, and none of them has the net_revenue_eur column the sum needs."""
+database than from every mart, and the catalog bypass lists no net_revenue_eur for support. The assert after the bypass's
+tables-listed line settles that none of support's tables has the net_revenue_eur column the sum needs."""
 import duckdb
 
 from lib.guard_attacks import ATTEMPTS

@@ -1,6 +1,7 @@
 """What a host receives from query_metric: an answer with its provenance as structured content, a request the model
-can correct as a tool error, and a request the role may not make as an answer that declines. The prose rests on
-the finance answer's text block matching its structured content, and on support's answer declining."""
+can correct as a tool error, and a request the role may not make as an answer that declines. The `text block is the same JSON: yes` line settles that
+the finance answer's text matches its structured content, and `support, net revenue` with `is_error: False` and
+`answered: no` settles that a forbidden request declines rather than errors."""
 import json
 
 import anyio

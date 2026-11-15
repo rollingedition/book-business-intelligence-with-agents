@@ -1,5 +1,5 @@
 """Read a wrong answer: gq-031 once asked about "items", which allows units or order lines. It now asks for units.
-The prose's point rests on the two outcome lines: the units wording's outcome is correct, and the items wording's is wrong."""
+The two `outcome` lines settle whether each wording's baseline answer is right against the gold printed first."""
 from dataclasses import replace
 
 from lib.golden import golden_result, load_golden, schema_only_outcome

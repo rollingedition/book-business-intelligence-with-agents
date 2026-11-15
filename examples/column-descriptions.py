@@ -1,5 +1,5 @@
 """Add the column notes on columns whose names mislead, and count the dev questions they fix and break under the recorded
-model. The printed fixed and broken lines are the numbers the prose rests on; the broken question is the one the notes misled."""
+model. The `fixed` and `broken` lines settle the net effect of the notes, and the broken question shows how a note misleads."""
 from lib.context import LAYER_SETS, build_context, grade_with_context, load_column_notes
 from lib.golden import load_golden
 from lib.model import RecordedModel

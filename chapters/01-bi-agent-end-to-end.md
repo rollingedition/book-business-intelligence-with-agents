@@ -6,7 +6,7 @@ chapter_id: bi-agent-end-to-end
 
 By the end of this chapter, you can build the shop's warehouse, have a recorded model write SQL for a business question, run that SQL and catch the wrong number it returns, answer the same question from one defined metric, and score both approaches on five golden questions. It is the whole result of this book in rough form: every later chapter makes one part of it solid.
 
-The request this book answers usually arrives as one sentence: let people ask the data. Someone in finance at an online shop this book follows wants net revenue by region for last month without waiting for a dashboard, and someone hands you a language model. The obvious build gives the model the warehouse's schema and the question, runs the SQL it writes and shows the result. On a hand-picked question that build often works, which is enough to demo; on this book's five golden questions it gets {{out:score-five-golden:schema-only correct}} right. Its failures are the problem, because most of them don't look like failures. A query that fails to run is an error someone sees. A query that runs and returns a number a few percent too high goes into a slide.
+The request this book answers usually arrives as one sentence: let people ask the data. Someone in finance wants net revenue by region for last month without waiting for a dashboard, and someone hands you a language model. The obvious build gives the model the warehouse's schema and the question, runs the SQL it writes and shows the result. On a hand-picked question that build often works, which is enough to demo; on this book's five golden questions it gets {{out:score-five-golden:schema-only correct}} right. Its failures are the problem, because most of them don't look like failures. A query that fails to run is an error someone sees. A query that runs and returns a number a few percent too high goes into a slide.
 
 This chapter builds the obvious version first, runs it, and shows exactly where its number goes wrong. Then it builds the smallest version of the alternative the book recommends: an agent that can't see tables at all, only a defined metric, and that says so when the metric doesn't cover a question. Both are scored on the same five questions with checked answers, the habit the rest of the book depends on.
 
@@ -154,9 +154,9 @@ The rough agent built here works on five questions. These are how the design fai
 
 - **The book's running case is a shop we generate.** The shop's warehouse is generated from one seed, with the traps a real warehouse has, so every reader gets the same rows and nothing depends on private data.
 - **The warehouse is read-only.** `warehouse.connect()` returns a connection that can't write and can't open other files, so even unchecked SQL can only read.
-- **Schema-only SQL is the baseline, recorded for real.** Its replies come from the pinned model above, with Qwen's recommended sampling and a seed reset before every call.
+- **The baseline is recorded for real.** Schema-only SQL's replies come from the pinned model above, with Qwen's recommended sampling and a seed reset before every call.
 - **Every model reply is recorded and replayed by message hash.** A changed prompt fails loudly instead of reusing an old reply.
 - **Metrics come before SQL.** The model chooses a defined metric and its arguments; code validates the request and writes the SQL.
 - **Declining is an answer.** The agent has a `cannot_answer` tool, and scores count declined separately from wrong.
-- **Results are compared, not SQL text,** with one rule for every score: the same rows, every golden column present, any order, a small tolerance.
+- **One comparison scores everything:** rows are compared, not SQL text, by the same rule every time: the same rows, every golden column present, any order, a small tolerance.
 - **The loop is ours, not a framework's.** It is a few dozen lines in `lib/agent.py` that a library release can't change. A framework's development can stop: vanna, an open-source text-to-SQL framework, was archived by its maintainers on 29 March 2026 ([repository](https://github.com/vanna-ai/vanna)).

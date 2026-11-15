@@ -6,7 +6,7 @@ chapter_id: catch-regressions
 
 By the end of this chapter, you can score a run of the agent on several measures at once, use a model as a judge only where results can't be compared directly, calibrate that judge against reference labels anyone can recompute, see how much a score moves from one run to the next, and gate a change to prompts, context or metrics in CI on recorded runs.
 
-Almost every chapter has changed the agent that answers questions for an online retailer of outdoor and camping gear in three regions, which we call the shop. [Chapter 4](#layered-context) added context to the prompt, and [chapter 6](#metrics-first) moved the agent onto the semantic layer's metrics. [Chapter 8](#say-when-it-cannot) then rewrote the prompt so that it declines with a reason. Each change was scored on the dev split of the golden questions, the shop's 48 questions with verified answers, with one run per question. One run is enough to see a large change and not enough to see a small one. Chapter 8's new prompt fixed one dev question and broke another, `gq-008`, total revenue in 2025, and chapter 8 could only say that a single flip like that "may be chance".
+Almost every chapter has changed the shop's agent. [Chapter 4](#layered-context) added context to the prompt, and [chapter 6](#metrics-first) moved the agent onto the semantic layer's metrics. [Chapter 8](#say-when-it-cannot) then rewrote the prompt so that it declines with a reason. Each change was scored on the dev split of the golden questions, the shop's {{out:load-golden-questions:golden questions}} questions with verified answers, with one run per question, which can show a large change and not a small one. Chapter 8's new prompt fixed one dev question and broke another, `gq-008`, total revenue in 2025, and chapter 8 could only say that a single flip like that "may be chance".
 
 This chapter builds the measurements that settle questions like that one. It reports a run on more than accuracy, with an interval that says how far the number can be trusted. It adds a judge, a model call that grades what the golden comparison can't, and measures the judge before trusting it. It runs questions five times to see the variance, and it turns all of that into a gate that a CI job can run on every change, offline, from recordings.
 
@@ -36,7 +36,7 @@ It pays for that in coverage, {{out:scorecard:dev declining coverage}} against {
 
 Schema-only SQL gets {{out:scorecard:dev schema-only correct}} right, and of the numbers it gives, the share that is wrong, its selective risk, is {{out:scorecard:dev schema-only selective risk}}.
 
-On test, the declining prompt made things no better, and possibly worse. The declining agent gets {{out:scorecard:test declining accuracy}} against {{out:scorecard:test metrics-first accuracy}} for metrics-first, and schema-only SQL gets {{out:scorecard:test schema-only correct}}. The declining prompt fixed no test question and broke `{{out:scorecard:test broken by the declining prompt}}`, which chapter 6's agent met with a question back and the declining agent ran out of model calls on.
+On test, the declining prompt fixed no question and broke one, `{{out:scorecard:test broken by the declining prompt}}`, "What was revenue in Q2?", which chapter 6's agent met with a question back and the declining agent ran out of model calls on. The declining agent gets {{out:scorecard:test declining correct}} against {{out:scorecard:test metrics-first correct}} for metrics-first, and schema-only SQL gets {{out:scorecard:test schema-only correct}}.
 
 Its wrong numbers fell from {{out:scorecard:test metrics-first wrong numbers}} to {{out:scorecard:test declining wrong numbers}}, because one wrong answer became a run that hit the step limit, not a right one. The intervals of the two agents overlap almost entirely on both splits. Two totals with overlapping intervals can't tell you whether a change helped, which is why [the gate](#gate-a-change) compares the same questions in pairs.
 
@@ -143,7 +143,7 @@ After the fix, no metric fails and every recorded run replays: `after the fix, r
 
 ## What goes wrong in production {#regressions-in-production}
 
-The shop's measurements run on recordings of one small model and 48 questions. The same measurements on a real agent fail in these ways, and each has a way to notice.
+The shop's measurements rest on recordings of one small model and {{out:load-golden-questions:golden questions}} questions. Once a real agent replaces the recordings, the judge, the gate and the scores each move in ways the recordings never showed, and each has a sign you can watch for.
 
 **The judge changes when its model does.** A new model version, a new judge prompt or a new rubric is a new judge, and its agreement with the reference labels has to be measured again. Keep the calibration cases and their labels in the repository beside the judge prompt, and re-run the agreement whenever either changes. A kappa that moves with no change to the agent is the judge moving.
 

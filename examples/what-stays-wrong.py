@@ -1,5 +1,5 @@
 """The dev questions that stay wrong with all four layers, each with its query, and a check of whether gq-007 fails only on
-the spelling of 'tents'. The count and the gq-007 line are the numbers the prose rests on."""
+the spelling of 'tents'. The count line settles how many dev questions stay wrong, and the gq-007 line settles whether the spelling alone causes its failure."""
 import duckdb
 from lib.context import LAYERS, build_context, grade_with_context
 from lib.golden import golden_result, grade, load_golden

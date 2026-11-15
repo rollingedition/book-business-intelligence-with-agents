@@ -1,6 +1,6 @@
 """The semantic layer as an MCP server: the tools it lists, what query_metric takes, and each role's catalog.
-The prose's point rests on the catalog lines: the same text as the in-process agent's prompt, and the revenue
-metrics missing for support."""
+The `support, metrics` line settles that support's catalog holds no revenue metric, and the `same catalog as the
+in-process agent` lines settle that each catalog is the prompt's own text."""
 import anyio
 from mcp import Client
 

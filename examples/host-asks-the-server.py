@@ -1,5 +1,6 @@
 """The book's agent as an MCP host on every golden question, each tool on the asker's server, against chapter 9.
-The prose's point rests on the same-outcome line and the changed questions, whose runs each met a tool error."""
+The `same outcome as in process` line settles how many outcomes held, and the two questions that changed,
+`gq-013` and `gq-014`, each met a tool error."""
 from collections import Counter
 
 import anyio

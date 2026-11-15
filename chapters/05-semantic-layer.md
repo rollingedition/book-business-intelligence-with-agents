@@ -6,7 +6,7 @@ chapter_id: semantic-layer
 
 By the end of this chapter, you can write the shop's semantic models and metrics in MetricFlow's YAML spec, compile a metric request to SQL with the book's own compiler, show that its entity joins can't fan out, group by the fiscal calendar, and confirm that MetricFlow compiles the same definitions to the same results.
 
-Chapter 1 answered one question from one defined metric, net revenue, written as a few lines of Python with its SQL built by string formatting. That was enough to show the shape the book keeps: the model chooses a governed definition, and code writes the SQL. It isn't enough for the questions the shop's teams ask. The shop is a camping and outdoors retailer in three regions. Finance wants refund rates by country in fiscal 2026. A category manager wants net revenue by product category, which lives on the order lines, not the orders. Marketing wants average order value by channel. Each of those needs a join, a grain or a ratio, and each is a place where [chapter 2](#wrong-numbers) found schema-only SQL going wrong: a join that repeats rows, a definition the schema doesn't hold, a year that doesn't start in January.
+Chapter 1 answered one question from one defined metric, net revenue, written as a few lines of Python with its SQL built by string formatting. That was enough to show the shape the book keeps: the model chooses a governed definition, and code writes the SQL. It isn't enough for the questions the shop's teams ask about the camping and outdoor gear it sells. Finance wants refund rates by country in fiscal 2026. A category manager wants net revenue by product category, which lives on the order lines, not the orders. Marketing wants average order value by channel. Each of those needs a join, a grain or a ratio, and each is a place where [chapter 2](#wrong-numbers) found schema-only SQL going wrong: a join that repeats rows, a definition the schema doesn't hold, a year that doesn't start in January.
 
 A semantic layer is where those choices are written down once. It describes each table by its entities (the keys it can be joined on), its dimensions (what you can group and filter by) and its metrics (the numbers people ask for, with their rules), and it compiles a request for a metric into SQL. The evidence that business meaning in a model's context helps is thin. The one benchmark we rely on, over one enterprise insurance schema, found that GPT-4 answered 16% of questions correctly over the SQL tables and 54% over a knowledge-graph layer that carried the business's meaning ([Sequeda et al., 2023](https://arxiv.org/abs/2311.07509)). The authors work for a knowledge-graph vendor, and the study covers one schema and one model, so read it as a sign that meaning helps, not as a multiplier you will see.
 
@@ -114,7 +114,7 @@ Simple metrics, like the [line-level revenue](#join-through-entities), aggregate
 
 The shop's finance team defines the refund rate in golden question `gq-028`: refunded euros over gross revenue of the same orders, those placed in the period that weren't cancelled. Two choices hide in that sentence. The refunds belong to the order's day, not the day the money went back, so the numerator is `order_refunds`, a metric counted on the order's local day; `refunds`, counted on the day of the refund, answers a different question. And the denominator is gross revenue, not net revenue. A refund pays back what the customer was charged, tax included, and gross revenue includes tax while net revenue leaves it out, so only gross revenue measures both sides in the same euros; over net revenue, a fully refunded order would have a refund rate above 100%. The book uses this one definition everywhere, in the glossary and the verified queries as well. The numerator carries the rule on cancelled orders as an input filter, and `gross_revenue` carries it in its own definition, so each side applies it.
 
-The tempting version is why this example matters: averaging each order's refund rate per region looks right and isn't. The example compiles the layer's rate beside it for fiscal 2026.
+The tempting version is why this example matters: averaging each order's refund rate per region looks right and isn't. Beside it sits the layer's rate for fiscal 2026, which the example compiles.
 
 [Example: refund-rate-metric](../examples/refund-rate-metric.py)
 
@@ -150,7 +150,9 @@ The two compilers should return the same rows, so the example checks {{out:metri
 
 [Example: metricflow-agrees](../examples/metricflow-agrees.py)
 
-All {{out:metricflow-agrees:requests that agree}} requests return the same rows. The comparison allows for one difference, a type: MetricFlow returns a month as a `{{out:metricflow-agrees:MetricFlow's type for metric_time__month}}`, a timestamp at midnight, while the book's compiler casts it to a `{{out:metricflow-agrees:the book's type for metric_time__month}}`, so the example turns timestamps into dates before it compares. MetricFlow's SQL is longer, with a comment naming each step, and reaches the same regional totals as the book's compiler. It refuses net revenue by product category in 2025 too, with an `{{out:metricflow-agrees:MetricFlow on net_revenue by product__category}}`. Among the common issues its message lists is the one the join section met: "{{out:metricflow-agrees:one cause MetricFlow lists}}"
+All {{out:metricflow-agrees:requests that agree}} requests return the same rows. The comparison allows for one difference, a type: MetricFlow returns a month as a `{{out:metricflow-agrees:MetricFlow's type for metric_time__month}}`, a timestamp at midnight, while the book's compiler casts it to a `{{out:metricflow-agrees:the book's type for metric_time__month}}`, so the example turns timestamps into dates before it compares.
+
+MetricFlow's SQL is longer, with a comment naming each step, and reaches the same regional totals as the book's compiler. It refuses net revenue by product category in 2025 too, with an `{{out:metricflow-agrees:MetricFlow on net_revenue by product__category}}`. Among the common issues its message lists is the one the join section met: "{{out:metricflow-agrees:one cause MetricFlow lists}}"
 
 MetricFlow also asks more of the YAML than the book's compiler does: every semantic model that a simple metric counts on needs a time dimension of its own. The next code builds the engine twice. The copy points `order_lines` at `analytics.fct_order_lines`, the analytics table, which has no order day, and drops the model's time dimension.
 
@@ -174,7 +176,7 @@ Two limits show in those lines. The same cast changes T-SQL: its quarter line re
 
 ## What goes wrong in production {#semantic-layer-in-production}
 
-The shop's layer answers the shop's golden questions. A layer over a real warehouse fails in these ways, and each has a way to notice.
+The shop's layer answers the shop's golden questions. Over a real warehouse, the risks sit in the declarations, the dates and the engine, and each has a sign that shows it.
 
 **A wrong entity type turns off the fan-out protection.** A foreign key declared primary makes the layer join many rows as if they were one, and every sum through that join inflates. Parsing won't catch it. Count duplicates of every primary entity in the data, as `check()` does, in CI and after every load.
 
@@ -188,7 +190,7 @@ The shop's layer answers the shop's golden questions. A layer over a real wareho
 
 **Formats move too.** dbt's spec for dbt v1.12 and later moves entities and dimensions under columns and replaces measures with simple metrics ([dbt Labs](https://docs.getdbt.com/docs/build/latest-metrics-spec)). Apache Ossie, the former Open Semantic Interchange, is another format ([Apache Ossie](https://ossie.apache.org/updates/ossie-enters-apache-incubator/)), and MetricFlow ships converters for it, as [its changelog](https://github.com/dbt-labs/metricflow/blob/main/CHANGELOG.md) records. Pick one format, keep it in version control, and convert with a tool you test, never by hand.
 
-**Working rule:** Treat the semantic layer as code with tests: check entity uniqueness against the data, run every metric's SQL in CI, compare against MetricFlow and the golden questions on every change, and accept only structured requests from anything that isn't a person who maintains the layer.
+**Working rule:** Test the semantic layer like code: check entity uniqueness against the data, run every metric's SQL in CI, compare against MetricFlow and the golden questions on every change, and accept only structured requests from anything that isn't a person who maintains the layer.
 
 ## Decisions this chapter made {#semantic-layer-decisions}
 
