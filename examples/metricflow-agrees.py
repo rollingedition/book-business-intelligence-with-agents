@@ -38,5 +38,6 @@ except Exception as e:
     print(f"MetricFlow on net_revenue by product__category: {type(e).__name__}")
     lines = [line.strip() for line in str(e).splitlines()]
     cause = lines.index("* No valid join paths exist from the measure to the group-by-item.")
+    # MetricFlow puts each cause on one line and its explanation on the next, so the line after the cause is printed too.
     print(f"one cause MetricFlow lists: {lines[cause][2:]} {lines[cause + 1]}")
 

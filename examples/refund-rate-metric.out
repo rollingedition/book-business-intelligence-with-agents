@@ -38,9 +38,9 @@ average of per-order rates, AMER: 7.77%
 average of per-order rates, APAC: 6.78%
 average of per-order rates, EMEA: 8.38%
 highest refund rate: NL
-gq-028 matches golden: True
+gq-028 matches golden: yes
 order__region  average_order_value
 AMER           300.94
 APAC           291.71
 EMEA           272.83
-gq-009 matches golden: True
+gq-009 matches golden: yes
