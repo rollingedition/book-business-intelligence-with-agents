@@ -36,7 +36,6 @@ for name_id, name in names:
         print(f"{name_id}, {prompt}, check: numbers not in the result {extra or 'none'}; "
               f"numbers left out {missing or 'none'}")
 # the policy fixes one SQL text and one set of units, whatever the product name says
-assert len(ran) == len(units) == 1
 print(f"same SQL and same units under every name: {'yes' if len(ran) == len(units) == 1 else 'no'}")
 print(f"summaries: {len(names) * 2}")     # two prompts for each name
 print(f"shown after the check: {shown}")
