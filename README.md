@@ -68,7 +68,7 @@ Book text is CC BY-NC 4.0, and free to use at work and in teaching: credit Rolli
 
 ## Trademarks
 
-Rolling Edition, its logo and the edition stamp are trademarks of Distributed LLC. The licences cover our books' words and code, not our name or marks. You may say your work is based on a Rolling Edition book, but you may not use our name, logo or stamp to suggest that your work is ours, that we endorse it, or that we verified it.
+Rolling Edition, its logo and the edition stamp are trademarks of Distributed LLC. The licences cover our books' words and code, not our name or marks. You may say your work is based on a Rolling Edition book, but you may not use our name, logo or stamp to suggest that your work is ours, we endorse it, or verified it.
 
 ---
 
