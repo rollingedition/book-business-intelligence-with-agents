@@ -8,7 +8,7 @@ abstract: 'Agents that turn business questions into trusted insights, from your 
 url: https://rollingedition.com/business-intelligence-with-agents
 repository-code: https://github.com/rollingedition/book-business-intelligence-with-agents
 license:
-- CC-BY-4.0
+- CC-BY-NC-4.0
 - MIT
 preferred-citation:
   type: book

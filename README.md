@@ -62,9 +62,13 @@ Cite the edition you read: every page of the book has a Cite button with APA, Ch
 
 ## Licence
 
-Text: [CC BY 4.0](LICENSE). Code examples: [MIT](LICENSE-CODE).
+Text: [CC BY-NC 4.0](LICENSE), with our added permission: [Using our books at work and in teaching](https://rollingedition.com/reuse). Code examples: [MIT](LICENSE-CODE).
 
-Book text is CC BY 4.0: credit Rolling Edition, link back to the book and to the licence, and say what you changed. Code examples are MIT: keep the notice “Copyright (c) Rolling Edition and contributors” and the MIT terms with any code you copy. We'd be glad of a link back for the code, too.
+Book text is CC BY-NC 4.0, and free to use at work and in teaching: credit Rolling Edition, link back to the book and to the licence, and say what you changed. Code examples are MIT: keep the notice “Copyright (c) Rolling Edition and contributors” and the MIT terms with any code you copy. We'd be glad of a link back for the code, too.
+
+## Trademarks
+
+Rolling Edition, its logo and the edition stamp are trademarks of Distributed LLC. The licences cover our books' words and code, not our name or marks. You may say your work is based on a Rolling Edition book, but you may not use our name, logo or stamp to suggest that your work is ours, that we endorse it, or that we verified it.
 
 ---
 
