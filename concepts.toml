@@ -49,6 +49,10 @@ definition = "A recording is a saved set of model replies with a manifest, made 
 section = "ask-for-sql"
 example = "first-question-to-sql"
 
+[concepts.relations]
+same-as = ["https://rollingedition.com/concepts/llm-evaluation/recording"]
+
+
 [[concepts]]
 id = "golden-question"
 term = "golden question"
@@ -77,6 +81,10 @@ context = "data-warehousing"
 definition = "The golden SQL for `gq-002` follows the shop's definition of net revenue, which the finance team owns: revenue in euros after discounts and before tax, from real orders that weren't cancelled, on the order's local business day."
 section = "check-the-first-number"
 example = "run-the-model-sql"
+
+[concepts.relations]
+broader = ["metric"]
+
 
 [[concepts]]
 id = "metric"
@@ -107,6 +115,11 @@ context = "ai-agents"
 definition = "A tool is a function the model may ask the code to run, by replying with a JSON object that names it and gives its arguments."
 section = "answer-from-a-metric"
 example = "one-metric-answer"
+agrees = [{ book = "model-context-protocol-in-practice", definition = "A tool is a named action with a description and an input schema, and the model decides whether to call it and with what" }]
+
+[concepts.relations]
+same-as = ["https://rollingedition.com/concepts/search-and-recommendation/tool"]
+
 
 [[concepts]]
 id = "correct-outcome"
@@ -140,13 +153,18 @@ definition = "An error is an answer whose SQL doesn't run."
 section = "score-five-questions"
 example = "score-five-golden"
 
+[concepts.relations]
+contrasts-with = ["wrong-outcome"]
+
+
 [[concepts]]
-id = "declined-outcome"
+id = "false-refusal"
 term = "declined"
 context = "llm-evaluation"
 definition = "A declined answer says it can't answer a question that has an answer."
 section = "score-five-questions"
 example = "score-five-golden"
+agrees = [{ book = "evaluating-llm-applications", definition = "A false refusal is an answerable item declined" }]
 
 [concepts.relations]
 contrasts-with = ["wrong-outcome"]
@@ -171,6 +189,11 @@ context = "ai-agents"
 definition = "The trace is every step of one run, kept by `run_agent()`: each model reply, and each tool result sent back."
 section = "read-one-trace"
 example = "print-one-trace"
+agrees = [{ book = "agent-harnesses", definition = "The record of each step is the trace." }]
+
+[concepts.relations]
+same-as = ["https://rollingedition.com/concepts/search-and-recommendation/trace"]
+
 
 [[concepts]]
 id = "fan-out"
@@ -181,7 +204,7 @@ section = "joins-that-fan-out"
 example = "tent-orders-fan-out"
 
 [concepts.relations]
-broader = ["llm-evaluation/failure-kind"]
+broader = ["llm-evaluation/failure-kind", "failure-kind"]
 
 [[concepts]]
 id = "business-definition"
@@ -225,7 +248,7 @@ section = "unwritten-filters"
 example = "cancelled-lines-counted"
 
 [concepts.relations]
-broader = ["llm-evaluation/failure-kind"]
+broader = ["llm-evaluation/failure-kind", "failure-kind"]
 
 [[concepts]]
 id = "nl2sql-bugs"
@@ -261,6 +284,11 @@ context = "llm-evaluation"
 definition = "A public benchmark for text-to-SQL or data agents gives you questions, a database and a gold answer for each question, and a score that others have reported on the same set."
 section = "benchmarks-are-not-your-test"
 example = "public-vs-own-score"
+agrees = [{ book = "evaluating-llm-applications", definition = "A public benchmark is a set of questions and answers someone else published." }]
+
+[concepts.relations]
+contrasts-with = ["golden-question"]
+
 
 [[concepts]]
 id = "dabstep"
@@ -275,12 +303,13 @@ example = "public-vs-own-score"
 broader = ["public-benchmark"]
 
 [[concepts]]
-id = "question-kind"
+id = "kind"
 term = "question kind"
 context = "llm-evaluation"
 definition = "A golden question's `kind` says what a right answer looks like: `answer` when the warehouse can answer it, `decline` when it can't, and `forbidden` when the role may not see the answer."
 section = "write-golden-questions"
 example = "load-golden-questions"
+agrees = [{ book = "evaluating-llm-applications", definition = "Each item also has a kind, which says what a correct reply looks like." }]
 
 [concepts.relations]
 part-of = ["golden-question"]
@@ -324,6 +353,10 @@ definition = "Where you can, a second query written another way, the gold's `che
 section = "check-the-gold"
 example = "gold-runs-and-agrees"
 
+[concepts.relations]
+part-of = ["golden-question"]
+
+
 [[concepts]]
 id = "ambiguous-question"
 term = "ambiguous question"
@@ -334,17 +367,18 @@ section = "cover-declines-and-roles"
 example = "golden-coverage"
 
 [concepts.relations]
-contrasts-with = ["unanswerable-question"]
+contrasts-with = ["unanswerable-item"]
 narrower = ["ambiguous-select-column"]
 
 [[concepts]]
-id = "unanswerable-question"
+id = "unanswerable-item"
 term = "unanswerable question"
 aliases = ["unanswerable questions"]
 context = "llm-evaluation"
 definition = "An unanswerable question, such as the cost of shipping, asks for data the warehouse doesn't hold, and the agent should say so."
 section = "cover-declines-and-roles"
 example = "golden-coverage"
+agrees = [{ book = "evaluating-llm-applications", definition = "Unanswerable items ask about something the docs don't cover, and the right reply is the decline." }]
 
 [concepts.relations]
 narrower = ["nonexistent-select-column"]
@@ -362,13 +396,18 @@ example = "golden-coverage"
 broader = ["golden-question"]
 
 [[concepts]]
-id = "held-out-split"
+id = "held-out"
 term = "held-out split"
 aliases = ["held-out set", "test split"]
 context = "llm-evaluation"
 definition = "A held-out split is the usual defence: tune on one part, and score the other only when you report a result."
 section = "hold-out-a-test-split"
 example = "baseline-on-both-splits"
+agrees = [{ book = "evaluating-llm-applications", definition = "held-out is used once, to report a result." }]
+
+[concepts.relations]
+same-as = ["https://rollingedition.com/concepts/artificial-intelligence/test-split"]
+
 
 [[concepts]]
 id = "layered-context"
@@ -386,6 +425,10 @@ aliases = ["schemas"]
 context = "data-warehousing"
 definition = "A schema tells a model which tables exist, what their columns are called and what type each column holds."
 section = "what-the-schema-says"
+
+[concepts.relations]
+part-of = ["layered-context"]
+
 
 [[concepts]]
 id = "schema-layer"
@@ -426,6 +469,10 @@ context = "llm-evaluation"
 definition = "BIRD, a text-to-SQL benchmark whose questions come with \"external knowledge evidence\""
 section = "add-the-glossary"
 
+[concepts.relations]
+broader = ["public-benchmark"]
+
+
 [[concepts]]
 id = "external-knowledge-evidence"
 term = "external knowledge evidence"
@@ -445,7 +492,7 @@ section = "retrieve-verified-queries"
 example = "retrieve-similar-queries"
 
 [concepts.relations]
-part-of = ["layered-context"]
+part-of = ["layered-context", "verified-query-repository"]
 
 [[concepts]]
 id = "verified-query-repository"
@@ -459,6 +506,10 @@ term = "lexical retrieval"
 definition = "Lexical retrieval matches words"
 section = "layered-context-in-production"
 example = "retrieve-similar-queries"
+
+[concepts.relations]
+same-as = ["https://rollingedition.com/concepts/search-and-recommendation/lexical-retrieval"]
+
 
 [[concepts]]
 id = "token-budget"
@@ -487,6 +538,7 @@ example = "layer-ablation-dev"
 
 [concepts.relations]
 measured-from = ["golden-question"]
+close-to = ["https://rollingedition.com/concepts/artificial-intelligence/ablation"]
 
 [[concepts]]
 id = "semantic-layer"
@@ -510,7 +562,7 @@ definition = "dimensions (what you can group and filter by)"
 section = "semantic-layer"
 
 [concepts.relations]
-part-of = ["semantic-model"]
+part-of = ["semantic-model", "metric-request"]
 
 [[concepts]]
 id = "semantic-model"
@@ -597,7 +649,7 @@ section = "join-through-entities"
 example = "entity-join-no-fanout"
 
 [concepts.relations]
-broader = ["simple-metric"]
+broader = ["simple-metric", "net-revenue"]
 
 [[concepts]]
 id = "simple-metric"
@@ -777,6 +829,10 @@ definition = "A run that uses all four model calls without an answer is a failur
 section = "measure-metrics-first"
 example = "metrics-first-score"
 
+[concepts.relations]
+contrasts-with = ["decline"]
+
+
 [[concepts]]
 id = "long-tail"
 term = "long tail"
@@ -847,6 +903,7 @@ applies_to = ["sqlglot"]
 
 [concepts.relations]
 implemented-by = [{ to = "sqlglot", versions = ">=30.31,<31" }]
+same-as = ["https://rollingedition.com/concepts/data-engineering/qualify"]
 
 [[concepts]]
 id = "allowlist"
@@ -855,6 +912,10 @@ aliases = ["allowlists"]
 definition = "The allowlist is every table in the agent's database, read by `allowed_schema()` with each table's columns, and the same mapping is the schema `qualify` resolves columns against."
 section = "read-only-allowlist"
 example = "block-raw-tables"
+
+[concepts.relations]
+contrasts-with = ["column-qualification"]
+
 
 [[concepts]]
 id = "explain"
@@ -905,6 +966,10 @@ term = "ambiguous SELECT column"
 definition = "an ambiguous SELECT column, where several valid SQLs differ in the columns they select"
 section = "kinds-of-unanswerable"
 
+[concepts.relations]
+broader = ["ambiguous-question"]
+
+
 [[concepts]]
 id = "nonexistent-select-column"
 term = "nonexistent SELECT column"
@@ -919,7 +984,7 @@ definition = "a nonexistent filter value, in PRACTIQ's terms, is a filter value 
 section = "kinds-of-unanswerable"
 
 [concepts.relations]
-contrasts-with = ["unanswerable-question"]
+contrasts-with = ["unanswerable-item"]
 
 [[concepts]]
 id = "decline"
@@ -929,6 +994,10 @@ context = "ai-agents"
 definition = "A decline is an answer: it ends the run, it says why, and the person can act on it."
 section = "decline-with-a-reason"
 example = "cannot-answer-tool"
+
+[concepts.relations]
+contrasts-with = ["ask-back"]
+
 
 [[concepts]]
 id = "decline-kind"
@@ -952,6 +1021,7 @@ example = "stale-refunds"
 
 [concepts.relations]
 prerequisite-of = ["freshness-check"]
+part-of = ["provenance"]
 
 [[concepts]]
 id = "settling-window"
@@ -973,6 +1043,10 @@ definition = "The freshness check in `lib/declining.py` compares each feed's new
 section = "check-freshness"
 example = "stale-refunds"
 
+[concepts.relations]
+computed-from = ["settling-window"]
+
+
 [[concepts]]
 id = "provenance"
 term = "provenance"
@@ -980,6 +1054,11 @@ context = "data-governance"
 definition = "An answer's provenance is the metric or SQL behind it, the filters, the role it was computed for and how fresh the data was."
 section = "show-provenance"
 example = "answer-with-provenance"
+agrees = [{ book = "data-governance-as-code", definition = "Provenance at the level of the record answers three questions: which table it came from, which row, and which run of which job put it in the corpus." }]
+
+[concepts.relations]
+part-of = ["tool-reply"]
+
 
 [[concepts]]
 id = "decline-precision"
@@ -1007,7 +1086,7 @@ example = "decline-precision-recall"
 measured-from = ["decline"]
 
 [[concepts]]
-id = "coverage"
+id = "selective-coverage"
 term = "coverage"
 context = "llm-evaluation"
 definition = "Coverage is the share of questions the system doesn't reject"
@@ -1024,6 +1103,10 @@ formula = "selective risk    = wrong numbers / questions answered with a number"
 section = "measure-declines"
 example = "decline-precision-recall"
 
+[concepts.relations]
+computed-from = ["wrong-outcome"]
+
+
 [[concepts]]
 id = "penalty-score"
 term = "penalty score"
@@ -1033,13 +1116,21 @@ formula = "penalty score     = (right answers + correct declines − c × wrong 
 section = "measure-declines"
 example = "decline-precision-recall"
 
+[concepts.relations]
+computed-from = ["wrong-outcome"]
+
+
 [[concepts]]
-id = "role"
+id = "requester-role"
 term = "role"
 aliases = ["roles"]
 context = "data-governance"
 definition = "A role is who is asking, `role` in the code"
 section = "who-may-see-what"
+
+[concepts.relations]
+part-of = ["provenance", "golden-question"]
+
 
 [[concepts]]
 id = "access-control"
@@ -1058,6 +1149,7 @@ context = "data-governance"
 definition = "A row filter takes the decision away from the model: a condition on a table, such as `region = 'EMEA'`, that every query reading the table gets, whatever else the query says."
 section = "row-filters-in-compiler"
 example = "regional-lead-revenue"
+agrees = [{ book = "data-governance-as-code", definition = "A row filter limits which rows a query returns" }]
 
 [concepts.relations]
 contrasts-with = ["column-mask"]
@@ -1089,6 +1181,7 @@ context = "data-governance"
 definition = "A column mask decides what a role sees in a column: the value replaced by something that reveals nothing, here the text `(masked)`."
 section = "mask-every-path"
 example = "masked-emails"
+agrees = [{ book = "data-governance-as-code", definition = "a column mask changes how a column's values are shown" }]
 
 [concepts.relations]
 contrasts-with = ["denied-column"]
@@ -1110,6 +1203,7 @@ context = "data-governance"
 definition = "a minimum group size, a number of people below which a group's values are held back"
 section = "suppress-small-groups"
 example = "small-group-suppressed"
+agrees = [{ book = "data-governance-as-code", definition = "The usual defence is a minimum group size, below which a reported group is held back." }]
 
 [concepts.relations]
 prerequisite-of = ["small-group-suppression"]
@@ -1131,6 +1225,7 @@ context = "data-governance"
 definition = "Differencing involves an intruder using multiple overlapping tables and subtraction"
 section = "differencing-limit"
 example = "difference-two-answers"
+agrees = [{ book = "data-governance-as-code", definition = "Differencing, comparing consecutive reports, is the attack Denning, Denning and Schwartz called a tracker." }]
 
 [[concepts]]
 id = "secondary-suppression"
@@ -1149,13 +1244,14 @@ section = "measure-access"
 example = "role-scope-score"
 
 [[concepts]]
-id = "audit-entry"
+id = "audit-log"
 term = "audit entry"
 aliases = ["audit entries", "audit log"]
 context = "data-governance"
 definition = "every question the agent handles gets an audit entry, written by code beside the answer, never by the model"
 section = "log-who-asked"
 example = "audit-entries"
+agrees = [{ book = "data-governance-as-code", definition = "an audit log is a record of who did what, when, and with what outcome, kept so that someone can check it later." }]
 
 [[concepts]]
 id = "principal"
@@ -1165,9 +1261,10 @@ context = "data-governance"
 definition = "the principal, meaning whoever your sign-in system says is asking"
 section = "log-who-asked"
 example = "audit-entries"
+agrees = [{ book = "data-governance-as-code", definition = "The principal is who asks" }]
 
 [concepts.relations]
-part-of = ["audit-entry"]
+part-of = ["audit-log"]
 
 [[concepts]]
 id = "deny-by-default"
@@ -1176,6 +1273,7 @@ context = "data-governance"
 definition = "Deny by default means that any table a filtered role's filter doesn't name or list as unfiltered is refused, so a mart added later stays closed to the lead until someone writes its filter."
 section = "row-filters-in-compiler"
 example = "regional-lead-revenue"
+agrees = [{ book = "data-governance-as-code", definition = "With default allow := false, a request that no allow rule matches is denied, whoever sends it and whatever it asks for." }]
 
 [[concepts]]
 id = "scorecard"
@@ -1219,6 +1317,12 @@ context = "llm-evaluation"
 definition = "a judge, a model call that grades an answer against a rubric and returns a verdict"
 section = "judge-what-cannot-be-compared"
 example = "judge-an-explanation"
+agrees = [{ book = "evaluating-llm-applications", definition = "a judge: a model that reads the question, a written reference answer and the assistant's reply, and returns PASS or FAIL" }]
+
+[concepts.relations]
+close-to = ["https://rollingedition.com/concepts/search-and-recommendation/judge"]
+contrasts-with = ["comparison-rule"]
+
 
 [[concepts]]
 id = "reference-label"
@@ -1228,6 +1332,10 @@ context = "llm-evaluation"
 definition = "Reference labels computed by `results_match()` are nobody's opinion: anyone can recompute them from `questions.toml` and the recordings, and when one looks wrong, the fix is to the golden question, where it's open to correction like the rest of the book."
 section = "calibrate-the-judge"
 example = "judge-agreement"
+
+[concepts.relations]
+computed-from = ["comparison-rule"]
+
 
 [[concepts]]
 id = "judge-calibration"
@@ -1250,9 +1358,12 @@ definition = "Cohen's kappa estimates chance agreement from each rater's own lab
 formula = "kappa, pi    = (p_o − chance) / (1 − chance)"
 section = "calibrate-the-judge"
 example = "judge-agreement"
+wikidata = "Q1107106"
 
 [concepts.relations]
 contrasts-with = ["scotts-pi"]
+same-as = ["https://rollingedition.com/concepts/search-and-recommendation/cohens-kappa"]
+close-to = ["https://rollingedition.com/concepts/artificial-intelligence/kappa"]
 
 [[concepts]]
 id = "scotts-pi"
@@ -1263,6 +1374,7 @@ definition = "Scott's pi estimates chance agreement from the two raters' shares 
 formula = "kappa, pi    = (p_o − chance) / (1 − chance)"
 section = "calibrate-the-judge"
 example = "judge-agreement"
+wikidata = "Q17131579"
 
 [[concepts]]
 id = "self-preference"
@@ -1271,6 +1383,7 @@ aliases = ["self-enhancement bias"]
 context = "llm-evaluation"
 definition = "Self-preference, a judge that \"scores its own outputs higher than others' while human annotators consider them of equal quality\" (Panickssery et al.), is a known bias"
 section = "calibrate-the-judge"
+agrees = [{ book = "evaluating-llm-applications", definition = "self-preference: whether the judge favours answers written by its own model." }]
 
 [[concepts]]
 id = "familiarity"
@@ -1288,6 +1401,10 @@ definition = "`Comparison` in `lib/regressions.py` takes, for each question, the
 section = "gate-a-change"
 example = "regression-gate"
 
+[concepts.relations]
+close-to = ["https://rollingedition.com/concepts/artificial-intelligence/paired-difference", "https://rollingedition.com/concepts/search-and-recommendation/per-query-differences"]
+
+
 [[concepts]]
 id = "t-interval"
 term = "t interval"
@@ -1295,6 +1412,10 @@ context = "llm-evaluation"
 definition = "a t interval, the standard error times Student's t for one fewer degrees of freedom than questions"
 section = "gate-a-change"
 example = "regression-gate"
+
+[concepts.relations]
+computed-from = ["paired-difference"]
+
 
 [[concepts]]
 id = "stable-break"
@@ -1311,7 +1432,7 @@ part-of = ["regression-gate"]
 [[concepts]]
 id = "regression-gate"
 term = "regression gate"
-aliases = ["gate", "CI gate"]
+aliases = ["CI gate"]
 context = "llm-evaluation"
 definition = "`gate()` applies two rules of our choosing: it fails on a stable break, a question the base got right in at least four runs of five and the candidate in at most one, and when the whole interval of the mean difference lies below zero."
 section = "gate-a-change"
@@ -1327,9 +1448,11 @@ aliases = ["MCP"]
 context = "ai-agents"
 definition = "MCP is an open protocol in which an application, the host, runs a client for each server it connects to, and a server offers tools that the host's model can call."
 section = "serve-over-mcp"
+wikidata = "Q133436854"
 
 [concepts.relations]
 implemented-by = [{ to = "mcp", versions = ">=2.3,<2.4" }]
+same-as = ["https://rollingedition.com/concepts/artificial-intelligence/mcp-protocol"]
 
 [[concepts]]
 id = "mcp-client"
@@ -1414,6 +1537,10 @@ definition = "a tool can declare an `outputSchema` and return `structuredContent
 section = "return-provenance"
 example = "tool-result-with-provenance"
 
+[concepts.relations]
+part-of = ["mcp-tool"]
+
+
 [[concepts]]
 id = "structured-content"
 term = "structured content"
@@ -1422,6 +1549,8 @@ context = "ai-agents"
 definition = "Structured content is what lets a host's code, rather than its model, read an answer's role and filters."
 section = "return-provenance"
 example = "tool-result-with-provenance"
+
+
 
 [[concepts]]
 id = "tool-reply"
@@ -1439,6 +1568,7 @@ context = "ai-agents"
 definition = "The MCP specification reports a tool execution error as a result with `isError` set, with \"actionable feedback that language models can use to self-correct\""
 section = "return-provenance"
 example = "tool-result-with-provenance"
+agrees = [{ book = "model-context-protocol-in-practice", definition = "A tool execution error is an ordinary result with isError set to true, for an API failure, an invalid input or a broken business rule." }]
 
 [concepts.relations]
 contrasts-with = ["decline"]
@@ -1488,3 +1618,12 @@ context = "ai-agents"
 definition = "`ServerToolbox` has the `call()` method the loop expects, and makes each call through an MCP client."
 section = "answer-through-a-host"
 example = "host-asks-the-server"
+
+[retired]
+"llm-evaluation/coverage" = "llm-evaluation/selective-coverage"
+"data-governance/role" = "data-governance/requester-role"
+"data-governance/audit-entry" = "data-governance/audit-log"
+"llm-evaluation/unanswerable-question" = "llm-evaluation/unanswerable-item"
+"llm-evaluation/held-out-split" = "llm-evaluation/held-out"
+"llm-evaluation/declined-outcome" = "llm-evaluation/false-refusal"
+"llm-evaluation/question-kind" = "llm-evaluation/kind"
