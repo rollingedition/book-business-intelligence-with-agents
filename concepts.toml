@@ -1,0 +1,1490 @@
+# The terms this book defines, each quoted from its own sentence (writing standards W-77 to W-80).
+
+context = "artificial-intelligence"
+
+[[concepts]]
+id = "raw-schema"
+term = "raw schema"
+context = "data-warehousing"
+definition = "The `raw` schema holds what the source systems loaded: orders, order lines, refunds, customers, products, sessions, marketing spend and exchange rates."
+section = "meet-the-shop"
+example = "load-the-warehouse"
+
+[[concepts]]
+id = "analytics-schema"
+term = "analytics schema"
+context = "data-warehousing"
+definition = "The `analytics` schema holds the marts built from the raw tables in SQL, such as `fct_orders`, one row per real order with its amounts in euros."
+section = "meet-the-shop"
+example = "load-the-warehouse"
+
+[concepts.relations]
+computed-from = ["raw-schema"]
+
+[[concepts]]
+id = "fiscal-year"
+term = "fiscal year"
+aliases = ["fiscal years"]
+context = "data-warehousing"
+definition = "The shop's fiscal year starts on February 1, and is named for the year it ends in."
+section = "meet-the-shop"
+example = "fiscal-year-and-local-day"
+
+[[concepts]]
+id = "schema-only-text-to-sql"
+term = "schema-only text-to-SQL"
+aliases = ["schema-only SQL"]
+definition = "Schema-only text-to-SQL means the model is given the name and type of every column and the person's question, and nothing else, and writes the SQL."
+section = "ask-for-sql"
+example = "first-question-to-sql"
+
+[concepts.relations]
+contrasts-with = ["data-warehousing/metric"]
+
+[[concepts]]
+id = "recording"
+term = "recording"
+aliases = ["recordings"]
+definition = "A recording is a saved set of model replies with a manifest, made once by a script in the repository's `recordings/` folder and replayed by the examples."
+section = "ask-for-sql"
+example = "first-question-to-sql"
+
+[[concepts]]
+id = "golden-question"
+term = "golden question"
+aliases = ["golden questions"]
+context = "llm-evaluation"
+definition = "A golden question is a question with its checked answer: the golden SQL, written against the owner's definition, the golden result that SQL returns, and the kind of answer expected."
+section = "check-the-first-number"
+example = "run-the-model-sql"
+
+[[concepts]]
+id = "golden-result"
+term = "golden result"
+aliases = ["golden results"]
+context = "llm-evaluation"
+definition = "the golden result: the question's answer from SQL written against the finance team's definitions and checked by running it"
+section = "wrong-numbers"
+example = "run-the-model-sql"
+
+[concepts.relations]
+part-of = ["golden-question"]
+
+[[concepts]]
+id = "net-revenue"
+term = "net revenue"
+context = "data-warehousing"
+definition = "The golden SQL for `gq-002` follows the shop's definition of net revenue, which the finance team owns: revenue in euros after discounts and before tax, from real orders that weren't cancelled, on the order's local business day."
+section = "check-the-first-number"
+example = "run-the-model-sql"
+
+[[concepts]]
+id = "metric"
+term = "metric"
+aliases = ["metrics", "defined metric"]
+context = "data-warehousing"
+definition = "A metric is a business measure written down once, by the people who own it: a name, a description a person can check, one aggregate over one mart, the rule for which rows count, and the dimensions it may be grouped and filtered by."
+section = "answer-from-a-metric"
+example = "one-metric-answer"
+
+[concepts.relations]
+prerequisite-of = ["metric-request"]
+
+[[concepts]]
+id = "metric-request"
+term = "metric request"
+aliases = ["metric requests"]
+context = "data-warehousing"
+definition = "A metric request names the metric, the dimensions to group by and one value per filtered dimension, and `compile_request()` turns it into SQL."
+section = "answer-from-a-metric"
+example = "one-metric-answer"
+
+[[concepts]]
+id = "tool"
+term = "tool"
+aliases = ["tools"]
+context = "ai-agents"
+definition = "A tool is a function the model may ask the code to run, by replying with a JSON object that names it and gives its arguments."
+section = "answer-from-a-metric"
+example = "one-metric-answer"
+
+[[concepts]]
+id = "correct-outcome"
+term = "correct"
+context = "llm-evaluation"
+definition = "An answer is correct when the result matches the golden result, or when it declines a question that should be declined."
+section = "score-five-questions"
+example = "score-five-golden"
+
+[concepts.relations]
+measured-from = ["golden-question"]
+
+[[concepts]]
+id = "wrong-outcome"
+term = "wrong answer"
+aliases = ["wrong answers"]
+context = "llm-evaluation"
+definition = "A wrong answer returns a different result, or returns any result for a question that should be declined."
+section = "score-five-questions"
+example = "score-five-golden"
+
+[concepts.relations]
+measured-from = ["golden-question"]
+contrasts-with = ["error-outcome"]
+
+[[concepts]]
+id = "error-outcome"
+term = "error"
+context = "llm-evaluation"
+definition = "An error is an answer whose SQL doesn't run."
+section = "score-five-questions"
+example = "score-five-golden"
+
+[[concepts]]
+id = "declined-outcome"
+term = "declined"
+context = "llm-evaluation"
+definition = "A declined answer says it can't answer a question that has an answer."
+section = "score-five-questions"
+example = "score-five-golden"
+
+[concepts.relations]
+contrasts-with = ["wrong-outcome"]
+
+[[concepts]]
+id = "comparison-rule"
+term = "comparison rule"
+aliases = ["results_match()"]
+context = "llm-evaluation"
+definition = "The comparison rule, `results_match()` in `lib/golden.py`, accepts an answer when it has as many rows as the golden result and its columns include every golden column's values."
+section = "score-five-questions"
+example = "tolerant-comparison"
+
+[concepts.relations]
+prerequisite-of = ["execution-match"]
+
+[[concepts]]
+id = "trace"
+term = "trace"
+aliases = ["traces"]
+context = "ai-agents"
+definition = "The trace is every step of one run, kept by `run_agent()`: each model reply, and each tool result sent back."
+section = "read-one-trace"
+example = "print-one-trace"
+
+[[concepts]]
+id = "fan-out"
+term = "fan-out"
+context = "data-warehousing"
+definition = "Fan-out is what happens when a query joins a table to another that has several rows for each of its rows, and then sums a column of the first."
+section = "joins-that-fan-out"
+example = "tent-orders-fan-out"
+
+[concepts.relations]
+broader = ["llm-evaluation/failure-kind"]
+
+[[concepts]]
+id = "business-definition"
+term = "business definition"
+context = "data-governance"
+definition = "Words such as revenue, order value or active customer have one meaning in a business, chosen by the people who own the number, and that meaning lives in a finance policy, a dashboard's SQL or someone's memory."
+section = "definitions-not-in-schema"
+example = "gross-or-net-revenue"
+
+[concepts.relations]
+narrower = ["data-warehousing/net-revenue"]
+
+[[concepts]]
+id = "local-business-day"
+term = "local business day"
+aliases = ["local business days"]
+context = "data-warehousing"
+definition = "The shop counts each order on its region's local business day, stored as `order_date_local` in the orders mart, beside the UTC timestamp `placed_at`."
+section = "time-and-calendars"
+example = "fiscal-year-and-local-day"
+
+[[concepts]]
+id = "legacy-table"
+term = "legacy table"
+aliases = ["legacy tables", "tempting table"]
+context = "data-warehousing"
+definition = "Most warehouses keep tables that nobody should query any more and nobody can drop: an older mart that old dashboards read, a copy from a migration, a table built for one analysis."
+section = "the-tempting-table"
+example = "legacy-table-answer"
+
+[concepts.relations]
+broader = ["llm-evaluation/failure-kind"]
+
+[[concepts]]
+id = "unwritten-filter"
+term = "unwritten filter"
+aliases = ["unwritten filters"]
+context = "data-warehousing"
+definition = "Some rules about which rows count are so familiar to the people who own a number that nobody writes them down: cancelled orders don't count as revenue, test accounts aren't customers, a refund belongs to the month of its order."
+section = "unwritten-filters"
+example = "cancelled-lines-counted"
+
+[concepts.relations]
+broader = ["llm-evaluation/failure-kind"]
+
+[[concepts]]
+id = "nl2sql-bugs"
+term = "NL2SQL-BUGs"
+context = "llm-evaluation"
+definition = "One detailed taxonomy, NL2SQL-BUGs, sorts semantic errors in text-to-SQL into 9 categories and 31 subcategories, from 2,018 expert-annotated cases"
+section = "definitions-not-in-schema"
+
+[[concepts]]
+id = "spider-2"
+term = "Spider 2.0"
+context = "llm-evaluation"
+definition = "Spider 2.0, a benchmark of enterprise text-to-SQL tasks"
+section = "the-tempting-table"
+
+[concepts.relations]
+broader = ["public-benchmark"]
+
+[[concepts]]
+id = "failure-kind"
+term = "failure kind"
+aliases = ["failure kinds", "kinds of plausible wrong number"]
+context = "llm-evaluation"
+definition = "Five kinds of plausible wrong number: fan-out, a definition the schema doesn't hold, time zones and the fiscal calendar, a tempting table, and an unwritten filter."
+section = "wrong-numbers-decisions"
+example = "classify-schema-only-errors"
+
+[[concepts]]
+id = "public-benchmark"
+term = "public benchmark"
+aliases = ["public benchmarks"]
+context = "llm-evaluation"
+definition = "A public benchmark for text-to-SQL or data agents gives you questions, a database and a gold answer for each question, and a score that others have reported on the same set."
+section = "benchmarks-are-not-your-test"
+example = "public-vs-own-score"
+
+[[concepts]]
+id = "dabstep"
+term = "DABstep"
+aliases = ["Data Agent Benchmark for Multi-step Reasoning"]
+context = "llm-evaluation"
+definition = "DABstep asks questions about a payments processor's transactions, scores only the final answer, and keeps most of its tasks hidden for its leaderboard"
+section = "benchmarks-are-not-your-test"
+example = "public-vs-own-score"
+
+[concepts.relations]
+broader = ["public-benchmark"]
+
+[[concepts]]
+id = "question-kind"
+term = "question kind"
+context = "llm-evaluation"
+definition = "A golden question's `kind` says what a right answer looks like: `answer` when the warehouse can answer it, `decline` when it can't, and `forbidden` when the role may not see the answer."
+section = "write-golden-questions"
+example = "load-golden-questions"
+
+[concepts.relations]
+part-of = ["golden-question"]
+
+[[concepts]]
+id = "execution-match"
+term = "execution match"
+context = "llm-evaluation"
+definition = "An execution match means the agent's result equals the golden result under the question's comparison rule."
+section = "compare-results-not-sql"
+example = "results-match-rules"
+
+[concepts.relations]
+measured-from = ["golden-question"]
+
+[[concepts]]
+id = "execution-accuracy"
+term = "execution accuracy"
+context = "llm-evaluation"
+definition = "execution accuracy, which compares the rows each query returns"
+section = "compare-results-not-sql"
+
+[[concepts]]
+id = "comparison-tolerance"
+term = "tolerance"
+aliases = ["absolute slack"]
+context = "llm-evaluation"
+definition = "Numbers must agree with the gold within {{out:tolerant-comparison:tolerance}} by default, plus an absolute slack of half a unit in the last place the gold rounds to."
+section = "order-rounding-names"
+example = "tolerant-comparison"
+
+[concepts.relations]
+part-of = ["comparison-rule"]
+
+[[concepts]]
+id = "check-query"
+term = "check query"
+aliases = ["check_sql", "check queries"]
+context = "llm-evaluation"
+definition = "Where you can, a second query written another way, the gold's `check_sql`, must return the same result as the golden SQL."
+section = "check-the-gold"
+example = "gold-runs-and-agrees"
+
+[[concepts]]
+id = "ambiguous-question"
+term = "ambiguous question"
+aliases = ["ambiguous questions"]
+context = "llm-evaluation"
+definition = "An ambiguous question, such as \"Who are our best customers?\", has several reasonable answers, and the agent should say which choices it needs."
+section = "cover-declines-and-roles"
+example = "golden-coverage"
+
+[concepts.relations]
+contrasts-with = ["unanswerable-question"]
+narrower = ["ambiguous-select-column"]
+
+[[concepts]]
+id = "unanswerable-question"
+term = "unanswerable question"
+aliases = ["unanswerable questions"]
+context = "llm-evaluation"
+definition = "An unanswerable question, such as the cost of shipping, asks for data the warehouse doesn't hold, and the agent should say so."
+section = "cover-declines-and-roles"
+example = "golden-coverage"
+
+[concepts.relations]
+narrower = ["nonexistent-select-column"]
+
+[[concepts]]
+id = "forbidden-question"
+term = "forbidden question"
+aliases = ["forbidden questions"]
+context = "llm-evaluation"
+definition = "A forbidden question is answerable, but not for the role asking: the shop's finance team may not see customers' emails, and a regional lead may see only their own region."
+section = "cover-declines-and-roles"
+example = "golden-coverage"
+
+[concepts.relations]
+broader = ["golden-question"]
+
+[[concepts]]
+id = "held-out-split"
+term = "held-out split"
+aliases = ["held-out set", "test split"]
+context = "llm-evaluation"
+definition = "A held-out split is the usual defence: tune on one part, and score the other only when you report a result."
+section = "hold-out-a-test-split"
+example = "baseline-on-both-splits"
+
+[[concepts]]
+id = "layered-context"
+term = "layered context"
+definition = "Layered context is the most direct fix for what a schema can't say: write the rules down where the model reads them."
+section = "layered-context"
+
+[concepts.relations]
+contrasts-with = ["data-warehousing/semantic-layer"]
+
+[[concepts]]
+id = "schema"
+term = "schema"
+aliases = ["schemas"]
+context = "data-warehousing"
+definition = "A schema tells a model which tables exist, what their columns are called and what type each column holds."
+section = "what-the-schema-says"
+
+[[concepts]]
+id = "schema-layer"
+term = "schema layer"
+definition = "The schema layer is the whole warehouse: all {{out:schema-digest:tables in the schema}} tables, about {{out:schema-digest:schema tokens (estimated)}} tokens."
+section = "what-the-schema-says"
+example = "schema-digest"
+
+[concepts.relations]
+part-of = ["layered-context"]
+
+[[concepts]]
+id = "column-note"
+term = "column note"
+aliases = ["column notes"]
+definition = "A column note is a sentence about one table or column that says what its name doesn't: which rows the table holds, the unit and sign of an amount, the time zone of a timestamp, the values a column takes, or that a table is deprecated."
+section = "describe-columns"
+example = "column-descriptions"
+
+[concepts.relations]
+part-of = ["layered-context"]
+
+[[concepts]]
+id = "business-glossary"
+term = "business glossary"
+aliases = ["glossary"]
+definition = "A business glossary lists the business words whose meaning a company's teams chose, and writes each meaning in terms of the warehouse's tables and columns."
+section = "add-the-glossary"
+example = "glossary-context"
+
+[concepts.relations]
+part-of = ["layered-context"]
+
+[[concepts]]
+id = "bird"
+term = "BIRD"
+context = "llm-evaluation"
+definition = "BIRD, a text-to-SQL benchmark whose questions come with \"external knowledge evidence\""
+section = "add-the-glossary"
+
+[[concepts]]
+id = "external-knowledge-evidence"
+term = "external knowledge evidence"
+context = "llm-evaluation"
+definition = "hints that link a question's words to the database, such as what a term means as a formula over columns"
+section = "add-the-glossary"
+
+[concepts.relations]
+part-of = ["bird"]
+
+[[concepts]]
+id = "verified-query"
+term = "verified query"
+aliases = ["verified queries"]
+definition = "A verified query shows the shop's rules applied: a question someone asked, with SQL a person checked against the shop's definitions."
+section = "retrieve-verified-queries"
+example = "retrieve-similar-queries"
+
+[concepts.relations]
+part-of = ["layered-context"]
+
+[[concepts]]
+id = "verified-query-repository"
+term = "verified query repository"
+definition = "Snowflake's Cortex Analyst keeps a verified query repository of \"questions and corresponding SQL queries to answer them\""
+section = "retrieve-verified-queries"
+
+[[concepts]]
+id = "lexical-retrieval"
+term = "lexical retrieval"
+definition = "Lexical retrieval matches words"
+section = "layered-context-in-production"
+example = "retrieve-similar-queries"
+
+[[concepts]]
+id = "token-budget"
+term = "token budget"
+context = "large-language-models"
+definition = "A token budget is the most context the agent may send with one question."
+section = "fit-a-context-budget"
+example = "context-token-budget"
+
+[[concepts]]
+id = "token-estimate"
+term = "token estimate"
+context = "large-language-models"
+definition = "Token counts in lib/context.py are estimates: estimate_tokens() divides the number of characters by 3.5, because the examples don't load the model's tokenizer."
+section = "fit-a-context-budget"
+example = "context-token-budget"
+
+[[concepts]]
+id = "ablation"
+term = "ablation"
+aliases = ["ablations"]
+context = "llm-evaluation"
+definition = "An ablation measures every layer the same way: it scores a series of configurations that differ by one layer each, on the same questions, under the same comparison rule."
+section = "measure-each-layer"
+example = "layer-ablation-dev"
+
+[concepts.relations]
+measured-from = ["golden-question"]
+
+[[concepts]]
+id = "semantic-layer"
+term = "semantic layer"
+aliases = ["semantic layers"]
+context = "data-warehousing"
+definition = "A semantic layer is where the choices behind joins, grains and ratios are written down once."
+section = "semantic-layer"
+applies_to = ["metricflow"]
+
+[concepts.relations]
+implemented-by = [{ to = "metricflow", versions = ">=0.214,<0.215" }]
+prerequisite-of = ["ai-agents/metrics-first"]
+
+[[concepts]]
+id = "dimension"
+term = "dimension"
+aliases = ["dimensions"]
+context = "data-warehousing"
+definition = "dimensions (what you can group and filter by)"
+section = "semantic-layer"
+
+[concepts.relations]
+part-of = ["semantic-model"]
+
+[[concepts]]
+id = "semantic-model"
+term = "semantic model"
+aliases = ["semantic models"]
+context = "data-warehousing"
+definition = "A semantic model is one table described for the layer: which table it reads, the entities it holds, the dimensions it offers and the time dimension its numbers are counted on."
+section = "entities-measures-dimensions"
+example = "load-semantic-models"
+applies_to = ["metricflow"]
+
+[concepts.relations]
+part-of = ["semantic-layer"]
+
+[[concepts]]
+id = "entity"
+term = "entity"
+aliases = ["entities"]
+context = "data-warehousing"
+definition = "An entity is a key with a type."
+section = "entities-measures-dimensions"
+applies_to = ["metricflow"]
+
+[concepts.relations]
+part-of = ["semantic-model"]
+
+[[concepts]]
+id = "primary-entity"
+term = "primary entity"
+aliases = ["primary entities"]
+context = "data-warehousing"
+definition = "A primary entity is unique in its table, so other tables can join to it many rows to one."
+section = "entities-measures-dimensions"
+example = "load-semantic-models"
+applies_to = ["metricflow"]
+
+[concepts.relations]
+broader = ["entity"]
+contrasts-with = ["foreign-entity"]
+
+[[concepts]]
+id = "foreign-entity"
+term = "foreign entity"
+aliases = ["foreign entities"]
+context = "data-warehousing"
+definition = "A foreign entity is a key that points at another table's primary entity, and it repeats."
+section = "entities-measures-dimensions"
+applies_to = ["metricflow"]
+
+[concepts.relations]
+broader = ["entity"]
+
+[[concepts]]
+id = "time-spine"
+term = "time spine"
+context = "data-warehousing"
+definition = "the time spine, a table with one row per day"
+section = "entities-measures-dimensions"
+example = "fiscal-quarter-grain"
+applies_to = ["metricflow"]
+
+[concepts.relations]
+part-of = ["semantic-layer"]
+
+[[concepts]]
+id = "measure"
+term = "measure"
+aliases = ["measures"]
+context = "data-warehousing"
+definition = "the measure: an aggregation declared on the semantic model, which a metric then names"
+section = "entities-measures-dimensions"
+applies_to = ["metricflow"]
+
+[concepts.relations]
+contrasts-with = ["simple-metric"]
+
+[[concepts]]
+id = "line-net-revenue"
+term = "line_net_revenue"
+aliases = ["line-level net revenue", "line-level revenue"]
+context = "data-warehousing"
+definition = "line_net_revenue is net revenue counted on the lines themselves, in the order_lines semantic model, with net revenue's rule on cancelled orders."
+section = "join-through-entities"
+example = "entity-join-no-fanout"
+
+[concepts.relations]
+broader = ["simple-metric"]
+
+[[concepts]]
+id = "simple-metric"
+term = "simple metric"
+aliases = ["simple metrics"]
+context = "data-warehousing"
+definition = "Simple metrics, like the line-level revenue, aggregate one column of one table."
+section = "ratio-and-derived-metrics"
+applies_to = ["metricflow"]
+
+[concepts.relations]
+broader = ["metric"]
+
+[[concepts]]
+id = "ratio-metric"
+term = "ratio metric"
+aliases = ["ratio metrics"]
+context = "data-warehousing"
+definition = "A ratio metric divides one metric by another"
+section = "ratio-and-derived-metrics"
+example = "refund-rate-metric"
+
+[concepts.relations]
+broader = ["metric"]
+computed-from = ["simple-metric"]
+
+[[concepts]]
+id = "derived-metric"
+term = "derived metric"
+aliases = ["derived metrics"]
+context = "data-warehousing"
+definition = "a derived metric combines several metrics with an expression"
+section = "ratio-and-derived-metrics"
+example = "refund-rate-metric"
+
+[concepts.relations]
+broader = ["metric"]
+computed-from = ["simple-metric"]
+
+[[concepts]]
+id = "refund-rate"
+term = "refund rate"
+context = "data-warehousing"
+definition = "The shop's finance team defines the refund rate in golden question gq-028: refunded euros over gross revenue of the same orders, those placed in the period that weren't cancelled."
+section = "ratio-and-derived-metrics"
+example = "refund-rate-metric"
+
+[concepts.relations]
+broader = ["ratio-metric"]
+computed-from = ["order-refunds"]
+
+[[concepts]]
+id = "order-refunds"
+term = "order_refunds"
+context = "data-warehousing"
+definition = "order_refunds, a metric counted on the order's local day"
+section = "ratio-and-derived-metrics"
+example = "refund-rate-metric"
+
+[concepts.relations]
+broader = ["simple-metric"]
+
+[[concepts]]
+id = "average-order-value"
+term = "average order value"
+aliases = ["AOV"]
+context = "data-warehousing"
+definition = "Average order value is a derived metric, net_revenue / kept_orders"
+formula = "net_revenue / kept_orders"
+section = "ratio-and-derived-metrics"
+example = "refund-rate-metric"
+
+[concepts.relations]
+broader = ["derived-metric"]
+computed-from = ["kept-orders", "net-revenue"]
+
+[[concepts]]
+id = "kept-orders"
+term = "kept_orders"
+context = "data-warehousing"
+definition = "kept_orders is the orders metric with the rule on cancelled orders applied as an input filter"
+section = "ratio-and-derived-metrics"
+example = "refund-rate-metric"
+
+[concepts.relations]
+broader = ["simple-metric"]
+
+[[concepts]]
+id = "custom-granularity"
+term = "custom granularity"
+aliases = ["custom grain", "custom grains", "custom granularities"]
+context = "data-warehousing"
+definition = "A custom granularity, such as fiscal_year, is a column of the time spine that names the period each day belongs to"
+section = "time-grains-and-fiscal"
+example = "fiscal-quarter-grain"
+applies_to = ["metricflow"]
+
+[concepts.relations]
+part-of = ["time-spine"]
+
+[[concepts]]
+id = "metric-filter"
+term = "metric filter"
+context = "data-warehousing"
+definition = "A metric's filter is a Jinja template"
+section = "semantic-layer-in-production"
+applies_to = ["metricflow"]
+
+[concepts.relations]
+part-of = ["metric"]
+
+[[concepts]]
+id = "metrics-first"
+term = "metrics-first"
+aliases = ["governed metrics first"]
+context = "ai-agents"
+definition = "Routing a question to governed metrics first takes writing the query away from the model: its job shrinks to choosing which metric, grouped by what, filtered how, and the layer, which people own and test, writes the SQL."
+section = "metrics-first"
+example = "metrics-first-score"
+
+[concepts.relations]
+contrasts-with = ["artificial-intelligence/layered-context"]
+
+[[concepts]]
+id = "metric-tool"
+term = "metric tool"
+aliases = ["metric tools"]
+context = "ai-agents"
+definition = "A metric tool exposes what a semantic layer holds in the shape a person asks for it: metric names with their descriptions, the dimensions each can be grouped and filtered by, and the time grains."
+section = "metrics-not-tables"
+example = "metric-tools"
+
+[concepts.relations]
+part-of = ["metrics-first"]
+
+[[concepts]]
+id = "structured-reply"
+term = "structured reply"
+aliases = ["structured replies"]
+context = "ai-agents"
+definition = "A structured reply is one the code can parse into a typed object and check field by field."
+section = "request-not-sql"
+example = "model-returns-a-request"
+
+[concepts.relations]
+narrower = ["data-warehousing/metric-request"]
+
+[[concepts]]
+id = "request-validation"
+term = "request validation"
+aliases = ["validating a request", "validation"]
+context = "ai-agents"
+definition = "Validating a request means checking it against the layer's definitions and the warehouse's values before it compiles, and sending every problem back to the model with what would be allowed instead."
+section = "validate-the-request"
+example = "reject-unknown-dimension"
+
+[concepts.relations]
+part-of = ["metrics-first"]
+
+[[concepts]]
+id = "ask-back"
+term = "ask_back"
+aliases = ["ask back", "asking back", "question back"]
+context = "ai-agents"
+definition = "The ask_back tool ends the run with a question to the person and the options the model offers."
+section = "ask-back-when-ambiguous"
+example = "clarify-best-customers"
+
+[concepts.relations]
+part-of = ["metrics-first"]
+
+[[concepts]]
+id = "step-limit"
+term = "step limit"
+context = "ai-agents"
+definition = "A run that uses all four model calls without an answer is a failure, and grade() scores it as step limit, apart from the declines the model chose."
+section = "measure-metrics-first"
+example = "metrics-first-score"
+
+[[concepts]]
+id = "long-tail"
+term = "long tail"
+context = "data-warehousing"
+definition = "The questions no metric covers are the long tail: how much revenue came from orders that included a tent, or what share of sessions converted."
+section = "guarded-sql"
+example = "long-tail-score"
+
+[concepts.relations]
+prerequisite-of = ["guarded-sql"]
+
+[[concepts]]
+id = "least-privilege"
+term = "least privilege"
+context = "data-governance"
+definition = "Least privilege means that the agent's SQL runs on a connection that can reach what the agent may query and nothing else."
+section = "least-privilege-database"
+example = "agent-warehouse"
+
+[[concepts]]
+id = "database-catalog"
+term = "database catalog"
+aliases = ["DuckDB's catalog"]
+context = "data-warehousing"
+definition = "What no setting hides is DuckDB's catalog, such as `information_schema` and `duckdb_settings()`, which describes the database itself."
+section = "least-privilege-database"
+example = "agent-warehouse"
+applies_to = ["duckdb"]
+
+[[concepts]]
+id = "role-view"
+term = "role's view"
+aliases = ["role view", "role's views"]
+context = "data-governance"
+definition = "A role's view of a table returns the rows that role may see, with a masked column holding a constant and a denied column left out."
+section = "views-per-role"
+example = "role-database"
+
+[concepts.relations]
+narrower = ["secure-view"]
+
+[[concepts]]
+id = "secure-view"
+term = "secure view"
+aliases = ["secure views"]
+context = "data-governance"
+definition = "Snowflake's secure views exist to limit access to sensitive data"
+section = "views-per-role"
+
+[[concepts]]
+id = "parsing"
+term = "parsing"
+definition = "Parsing turns the text into a tree, with one node for each statement, table, column and function, so each later check asks about nodes, not characters."
+section = "parse-before-running"
+example = "parse-agent-sql"
+
+[concepts.relations]
+prerequisite-of = ["allowlist", "column-qualification"]
+
+[[concepts]]
+id = "column-qualification"
+term = "qualify"
+aliases = ["qualification", "qualifies"]
+definition = "`check()` qualifies every column against the columns of the tables the query may read, with sqlglot's `qualify`, which raises an error for a column it can't place."
+section = "parse-before-running"
+example = "parse-agent-sql"
+applies_to = ["sqlglot"]
+
+[concepts.relations]
+implemented-by = [{ to = "sqlglot", versions = ">=30.31,<31" }]
+
+[[concepts]]
+id = "allowlist"
+term = "allowlist"
+aliases = ["allowlists"]
+definition = "The allowlist is every table in the agent's database, read by `allowed_schema()` with each table's columns, and the same mapping is the schema `qualify` resolves columns against."
+section = "read-only-allowlist"
+example = "block-raw-tables"
+
+[[concepts]]
+id = "explain"
+term = "EXPLAIN"
+aliases = ["query plan"]
+context = "data-warehousing"
+definition = "For cost, the guard asks DuckDB's `EXPLAIN` for the plan, which plans the query without running it and gives each step an estimated number of rows"
+section = "bound-rows-and-cost"
+example = "explain-before-running"
+applies_to = ["duckdb"]
+
+[concepts.relations]
+implemented-by = [{ to = "duckdb", versions = ">=2.0,<2.1" }]
+
+[[concepts]]
+id = "worker"
+term = "worker"
+aliases = ["worker process"]
+definition = "The guard plans and runs the agent's query in a worker, a separate process started by `Worker` in `lib/sql_guard.py` that opens the agent's database file read-only with the guard's settings, and kills it when the 5-second deadline passes."
+section = "time-the-plan"
+example = "stop-a-slow-plan"
+
+[[concepts]]
+id = "repair"
+term = "repair"
+context = "ai-agents"
+definition = "Repair means giving the model the guard's refusal or the warehouse's error, once, and running what it writes next."
+section = "repair-once"
+example = "repair-from-error"
+
+[concepts.relations]
+part-of = ["guarded-sql"]
+
+[[concepts]]
+id = "guarded-sql"
+term = "guarded SQL"
+aliases = ["guarded SQL path"]
+context = "ai-agents"
+definition = "Guarded SQL is the fallback, not the default, for questions no metric covers, written with chapter 4's four layers of context."
+section = "guarded-sql-decisions"
+
+[concepts.relations]
+contrasts-with = ["metric"]
+
+[[concepts]]
+id = "ambiguous-select-column"
+term = "ambiguous SELECT column"
+definition = "an ambiguous SELECT column, where several valid SQLs differ in the columns they select"
+section = "kinds-of-unanswerable"
+
+[[concepts]]
+id = "nonexistent-select-column"
+term = "nonexistent SELECT column"
+definition = "a nonexistent SELECT column, where \"The column that contains the results asked in the question do not exist in the database\""
+section = "kinds-of-unanswerable"
+
+[[concepts]]
+id = "nonexistent-filter-value"
+term = "nonexistent filter value"
+aliases = ["nonexistent filter values"]
+definition = "a nonexistent filter value, in PRACTIQ's terms, is a filter value no row holds, such as a region called `Europe`."
+section = "kinds-of-unanswerable"
+
+[concepts.relations]
+contrasts-with = ["unanswerable-question"]
+
+[[concepts]]
+id = "decline"
+term = "decline"
+aliases = ["declines", "declining"]
+context = "ai-agents"
+definition = "A decline is an answer: it ends the run, it says why, and the person can act on it."
+section = "decline-with-a-reason"
+example = "cannot-answer-tool"
+
+[[concepts]]
+id = "decline-kind"
+term = "decline kind"
+context = "ai-agents"
+definition = "A decline's kind, the reason's other part, comes from a fixed list, for the code, so declines can be counted, routed and scored by kind instead of read one at a time."
+section = "decline-with-a-reason"
+example = "cannot-answer-tool"
+
+[concepts.relations]
+part-of = ["decline"]
+
+[[concepts]]
+id = "freshness"
+term = "freshness"
+aliases = ["data freshness"]
+context = "data-warehousing"
+definition = "Freshness is how far a source's events have arrived, read from when its rows were loaded."
+section = "check-freshness"
+example = "stale-refunds"
+
+[concepts.relations]
+prerequisite-of = ["freshness-check"]
+
+[[concepts]]
+id = "settling-window"
+term = "settling window"
+aliases = ["settling windows"]
+context = "data-warehousing"
+definition = "A metric's settling window, as we call it, is the time until every event it counts for a period has come."
+section = "check-freshness"
+example = "stale-refunds"
+
+[concepts.relations]
+prerequisite-of = ["freshness-check"]
+
+[[concepts]]
+id = "freshness-check"
+term = "freshness check"
+context = "data-warehousing"
+definition = "The freshness check in `lib/declining.py` compares each feed's newest load with the end of the period a request filters on, plus the settling window of the metrics that read the feed."
+section = "check-freshness"
+example = "stale-refunds"
+
+[[concepts]]
+id = "provenance"
+term = "provenance"
+context = "data-governance"
+definition = "An answer's provenance is the metric or SQL behind it, the filters, the role it was computed for and how fresh the data was."
+section = "show-provenance"
+example = "answer-with-provenance"
+
+[[concepts]]
+id = "decline-precision"
+term = "decline precision"
+context = "llm-evaluation"
+definition = "Decline precision asks how many of the agent's declines were due"
+formula = "decline precision = correct declines / all declines"
+section = "measure-declines"
+example = "decline-precision-recall"
+
+[concepts.relations]
+measured-from = ["decline"]
+contrasts-with = ["decline-recall"]
+
+[[concepts]]
+id = "decline-recall"
+term = "decline recall"
+context = "llm-evaluation"
+definition = "decline recall asks how many of the due declines the agent made"
+formula = "decline recall    = correct declines / questions whose right answer is a decline"
+section = "measure-declines"
+example = "decline-precision-recall"
+
+[concepts.relations]
+measured-from = ["decline"]
+
+[[concepts]]
+id = "coverage"
+term = "coverage"
+context = "llm-evaluation"
+definition = "Coverage is the share of questions the system doesn't reject"
+formula = "coverage          = questions answered with a number / questions asked"
+section = "measure-declines"
+example = "decline-precision-recall"
+
+[[concepts]]
+id = "selective-risk"
+term = "selective risk"
+context = "llm-evaluation"
+definition = "selective risk is the error rate on the questions the system answers"
+formula = "selective risk    = wrong numbers / questions answered with a number"
+section = "measure-declines"
+example = "decline-precision-recall"
+
+[[concepts]]
+id = "penalty-score"
+term = "penalty score"
+context = "llm-evaluation"
+definition = "In the penalty score, each question scores one point for a right answer or a right decline, nothing for declining an answerable question, and minus c for a wrong number, including an answer to a question it should have declined; the score is the mean over the questions"
+formula = "penalty score     = (right answers + correct declines − c × wrong numbers) / questions asked"
+section = "measure-declines"
+example = "decline-precision-recall"
+
+[[concepts]]
+id = "role"
+term = "role"
+aliases = ["roles"]
+context = "data-governance"
+definition = "A role is who is asking, `role` in the code"
+section = "who-may-see-what"
+
+[[concepts]]
+id = "access-control"
+term = "control"
+aliases = ["controls", "access control"]
+context = "data-governance"
+definition = "A control is something the model can't change."
+section = "prompt-rules-fail"
+example = "prompt-rule-bypassed"
+
+[[concepts]]
+id = "row-filter"
+term = "row filter"
+aliases = ["row filters"]
+context = "data-governance"
+definition = "A row filter takes the decision away from the model: a condition on a table, such as `region = 'EMEA'`, that every query reading the table gets, whatever else the query says."
+section = "row-filters-in-compiler"
+example = "regional-lead-revenue"
+
+[concepts.relations]
+contrasts-with = ["column-mask"]
+
+[[concepts]]
+id = "row-access-policy"
+term = "row access policy"
+aliases = ["row access policies"]
+context = "data-governance"
+definition = "Snowflake's row access policies \"determine which rows to return in the query result\""
+section = "row-filters-in-compiler"
+
+[[concepts]]
+id = "policy-layer"
+term = "PolicyLayer"
+context = "data-governance"
+definition = "`PolicyLayer` is the semantic layer as one role sees it, and passes every query it compiles through `apply()`."
+section = "row-filters-in-compiler"
+example = "regional-lead-revenue"
+
+[concepts.relations]
+broader = ["semantic-layer"]
+
+[[concepts]]
+id = "column-mask"
+term = "column mask"
+aliases = ["column masks", "mask", "masking"]
+context = "data-governance"
+definition = "A column mask decides what a role sees in a column: the value replaced by something that reveals nothing, here the text `(masked)`."
+section = "mask-every-path"
+example = "masked-emails"
+
+[concepts.relations]
+contrasts-with = ["denied-column"]
+
+[[concepts]]
+id = "denied-column"
+term = "denied column"
+aliases = ["denied columns"]
+context = "data-governance"
+definition = "A denied column is left out of the role's database and its allowlist, so the guard refuses it, and the refusal, which lists the columns the model may use, doesn't name it."
+section = "mask-every-path"
+example = "masked-emails"
+
+[[concepts]]
+id = "minimum-group-size"
+term = "minimum group size"
+aliases = ["minimum group sizes"]
+context = "data-governance"
+definition = "a minimum group size, a number of people below which a group's values are held back"
+section = "suppress-small-groups"
+example = "small-group-suppressed"
+
+[concepts.relations]
+prerequisite-of = ["small-group-suppression"]
+
+[[concepts]]
+id = "small-group-suppression"
+term = "small-group suppression"
+aliases = ["suppression", "suppressed group"]
+context = "data-governance"
+definition = "`PolicyLayer` then replaces each value of a group behind fewer than {{out:small-group-suppressed:minimum group size}} customers with `(under N)`, where N is the role's minimum group size."
+section = "suppress-small-groups"
+example = "small-group-suppressed"
+
+[[concepts]]
+id = "differencing"
+term = "differencing"
+aliases = ["differencing attack"]
+context = "data-governance"
+definition = "Differencing involves an intruder using multiple overlapping tables and subtraction"
+section = "differencing-limit"
+example = "difference-two-answers"
+
+[[concepts]]
+id = "secondary-suppression"
+term = "secondary suppression"
+aliases = ["complementary suppression"]
+context = "data-governance"
+definition = "Secondary suppression, which the handbook also calls complementary suppression (section 4.2.2), plans the breakdowns in advance and suppresses further cells across them."
+section = "differencing-limit"
+
+[[concepts]]
+id = "policy-toolbox"
+term = "PolicyToolbox"
+context = "data-governance"
+definition = "`PolicyToolbox`, chapter 6's metric tools over `PolicyLayer`, which end the run with a decline whose reason starts with \"forbidden\" when the policy refuses a request"
+section = "measure-access"
+example = "role-scope-score"
+
+[[concepts]]
+id = "audit-entry"
+term = "audit entry"
+aliases = ["audit entries", "audit log"]
+context = "data-governance"
+definition = "every question the agent handles gets an audit entry, written by code beside the answer, never by the model"
+section = "log-who-asked"
+example = "audit-entries"
+
+[[concepts]]
+id = "principal"
+term = "principal"
+aliases = ["principals"]
+context = "data-governance"
+definition = "the principal, meaning whoever your sign-in system says is asking"
+section = "log-who-asked"
+example = "audit-entries"
+
+[concepts.relations]
+part-of = ["audit-entry"]
+
+[[concepts]]
+id = "deny-by-default"
+term = "deny by default"
+context = "data-governance"
+definition = "Deny by default means that any table a filtered role's filter doesn't name or list as unfiltered is refused, so a mart added later stays closed to the lead until someone writes its filter."
+section = "row-filters-in-compiler"
+example = "regional-lead-revenue"
+
+[[concepts]]
+id = "scorecard"
+term = "scorecard"
+aliases = ["scorecards"]
+context = "llm-evaluation"
+definition = "a scorecard reports wrong numbers, declines and failures apart, the decline measures from chapter 8, and the cost in model calls and prompt tokens, beside accuracy"
+section = "score-a-run"
+example = "scorecard"
+
+[[concepts]]
+id = "wilson-interval"
+term = "Wilson interval"
+aliases = ["Wilson's interval", "Wilson score interval"]
+context = "llm-evaluation"
+definition = "Wilson's interval inverts the test of a proportion: it holds every true accuracy that the observed one wouldn't reject at the chosen level, so it never runs below 0 or above 1."
+formula = "centre   = (p + z² / 2n) / (1 + z² / n)\nhalf     = z × √( p(1 − p) / n + z² / 4n² ) / (1 + z² / n)\ninterval = centre − half  to  centre + half"
+section = "score-a-run"
+example = "scorecard"
+
+[concepts.relations]
+part-of = ["scorecard"]
+
+[[concepts]]
+id = "decline-reason"
+term = "decline reason"
+aliases = ["decline's reason", "reason for declining"]
+context = "llm-evaluation"
+definition = "A decline's reason, the sentence that tells the person why no number came"
+section = "judge-what-cannot-be-compared"
+example = "judge-an-explanation"
+
+[concepts.relations]
+part-of = ["decline"]
+
+[[concepts]]
+id = "judge"
+term = "judge"
+aliases = ["judges", "model as a judge", "LLM judge"]
+context = "llm-evaluation"
+definition = "a judge, a model call that grades an answer against a rubric and returns a verdict"
+section = "judge-what-cannot-be-compared"
+example = "judge-an-explanation"
+
+[[concepts]]
+id = "reference-label"
+term = "reference label"
+aliases = ["reference labels"]
+context = "llm-evaluation"
+definition = "Reference labels computed by `results_match()` are nobody's opinion: anyone can recompute them from `questions.toml` and the recordings, and when one looks wrong, the fix is to the golden question, where it's open to correction like the rest of the book."
+section = "calibrate-the-judge"
+example = "judge-agreement"
+
+[[concepts]]
+id = "judge-calibration"
+term = "judge calibration"
+aliases = ["calibrating a judge", "calibrate the judge"]
+context = "llm-evaluation"
+definition = "Calibrating a judge against reference labels measures how often the judge agrees with a check you trust, and in which direction it errs."
+section = "calibrate-the-judge"
+example = "judge-agreement"
+
+[concepts.relations]
+measured-from = ["reference-label"]
+
+[[concepts]]
+id = "cohens-kappa"
+term = "Cohen's kappa"
+aliases = ["kappa", "κ"]
+context = "llm-evaluation"
+definition = "Cohen's kappa estimates chance agreement from each rater's own label shares"
+formula = "kappa, pi    = (p_o − chance) / (1 − chance)"
+section = "calibrate-the-judge"
+example = "judge-agreement"
+
+[concepts.relations]
+contrasts-with = ["scotts-pi"]
+
+[[concepts]]
+id = "scotts-pi"
+term = "Scott's pi"
+aliases = ["pi", "π"]
+context = "llm-evaluation"
+definition = "Scott's pi estimates chance agreement from the two raters' shares pooled"
+formula = "kappa, pi    = (p_o − chance) / (1 − chance)"
+section = "calibrate-the-judge"
+example = "judge-agreement"
+
+[[concepts]]
+id = "self-preference"
+term = "self-preference"
+aliases = ["self-enhancement bias"]
+context = "llm-evaluation"
+definition = "Self-preference, a judge that \"scores its own outputs higher than others' while human annotators consider them of equal quality\" (Panickssery et al.), is a known bias"
+section = "calibrate-the-judge"
+
+[[concepts]]
+id = "familiarity"
+term = "familiarity"
+context = "llm-evaluation"
+definition = "familiarity, text that has low perplexity for the judge"
+section = "calibrate-the-judge"
+
+[[concepts]]
+id = "paired-difference"
+term = "paired difference"
+aliases = ["paired differences", "mean paired difference"]
+context = "llm-evaluation"
+definition = "`Comparison` in `lib/regressions.py` takes, for each question, the share of runs correct under the base and under the candidate, and their difference."
+section = "gate-a-change"
+example = "regression-gate"
+
+[[concepts]]
+id = "t-interval"
+term = "t interval"
+context = "llm-evaluation"
+definition = "a t interval, the standard error times Student's t for one fewer degrees of freedom than questions"
+section = "gate-a-change"
+example = "regression-gate"
+
+[[concepts]]
+id = "stable-break"
+term = "stable break"
+aliases = ["stable breaks"]
+context = "llm-evaluation"
+definition = "a stable break, a question the base got right in at least four runs of five and the candidate in at most one"
+section = "gate-a-change"
+example = "regression-gate"
+
+[concepts.relations]
+part-of = ["regression-gate"]
+
+[[concepts]]
+id = "regression-gate"
+term = "regression gate"
+aliases = ["gate", "CI gate"]
+context = "llm-evaluation"
+definition = "`gate()` applies two rules of our choosing: it fails on a stable break, a question the base got right in at least four runs of five and the candidate in at most one, and when the whole interval of the mean difference lies below zero."
+section = "gate-a-change"
+example = "regression-gate"
+
+[concepts.relations]
+computed-from = ["paired-difference"]
+
+[[concepts]]
+id = "model-context-protocol"
+term = "Model Context Protocol"
+aliases = ["MCP"]
+context = "ai-agents"
+definition = "MCP is an open protocol in which an application, the host, runs a client for each server it connects to, and a server offers tools that the host's model can call."
+section = "serve-over-mcp"
+
+[concepts.relations]
+implemented-by = [{ to = "mcp", versions = ">=2.3,<2.4" }]
+
+[[concepts]]
+id = "mcp-client"
+term = "client"
+aliases = ["MCP client", "clients"]
+context = "ai-agents"
+definition = "an application, the host, runs a client for each server it connects to"
+section = "serve-over-mcp"
+
+[concepts.relations]
+part-of = ["model-context-protocol"]
+
+[[concepts]]
+id = "mcp-server"
+term = "server"
+aliases = ["MCP server", "servers"]
+context = "ai-agents"
+definition = "a server offers tools that the host's model can call"
+section = "serve-over-mcp"
+
+[concepts.relations]
+part-of = ["model-context-protocol"]
+
+[[concepts]]
+id = "semantic-server"
+term = "semantic server"
+context = "ai-agents"
+definition = "the shop's semantic layer becomes one MCP server, which this chapter calls the semantic server"
+section = "serve-over-mcp"
+example = "list-metric-tools"
+
+[concepts.relations]
+broader = ["mcp-server"]
+
+[[concepts]]
+id = "mcp-tool"
+term = "MCP tool"
+aliases = ["MCP tools"]
+context = "ai-agents"
+definition = "An MCP tool is a name, a description the model reads, a JSON Schema for its arguments and, optionally, a schema for its result."
+section = "metrics-as-tools"
+example = "list-metric-tools"
+
+[concepts.relations]
+part-of = ["mcp-server"]
+
+[[concepts]]
+id = "binding-the-role-at-build"
+term = "binding the role at build"
+aliases = ["role binding", "bind the role"]
+context = "ai-agents"
+definition = "Binding the role at build means one server per person, which is what stdio gives you: the host starts a process for its user, and the process lives as long as the host needs it"
+section = "carry-the-role"
+example = "role-bound-at-build"
+
+[[concepts]]
+id = "token-verifier"
+term = "TokenVerifier"
+aliases = ["AccessToken"]
+context = "ai-agents"
+definition = "the server is given a `TokenVerifier` whose `verify_token()` returns an `AccessToken` with the client's ID, its scopes and the token's claims"
+section = "carry-the-role"
+applies_to = ["mcp"]
+
+[concepts.relations]
+implemented-by = [{ to = "mcp", versions = ">=2.3,<2.4" }]
+
+[[concepts]]
+id = "token-audience"
+term = "token audience"
+aliases = ["intended audience"]
+context = "ai-agents"
+definition = "servers must check that each access token was issued for them, as its intended audience"
+section = "carry-the-role"
+
+[[concepts]]
+id = "output-schema"
+term = "output schema"
+aliases = ["outputSchema"]
+context = "ai-agents"
+definition = "a tool can declare an `outputSchema` and return `structuredContent` that conforms to it"
+section = "return-provenance"
+example = "tool-result-with-provenance"
+
+[[concepts]]
+id = "structured-content"
+term = "structured content"
+aliases = ["structuredContent"]
+context = "ai-agents"
+definition = "Structured content is what lets a host's code, rather than its model, read an answer's role and filters."
+section = "return-provenance"
+example = "tool-result-with-provenance"
+
+[[concepts]]
+id = "tool-reply"
+term = "ToolReply"
+context = "ai-agents"
+definition = "Every tool of the semantic server returns a `ToolReply`, a pydantic model with two fields: `text`, the text the in-process tool shows the model, and `answer`, the answer with its rows and provenance, or nothing when the result doesn't end the run."
+section = "return-provenance"
+example = "tool-result-with-provenance"
+
+[[concepts]]
+id = "tool-execution-error"
+term = "tool execution error"
+aliases = ["tool error", "tool errors", "ToolError"]
+context = "ai-agents"
+definition = "The MCP specification reports a tool execution error as a result with `isError` set, with \"actionable feedback that language models can use to self-correct\""
+section = "return-provenance"
+example = "tool-result-with-provenance"
+
+[concepts.relations]
+contrasts-with = ["decline"]
+
+[[concepts]]
+id = "error-prefix"
+term = "error prefix"
+context = "ai-agents"
+definition = "the SDK's tool wrapper puts \"Error executing tool\" and the tool's name in front of the message of any `ToolError` a tool raises"
+section = "return-provenance"
+example = "tool-result-with-provenance"
+applies_to = ["mcp"]
+
+[concepts.relations]
+part-of = ["tool-execution-error"]
+
+[[concepts]]
+id = "in-memory-client"
+term = "in-memory client"
+aliases = ["in-memory clients"]
+context = "ai-agents"
+definition = "The Python SDK's `Client` connects to a server object in the same process when you pass it one instead of a URL"
+section = "test-the-server"
+example = "semantic-server-tests"
+applies_to = ["mcp"]
+
+[concepts.relations]
+broader = ["mcp-client"]
+implemented-by = [{ to = "mcp", versions = ">=2.3,<2.4" }]
+
+[[concepts]]
+id = "mcp-host"
+term = "host"
+aliases = ["MCP host", "hosts"]
+context = "ai-agents"
+definition = "A host is the application that runs the model and calls the server's tools for it"
+section = "answer-through-a-host"
+example = "host-asks-the-server"
+
+[concepts.relations]
+part-of = ["model-context-protocol"]
+
+[[concepts]]
+id = "server-toolbox"
+term = "ServerToolbox"
+context = "ai-agents"
+definition = "`ServerToolbox` has the `call()` method the loop expects, and makes each call through an MCP client."
+section = "answer-through-a-host"
+example = "host-asks-the-server"
