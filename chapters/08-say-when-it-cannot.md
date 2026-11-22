@@ -62,9 +62,9 @@ The shop's generator gives every raw table a `_loaded_at` column, the time the n
 
 On orders placed before March 2026, old enough for all their refunds to have come, {{out:stale-refunds:refunds within 30 days of the order}} of refunds came within 30 days of the order and {{out:stale-refunds:refunds within 45 days of the order}} within 45, and the longest took {{out:stale-refunds:longest days from order to refund}} days. So the refund rate's window is {{out:stale-refunds:settling window, order_refunds}}, the longest delay the shop has seen.
 
-In {{fig:refund-settling}}, refunds keep arriving until the window.
+{{fig:refund-settling}} shows refunds arriving until day {{out:figure-refund-settling:longest days}}.
 
-![Refunds arrive until the settling window](../examples/figures/refund-settling.svg "The share of refunds that have come, by days from the order, for orders placed before March 2026")
+![A month read early misses later refunds](../examples/figures/refund-settling.svg "The share of refunds that have come, by days from the order, for orders placed before March 2026")
 
 [Example: figure-refund-settling](../examples/figure-refund-settling.py)
 

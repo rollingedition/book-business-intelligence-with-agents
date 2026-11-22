@@ -40,9 +40,9 @@ On test, the declining prompt fixed no question and broke one, `{{out:scorecard:
 
 Its wrong numbers fell from {{out:scorecard:test metrics-first wrong numbers}} to {{out:scorecard:test declining wrong numbers}}, because one wrong answer became a run that hit the step limit, not a right one. The intervals of the two agents overlap almost entirely on both splits. Two totals with overlapping intervals can't tell you whether a change helped, which is why [the gate](#gate-a-change) compares the same questions in pairs.
 
-On dev, schema-only SQL's interval lies wholly below both metric agents': it ends at {{out:figure-accuracy-intervals:dev schema-only interval high}}, and theirs begin at {{out:figure-accuracy-intervals:dev metrics-first interval low}}. On test it does not lie clear of metrics-first's: schema-only SQL's interval ends at {{out:figure-accuracy-intervals:test schema-only interval high}}, and metrics-first's begins at {{out:figure-accuracy-intervals:test metrics-first interval low}}, so the two overlap. Metrics-first's and declining's intervals are the same on dev. {{fig:accuracy-intervals}} sets the three agents' intervals side by side on each split.
+On dev, schema-only SQL's interval lies wholly below both metric agents': it ends at {{out:figure-accuracy-intervals:dev schema-only interval high}}, and theirs begin at {{out:figure-accuracy-intervals:dev metrics-first interval low}}. Metrics-first's and declining's intervals are the same on dev. {{fig:accuracy-intervals}} sets the three agents' intervals side by side on each split.
 
-![Schema-only SQL's interval is clear of the metric agents' on dev but overlaps metrics-first's on test](../examples/figures/accuracy-intervals.svg "Each agent's accuracy on each split, with its 95% interval")
+![On dev, schema-only SQL's interval lies wholly below both metric agents', whose intervals are the same](../examples/figures/accuracy-intervals.svg "Each agent's accuracy on each split, with its 95% interval")
 
 [Example: figure-accuracy-intervals](../examples/figure-accuracy-intervals.py)
 

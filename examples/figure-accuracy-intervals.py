@@ -1,6 +1,6 @@
 """Draw each agent's accuracy on each split with its 95% Wilson interval, scored as scorecard.py scores it.
 The prose rests on the printed bounds and on the yes or no lines: on dev, schema-only SQL's interval is clear of both metric
-agents', on test it overlaps metrics-first's, and metrics-first's and declining's dev intervals are equal."""
+agents', and metrics-first's and declining's dev intervals are equal."""
 import lib  # noqa: F401  (first, so threads and seeds are fixed before any numerical library loads)
 from lib.figures import INK, MUTED, new_figure, save
 from lib.golden import load_golden
@@ -17,15 +17,11 @@ for split in SPLITS:
         card = Scorecard(replay(con, layer, agent, in_split))
         cards[split, agent] = (card.accuracy, *card.interval)              # the Wilson interval, at about 95%
 d_s, d_m, d_d = cards["dev", "schema-only"], cards["dev", "metrics-first"], cards["dev", "declining"]
-t_s, t_m = cards["test", "schema-only"], cards["test", "metrics-first"]
 print(f"dev schema-only interval high: {d_s[2]:.2f}")
 print(f"dev metrics-first interval low: {d_m[1]:.2f}")
-print(f"test schema-only interval high: {t_s[2]:.2f}")
-print(f"test metrics-first interval low: {t_m[1]:.2f}")
 checks = {  # each claim the prose makes, printed as a word and asserted
     "dev schema-only interval clear of metrics-first": d_s[2] < d_m[1],
     "dev schema-only interval clear of declining": d_s[2] < d_d[1],
-    "test schema-only and metrics-first intervals overlap": t_s[1] <= t_m[2] and t_m[1] <= t_s[2],
     "dev metrics-first and declining intervals equal": d_m[1:] == d_d[1:],
 }
 for name, ok in checks.items():

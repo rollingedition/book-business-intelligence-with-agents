@@ -96,9 +96,9 @@ The keyed join's largest step is a `{{out:explain-before-running:joined on order
 
 Of the {{out:explain-before-running:golden queries estimated}} golden queries the allowlist accepts, {{out:explain-before-running:golden plans with a step that has no estimate}} have a step without an estimate, and the largest estimate among them is {{out:explain-before-running:largest estimate among golden queries}}, against a limit of {{out:explain-before-running:limit on estimated rows}} rows, a rule of thumb for the shop's size.
 
-{{fig:plan-row-estimates}} draws golden estimates, floored at 1,000 rows, and the keyless join, at {{out:figure-plan-row-estimates:join with no keys over the limit}} the limit.
+{{fig:plan-row-estimates}} draws golden estimates, floored at 1,000, and the keyless join, at {{out:figure-plan-row-estimates:join with no keys over the limit}} the limit.
 
-![Golden queries fall far under the limit, keyless join over](../examples/figures/plan-row-estimates.svg "Estimates against the limit")
+![Golden queries sit far below the limit, keyless joins far above](../examples/figures/plan-row-estimates.svg "Each golden query's largest row estimate, and the keyless join's, against the guard's limit")
 
 [Example: figure-plan-row-estimates](../examples/figure-plan-row-estimates.py)
 
