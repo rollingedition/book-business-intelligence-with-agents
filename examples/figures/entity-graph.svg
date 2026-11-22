@@ -25,162 +25,147 @@ z
   </g>
   <g id="axes_1">
    <g id="patch_2">
-    <path d="M 16.644226 75.834094 
-L 107.60413 75.834094 
-Q 116.70012 75.834094 116.70012 71.058103 
-L 116.70012 40.014166 
-Q 116.70012 35.238175 107.60413 35.238175 
-L 16.644226 35.238175 
-Q 7.548235 35.238175 7.548235 40.014166 
-L 7.548235 71.058103 
-Q 7.548235 75.834094 16.644226 75.834094 
-L 16.644226 75.834094 
+    <path d="M 20.214501 75.834094 
+L 110.438265 75.834094 
+Q 119.460642 75.834094 119.460642 71.058103 
+L 119.460642 40.014166 
+Q 119.460642 35.238175 110.438265 35.238175 
+L 20.214501 35.238175 
+Q 11.192124 35.238175 11.192124 40.014166 
+L 11.192124 71.058103 
+Q 11.192124 75.834094 20.214501 75.834094 
+L 20.214501 75.834094 
 z
-" clip-path="url(#p570ca736f4)" style="fill: none; stroke: #1b1712; stroke-linejoin: miter"/>
+" clip-path="url(#p3a02d97ec8)" style="fill: none; stroke: #1b1712; stroke-linejoin: miter"/>
    </g>
    <g id="patch_3">
-    <path d="M 184.920048 75.834094 
-L 275.879952 75.834094 
-Q 284.975942 75.834094 284.975942 71.058103 
-L 284.975942 40.014166 
-Q 284.975942 35.238175 275.879952 35.238175 
-L 184.920048 35.238175 
-Q 175.824058 35.238175 175.824058 40.014166 
-L 175.824058 71.058103 
-Q 175.824058 75.834094 184.920048 75.834094 
-L 184.920048 75.834094 
+    <path d="M 187.128465 75.834094 
+L 277.35223 75.834094 
+Q 286.374607 75.834094 286.374607 71.058103 
+L 286.374607 40.014166 
+Q 286.374607 35.238175 277.35223 35.238175 
+L 187.128465 35.238175 
+Q 178.106089 35.238175 178.106089 40.014166 
+L 178.106089 71.058103 
+Q 178.106089 75.834094 187.128465 75.834094 
+L 187.128465 75.834094 
 z
-" clip-path="url(#p570ca736f4)" style="fill: none; stroke: #1b1712; stroke-linejoin: miter"/>
+" clip-path="url(#p3a02d97ec8)" style="fill: none; stroke: #1b1712; stroke-linejoin: miter"/>
    </g>
    <g id="patch_4">
-    <path d="M 16.644226 214.337815 
-L 107.60413 214.337815 
-Q 116.70012 214.337815 116.70012 209.561825 
-L 116.70012 178.517887 
-Q 116.70012 173.741897 107.60413 173.741897 
-L 16.644226 173.741897 
-Q 7.548235 173.741897 7.548235 178.517887 
-L 7.548235 209.561825 
-Q 7.548235 214.337815 16.644226 214.337815 
-L 16.644226 214.337815 
+    <path d="M 20.214501 214.337815 
+L 110.438265 214.337815 
+Q 119.460642 214.337815 119.460642 209.561825 
+L 119.460642 178.517887 
+Q 119.460642 173.741897 110.438265 173.741897 
+L 20.214501 173.741897 
+Q 11.192124 173.741897 11.192124 178.517887 
+L 11.192124 209.561825 
+Q 11.192124 214.337815 20.214501 214.337815 
+L 20.214501 214.337815 
 z
-" clip-path="url(#p570ca736f4)" style="fill: none; stroke: #1b1712; stroke-linejoin: miter"/>
+" clip-path="url(#p3a02d97ec8)" style="fill: none; stroke: #1b1712; stroke-linejoin: miter"/>
    </g>
    <g id="patch_5">
-    <path d="M 184.920048 214.337815 
-L 275.879952 214.337815 
-Q 284.975942 214.337815 284.975942 209.561825 
-L 284.975942 178.517887 
-Q 284.975942 173.741897 275.879952 173.741897 
-L 184.920048 173.741897 
-Q 175.824058 173.741897 175.824058 178.517887 
-L 175.824058 209.561825 
-Q 175.824058 214.337815 184.920048 214.337815 
-L 184.920048 214.337815 
+    <path d="M 187.128465 214.337815 
+L 277.35223 214.337815 
+Q 286.374607 214.337815 286.374607 209.561825 
+L 286.374607 178.517887 
+Q 286.374607 173.741897 277.35223 173.741897 
+L 187.128465 173.741897 
+Q 178.106089 173.741897 178.106089 178.517887 
+L 178.106089 209.561825 
+Q 178.106089 214.337815 187.128465 214.337815 
+L 187.128465 214.337815 
 z
-" clip-path="url(#p570ca736f4)" style="fill: none; stroke: #1b1712; stroke-linejoin: miter"/>
+" clip-path="url(#p3a02d97ec8)" style="fill: none; stroke: #1b1712; stroke-linejoin: miter"/>
    </g>
    <g id="patch_6">
-    <path d="M 353.19587 214.337815 
-L 444.155774 214.337815 
-Q 453.251765 214.337815 453.251765 209.561825 
-L 453.251765 178.517887 
-Q 453.251765 173.741897 444.155774 173.741897 
-L 353.19587 173.741897 
-Q 344.09988 173.741897 344.09988 178.517887 
-L 344.09988 209.561825 
-Q 344.09988 214.337815 353.19587 214.337815 
-L 353.19587 214.337815 
+    <path d="M 354.04243 214.337815 
+L 444.266195 214.337815 
+Q 453.288572 214.337815 453.288572 209.561825 
+L 453.288572 178.517887 
+Q 453.288572 173.741897 444.266195 173.741897 
+L 354.04243 173.741897 
+Q 345.020054 173.741897 345.020054 178.517887 
+L 345.020054 209.561825 
+Q 345.020054 214.337815 354.04243 214.337815 
+L 354.04243 214.337815 
 z
-" clip-path="url(#p570ca736f4)" style="fill: none; stroke: #1b1712; stroke-linejoin: miter"/>
+" clip-path="url(#p3a02d97ec8)" style="fill: none; stroke: #1b1712; stroke-linejoin: miter"/>
    </g>
    <g id="text_1">
-    <text style="font-size: 10px; font-family: 'IBM Plex Sans', 'DejaVu Sans', sans-serif; text-anchor: middle; fill: #1b1712" x="62.124178" y="52.163803" transform="rotate(-0 62.124178 52.163803)">customers</text>
+    <text style="font-size: 10px; font-family: 'IBM Plex Sans', 'DejaVu Sans', sans-serif; text-anchor: middle; fill: #1b1712" x="65.326383" y="58.133791" transform="rotate(-0 65.326383 58.133791)">customers</text>
    </g>
    <g id="text_2">
-    <text style="font-size: 8px; font-family: 'IBM Plex Sans', 'DejaVu Sans', sans-serif; text-anchor: middle; fill: #61574a" x="62.124178" y="65.972555" transform="rotate(-0 62.124178 65.972555)">analytics.dim_customers</text>
+    <text style="font-size: 10px; font-family: 'IBM Plex Sans', 'DejaVu Sans', sans-serif; text-anchor: middle; fill: #1b1712" x="232.240348" y="58.134181" transform="rotate(-0 232.240348 58.134181)">orders</text>
    </g>
    <g id="text_3">
-    <text style="font-size: 10px; font-family: 'IBM Plex Sans', 'DejaVu Sans', sans-serif; text-anchor: middle; fill: #1b1712" x="230.4" y="52.164193" transform="rotate(-0 230.4 52.164193)">orders</text>
+    <text style="font-size: 10px; font-family: 'IBM Plex Sans', 'DejaVu Sans', sans-serif; text-anchor: middle; fill: #1b1712" x="65.326383" y="196.637903" transform="rotate(-0 65.326383 196.637903)">refunds</text>
    </g>
    <g id="text_4">
-    <text style="font-size: 8px; font-family: 'IBM Plex Sans', 'DejaVu Sans', sans-serif; text-anchor: middle; fill: #61574a" x="230.4" y="65.972555" transform="rotate(-0 230.4 65.972555)">analytics.fct_orders</text>
+    <text style="font-size: 10px; font-family: 'IBM Plex Sans', 'DejaVu Sans', sans-serif; text-anchor: middle; fill: #1b1712" x="232.240348" y="196.637903" transform="rotate(-0 232.240348 196.637903)">order_lines</text>
    </g>
    <g id="text_5">
-    <text style="font-size: 10px; font-family: 'IBM Plex Sans', 'DejaVu Sans', sans-serif; text-anchor: middle; fill: #1b1712" x="62.124178" y="190.667915" transform="rotate(-0 62.124178 190.667915)">refunds</text>
-   </g>
-   <g id="text_6">
-    <text style="font-size: 8px; font-family: 'IBM Plex Sans', 'DejaVu Sans', sans-serif; text-anchor: middle; fill: #61574a" x="62.124178" y="204.476277" transform="rotate(-0 62.124178 204.476277)">semantic.refunds</text>
-   </g>
-   <g id="text_7">
-    <text style="font-size: 10px; font-family: 'IBM Plex Sans', 'DejaVu Sans', sans-serif; text-anchor: middle; fill: #1b1712" x="230.4" y="190.667915" transform="rotate(-0 230.4 190.667915)">order_lines</text>
-   </g>
-   <g id="text_8">
-    <text style="font-size: 8px; font-family: 'IBM Plex Sans', 'DejaVu Sans', sans-serif; text-anchor: middle; fill: #61574a" x="230.4" y="204.476277" transform="rotate(-0 230.4 204.476277)">semantic.order_lines</text>
-   </g>
-   <g id="text_9">
-    <text style="font-size: 10px; font-family: 'IBM Plex Sans', 'DejaVu Sans', sans-serif; text-anchor: middle; fill: #1b1712" x="398.675822" y="190.667915" transform="rotate(-0 398.675822 190.667915)">products</text>
-   </g>
-   <g id="text_10">
-    <text style="font-size: 8px; font-family: 'IBM Plex Sans', 'DejaVu Sans', sans-serif; text-anchor: middle; fill: #61574a" x="398.675822" y="204.476277" transform="rotate(-0 398.675822 204.476277)">analytics.dim_products</text>
+    <text style="font-size: 10px; font-family: 'IBM Plex Sans', 'DejaVu Sans', sans-serif; text-anchor: middle; fill: #1b1712" x="399.154313" y="196.637903" transform="rotate(-0 399.154313 196.637903)">products</text>
    </g>
    <g id="patch_7">
-    <path d="M 230.4 173.239782 
-Q 230.4 124.788682 230.4 78.797256 
+    <path d="M 232.240348 173.239782 
+Q 232.240348 124.788682 232.240348 78.797256 
 " style="fill: none; stroke: #9a4a06; stroke-width: 2.2; stroke-linecap: round"/>
-    <path d="M 228.4 82.797256 
-L 230.4 78.797256 
-L 232.4 82.797256 
+    <path d="M 230.240348 82.797256 
+L 232.240348 78.797256 
+L 234.240348 82.797256 
 z
 " style="fill: #9a4a06; stroke: #9a4a06; stroke-width: 2.2; stroke-linecap: round"/>
    </g>
-   <g id="text_11">
-    <text style="font-size: 9px; font-family: 'IBM Plex Sans', 'DejaVu Sans', sans-serif; text-anchor: start; fill: #9a4a06" x="244.043986" y="127.126237" transform="rotate(-0 244.043986 127.126237)">order: many order_lines per order</text>
+   <g id="text_6">
+    <text style="font-size: 9px; font-family: 'IBM Plex Sans', 'DejaVu Sans', sans-serif; text-anchor: start; fill: #9a4a06" x="245.773913" y="127.126237" transform="rotate(-0 245.773913 127.126237)">order: many order_lines per order</text>
    </g>
    <g id="patch_8">
-    <path d="M 285.474282 194.039856 
-Q 314.536414 194.039856 341.138872 194.039856 
+    <path d="M 286.874007 194.039856 
+Q 315.696205 194.039856 342.058729 194.039856 
 " style="fill: none; stroke: #9a4a06; stroke-width: 2.2; stroke-linecap: round"/>
-    <path d="M 337.138872 192.039856 
-L 341.138872 194.039856 
-L 337.138872 196.039856 
+    <path d="M 338.058729 192.039856 
+L 342.058729 194.039856 
+L 338.058729 196.039856 
 z
 " style="fill: #9a4a06; stroke: #9a4a06; stroke-width: 2.2; stroke-linecap: round"/>
    </g>
-   <g id="text_12">
-    <text style="font-size: 9px; font-family: 'IBM Plex Sans', 'DejaVu Sans', sans-serif; text-anchor: middle; fill: #9a4a06" x="314.537911" y="232.198026" transform="rotate(-0 314.537911 232.198026)">product: many order_lines per product</text>
+   <g id="text_7">
+    <text style="font-size: 9px; font-family: 'IBM Plex Sans', 'DejaVu Sans', sans-serif; text-anchor: middle; fill: #9a4a06" x="315.69733" y="232.198026" transform="rotate(-0 315.69733 232.198026)">product: many order_lines per product</text>
    </g>
    <g id="patch_9">
-    <path d="M 175.325718 55.536134 
-Q 146.263586 55.536134 119.661128 55.536134 
+    <path d="M 177.606689 55.536134 
+Q 148.784491 55.536134 122.421967 55.536134 
 " style="fill: none; stroke: #9a4a06; stroke-width: 2.2; stroke-linecap: round"/>
-    <path d="M 123.661128 57.536134 
-L 119.661128 55.536134 
-L 123.661128 53.536134 
+    <path d="M 126.421967 57.536134 
+L 122.421967 55.536134 
+L 126.421967 53.536134 
 z
 " style="fill: #9a4a06; stroke: #9a4a06; stroke-width: 2.2; stroke-linecap: round"/>
    </g>
-   <g id="text_13">
-    <text style="font-size: 9px; font-family: 'IBM Plex Sans', 'DejaVu Sans', sans-serif; text-anchor: middle; fill: #9a4a06" x="146.262089" y="29.218434" transform="rotate(-0 146.262089 29.218434)">customer: many orders per customer</text>
+   <g id="text_8">
+    <text style="font-size: 9px; font-family: 'IBM Plex Sans', 'DejaVu Sans', sans-serif; text-anchor: middle; fill: #9a4a06" x="148.783365" y="29.218434" transform="rotate(-0 148.783365 29.218434)">customer: many orders per customer</text>
    </g>
    <g id="patch_10">
-    <path d="M 87.392768 173.241896 
-Q 146.263017 124.787231 204.097381 77.185178 
+    <path d="M 90.390475 173.241896 
+Q 148.784286 124.787231 206.145624 77.189304 
 " style="fill: none; stroke-dasharray: 4.44,1.92; stroke-dashoffset: 0; stroke: #61574a; stroke-width: 1.2; stroke-linecap: round"/>
-    <path d="M 199.737976 78.182967 
-L 204.097381 77.185178 
-L 202.27997 81.271376 
+    <path d="M 201.790234 78.204481 
+L 206.145624 77.189304 
+L 204.344531 81.282722 
 z
 " style="fill: #61574a; stroke-dasharray: 4.44,1.92; stroke-dashoffset: 0; stroke: #61574a; stroke-width: 1.2; stroke-linecap: round"/>
    </g>
-   <g id="text_14">
-    <text style="font-size: 9px; font-family: 'IBM Plex Sans', 'DejaVu Sans', sans-serif; text-anchor: end; fill: #61574a" x="166.728067" y="100.85829" transform="rotate(-0 166.728067 100.85829)">order: 0.07 refunds per order</text>
+   <g id="text_9">
+    <text style="font-size: 9px; font-family: 'IBM Plex Sans', 'DejaVu Sans', sans-serif; text-anchor: end; fill: #61574a" x="169.083713" y="100.85829" transform="rotate(-0 169.083713 100.85829)">order: refunds per order, at most 1</text>
    </g>
   </g>
  </g>
  <defs>
-  <clipPath id="p570ca736f4">
-   <rect x="3.00024" y="3.00024" width="454.79952" height="238.79952"/>
+  <clipPath id="p3a02d97ec8">
+   <rect x="6.680936" y="3.00024" width="451.118824" height="238.79952"/>
   </clipPath>
  </defs>
 </svg>

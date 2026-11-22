@@ -2,11 +2,7 @@ edge: order_lines -> orders on order
 order_lines rows per order: 2.56
 most order_lines rows for one order: 6
 edge: order_lines -> products on product
-order_lines rows per product: 317.26
-most order_lines rows for one product: 3607
 edge: orders -> customers on customer
-orders rows per customer: 4.89
-most orders rows for one customer: 656
 edge: refunds -> orders on order
 refunds rows per order: 0.07
 most refunds rows for one order: 1
