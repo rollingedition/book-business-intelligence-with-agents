@@ -110,12 +110,12 @@ z
     <text style="font-size: 10px; font-family: 'IBM Plex Sans', 'DejaVu Sans', sans-serif; text-anchor: middle; fill: #1b1712" x="399.154313" y="196.637903" transform="rotate(-0 399.154313 196.637903)">products</text>
    </g>
    <g id="patch_7">
-    <path d="M 232.240348 173.239782 
-Q 232.240348 124.788682 232.240348 78.797256 
+    <path d="M 232.240348 171.237744 
+Q 232.240348 124.788273 232.240348 80.798478 
 " style="fill: none; stroke: #9a4a06; stroke-width: 2.2; stroke-linecap: round"/>
-    <path d="M 230.240348 82.797256 
-L 232.240348 78.797256 
-L 234.240348 82.797256 
+    <path d="M 230.240348 84.798478 
+L 232.240348 80.798478 
+L 234.240348 84.798478 
 z
 " style="fill: #9a4a06; stroke: #9a4a06; stroke-width: 2.2; stroke-linecap: round"/>
    </g>
@@ -123,12 +123,12 @@ z
     <text style="font-size: 9px; font-family: 'IBM Plex Sans', 'DejaVu Sans', sans-serif; text-anchor: start; fill: #9a4a06" x="245.773913" y="127.126237" transform="rotate(-0 245.773913 127.126237)">order: many order_lines per order</text>
    </g>
    <g id="patch_8">
-    <path d="M 286.874007 194.039856 
-Q 315.696205 194.039856 342.058729 194.039856 
+    <path d="M 288.875939 194.039856 
+Q 315.697006 194.039856 340.058398 194.039856 
 " style="fill: none; stroke: #9a4a06; stroke-width: 2.2; stroke-linecap: round"/>
-    <path d="M 338.058729 192.039856 
-L 342.058729 194.039856 
-L 338.058729 196.039856 
+    <path d="M 336.058398 192.039856 
+L 340.058398 194.039856 
+L 336.058398 196.039856 
 z
 " style="fill: #9a4a06; stroke: #9a4a06; stroke-width: 2.2; stroke-linecap: round"/>
    </g>
@@ -136,12 +136,12 @@ z
     <text style="font-size: 9px; font-family: 'IBM Plex Sans', 'DejaVu Sans', sans-serif; text-anchor: middle; fill: #9a4a06" x="315.69733" y="232.198026" transform="rotate(-0 315.69733 232.198026)">product: many order_lines per product</text>
    </g>
    <g id="patch_9">
-    <path d="M 177.606689 55.536134 
-Q 148.784491 55.536134 122.421967 55.536134 
+    <path d="M 175.604757 55.536134 
+Q 148.78369 55.536134 124.422297 55.536134 
 " style="fill: none; stroke: #9a4a06; stroke-width: 2.2; stroke-linecap: round"/>
-    <path d="M 126.421967 57.536134 
-L 122.421967 55.536134 
-L 126.421967 53.536134 
+    <path d="M 128.422297 57.536134 
+L 124.422297 55.536134 
+L 128.422297 53.536134 
 z
 " style="fill: #9a4a06; stroke: #9a4a06; stroke-width: 2.2; stroke-linecap: round"/>
    </g>
@@ -149,12 +149,12 @@ z
     <text style="font-size: 9px; font-family: 'IBM Plex Sans', 'DejaVu Sans', sans-serif; text-anchor: middle; fill: #9a4a06" x="148.783365" y="29.218434" transform="rotate(-0 148.783365 29.218434)">customer: many orders per customer</text>
    </g>
    <g id="patch_10">
-    <path d="M 90.390475 173.241896 
-Q 148.784286 124.787231 206.145624 77.189304 
+    <path d="M 91.926591 171.96724 
+Q 148.783837 124.787604 204.608609 78.464706 
 " style="fill: none; stroke-dasharray: 4.44,1.92; stroke-dashoffset: 0; stroke: #61574a; stroke-width: 1.2; stroke-linecap: round"/>
-    <path d="M 201.790234 78.204481 
-L 206.145624 77.189304 
-L 204.344531 81.282722 
+    <path d="M 200.253219 79.479882 
+L 204.608609 78.464706 
+L 202.807516 82.558123 
 z
 " style="fill: #61574a; stroke-dasharray: 4.44,1.92; stroke-dashoffset: 0; stroke: #61574a; stroke-width: 1.2; stroke-linecap: round"/>
    </g>

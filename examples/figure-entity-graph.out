@@ -1,9 +1,5 @@
-edge: order_lines -> orders on order
 order_lines rows per order: 2.56
 most order_lines rows for one order: 6
-edge: order_lines -> products on product
-edge: orders -> customers on customer
-edge: refunds -> orders on order
 refunds rows per order: 0.07
 most refunds rows for one order: 1
 hops with many rows per primary row: 3
