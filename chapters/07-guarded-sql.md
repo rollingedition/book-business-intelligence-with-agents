@@ -96,17 +96,17 @@ The keyed join's largest step is a `{{out:explain-before-running:joined on order
 
 Of the {{out:explain-before-running:golden queries estimated}} golden queries the allowlist accepts, {{out:explain-before-running:golden plans with a step that has no estimate}} have a step without an estimate, and the largest estimate among them is {{out:explain-before-running:largest estimate among golden queries}}, against a limit of {{out:explain-before-running:limit on estimated rows}} rows, a rule of thumb for the shop's size.
 
+{{fig:plan-row-estimates}} draws golden estimates, those under 1,000 rows at 1,000, and the keyless join, at {{out:figure-plan-row-estimates:join with no keys over the limit}} the limit.
+
+![Golden queries sit far under the limit, keyless join far over](../examples/figures/plan-row-estimates.svg "Estimates against the limit")
+
+[Example: figure-plan-row-estimates](../examples/figure-plan-row-estimates.py)
+
 A cross product isn't always a mistake, either: DuckDB's plan for the golden query of {{out:explain-before-running:golden plans with a cross product}}, units per order, has one, and that query is correct.
 
 The `LIMIT` needs care. sqlglot's `.limit()` replaces the `LIMIT` a query already has, so a top-five query given `.limit(1001)` ends in `{{out:explain-before-running:sqlglot's .limit(1001)}}` and stops being a top five. The guard keeps the smaller limit, which is {{out:explain-before-running:guard's limit on the top five}}, and sets its own limit one row more than the 1,000 it allows, so it can tell a result that was cut from one that fits. A query for every order is refused: `{{out:explain-before-running:every order (rows)}}`. The first 1,000 rows would look like an answer, so a refusal makes the model aggregate.
 
 The time limit is the backstop for estimates that are wrong. Under the timer alone, the join without keys shows whether the backstop holds. `run_with_timeout()` calls DuckDB's `interrupt()`, which DuckDB acts on between the batches of rows a query reads, so this query stops: `{{out:explain-before-running:no join keys, timer alone (timeout)}}`. The connection then answers the next query, and counts {{out:explain-before-running:connection still answers}} orders.
-
-{{fig:plan-row-estimates}} shows golden queries as dots, the cross product as the accent dot, and the dashed limit, {{out:figure-plan-row-estimates:limit over the largest golden estimate}} the largest.
-
-![Golden queries sit left of the limit, keyless join far right](../examples/figures/plan-row-estimates.svg "Estimates against the limit")
-
-[Example: figure-plan-row-estimates](../examples/figure-plan-row-estimates.py)
 
 **Working rule:** Bound every query four ways: a row limit that keeps a smaller one the agent wrote, a limit on the result's size, a plan-size limit from `EXPLAIN` checked before the query runs, and one deadline over every step of the guard, planning included. Refuse a result over either limit rather than cut it, and refuse a plan with a step that has no estimate. Set the plan limit from your own known-good queries. Never use `EXPLAIN ANALYZE`, which runs the query, and rely on the deadline and the result limits, not the estimate.
 

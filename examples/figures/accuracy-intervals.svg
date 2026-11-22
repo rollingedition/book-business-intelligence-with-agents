@@ -347,7 +347,23 @@ L 449.848197 196.398979
 " style="fill: none; stroke: #61574a; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
    </g>
    <g id="legend_1">
+    <g id="LineCollection_7">
+     <path d="M 110.984615 11.094454 
+L 120.984615 11.094454 
+" style="fill: none; stroke: #1b1712; stroke-width: 1.4"/>
+    </g>
     <g id="line2d_37">
+     <g>
+      <use xlink:href="#m748e26fda3" x="110.984615" y="11.094454" style="fill: #1b1712; stroke: #1b1712"/>
+     </g>
+    </g>
+    <g id="line2d_38">
+     <g>
+      <use xlink:href="#m748e26fda3" x="120.984615" y="11.094454" style="fill: #1b1712; stroke: #1b1712"/>
+     </g>
+    </g>
+    <g id="line2d_39"/>
+    <g id="line2d_40">
      <g>
       <use xlink:href="#mdac6e979d2" x="115.984615" y="11.094454" style="fill: #1b1712; stroke: #1b1712"/>
      </g>
@@ -355,7 +371,23 @@ L 449.848197 196.398979
     <g id="text_11">
      <text style="font-size: 10px; font-family: 'IBM Plex Sans', 'DejaVu Sans', sans-serif; text-anchor: start; fill: #1b1712" x="133.984615" y="14.594454" transform="rotate(-0 133.984615 14.594454)">dev split</text>
     </g>
-    <g id="line2d_38">
+    <g id="LineCollection_8">
+     <path d="M 201.617428 11.094454 
+L 211.617428 11.094454 
+" style="fill: none; stroke: #61574a; stroke-width: 1.4"/>
+    </g>
+    <g id="line2d_41">
+     <g>
+      <use xlink:href="#mef5861efa1" x="201.617428" y="11.094454" style="fill: #61574a; stroke: #61574a"/>
+     </g>
+    </g>
+    <g id="line2d_42">
+     <g>
+      <use xlink:href="#mef5861efa1" x="211.617428" y="11.094454" style="fill: #61574a; stroke: #61574a"/>
+     </g>
+    </g>
+    <g id="line2d_43"/>
+    <g id="line2d_44">
      <g>
       <use xlink:href="#m08a99b82e9" x="206.617428" y="11.094454" style="fill: #61574a; stroke: #61574a; stroke-linejoin: miter"/>
      </g>
