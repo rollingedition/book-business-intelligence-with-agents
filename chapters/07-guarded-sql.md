@@ -102,9 +102,9 @@ The `LIMIT` needs care. sqlglot's `.limit()` replaces the `LIMIT` a query alread
 
 The time limit is the backstop for estimates that are wrong. Under the timer alone, the join without keys shows whether the backstop holds. `run_with_timeout()` calls DuckDB's `interrupt()`, which DuckDB acts on between the batches of rows a query reads, so this query stops: `{{out:explain-before-running:no join keys, timer alone (timeout)}}`. The connection then answers the next query, and counts {{out:explain-before-running:connection still answers}} orders.
 
-{{fig:plan-row-estimates}} plots those estimates on a log scale. Each golden query's largest step is a muted dot, the keyless join's cross product is the accent dot, and the dashed line is the limit. The golden dots run from {{out:figure-plan-row-estimates:smallest golden estimate}} to {{out:figure-plan-row-estimates:largest golden estimate}}, all left of the dashed line, and the limit is {{out:figure-plan-row-estimates:limit over the largest golden estimate}} the largest of them. The cross product estimates {{out:figure-plan-row-estimates:join with no keys, cross product estimate}}, which is {{out:figure-plan-row-estimates:cross product over the limit}} the limit.
+{{fig:plan-row-estimates}} shows golden queries as dots, the cross product as the accent dot, and the dashed limit, {{out:figure-plan-row-estimates:limit over the largest golden estimate}} the largest.
 
-![Every golden query's largest estimate sits far left of the limit, and the keyless join's cross product sits far right of it](../examples/figures/plan-row-estimates.svg "The largest estimated step of each golden query, the limit, and the keyless join")
+![Golden queries sit left of the limit, keyless join far right](../examples/figures/plan-row-estimates.svg "Estimates against the limit")
 
 [Example: figure-plan-row-estimates](../examples/figure-plan-row-estimates.py)
 

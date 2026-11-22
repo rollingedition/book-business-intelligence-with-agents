@@ -289,7 +289,7 @@ L 446.74976 151.396635
      </g>
     </g>
     <g id="text_9">
-     <text style="font-size: 10px; font-family: 'IBM Plex Sans', 'DejaVu Sans', sans-serif; text-anchor: start; fill: #1b1712" x="48.80024" y="19.598678" transform="rotate(-0 48.80024 19.598678)">golden queries, one dot each (under 1,000 drawn at 1,000)</text>
+     <text style="font-size: 10px; font-family: 'IBM Plex Sans', 'DejaVu Sans', sans-serif; text-anchor: start; fill: #1b1712" x="48.80024" y="19.598678" transform="rotate(-0 48.80024 19.598678)">golden queries (under 1,000 at 1,000)</text>
     </g>
     <g id="PathCollection_4">
      <g>
@@ -297,7 +297,7 @@ L 446.74976 151.396635
      </g>
     </g>
     <g id="text_10">
-     <text style="font-size: 10px; font-family: 'IBM Plex Sans', 'DejaVu Sans', sans-serif; text-anchor: start; fill: #1b1712" x="48.80024" y="34.599459" transform="rotate(-0 48.80024 34.599459)">join with no keys, a cross product, 604,042,404,768 rows</text>
+     <text style="font-size: 10px; font-family: 'IBM Plex Sans', 'DejaVu Sans', sans-serif; text-anchor: start; fill: #1b1712" x="48.80024" y="34.599459" transform="rotate(-0 48.80024 34.599459)">join with no keys (cross product)</text>
     </g>
     <g id="line2d_16">
      <path d="M 20.80024 46.10024 
@@ -306,7 +306,7 @@ L 40.80024 46.10024
 " style="fill: none; stroke-dasharray: 4.44,1.92; stroke-dashoffset: 0; stroke: #1b1712; stroke-width: 1.2"/>
     </g>
     <g id="text_11">
-     <text style="font-size: 10px; font-family: 'IBM Plex Sans', 'DejaVu Sans', sans-serif; text-anchor: start; fill: #1b1712" x="48.80024" y="49.60024" transform="rotate(-0 48.80024 49.60024)">limit on estimated rows, 10,000,000</text>
+     <text style="font-size: 10px; font-family: 'IBM Plex Sans', 'DejaVu Sans', sans-serif; text-anchor: start; fill: #1b1712" x="48.80024" y="49.60024" transform="rotate(-0 48.80024 49.60024)">limit, 10,000,000 rows</text>
     </g>
    </g>
   </g>

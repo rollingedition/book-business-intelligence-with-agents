@@ -62,6 +62,12 @@ The shop's generator gives every raw table a `_loaded_at` column, the time the n
 
 On orders placed before March 2026, old enough for all their refunds to have come, {{out:stale-refunds:refunds within 30 days of the order}} of refunds came within 30 days of the order and {{out:stale-refunds:refunds within 45 days of the order}} within 45, and the longest took {{out:stale-refunds:longest days from order to refund}} days. So the refund rate's window is {{out:stale-refunds:settling window, order_refunds}}, the longest delay the shop has seen.
 
+In {{fig:refund-settling}}, refunds keep arriving until the window.
+
+![Refunds arrive until the settling window](../examples/figures/refund-settling.svg "The share of refunds that have come, by days from the order, for orders placed before March 2026")
+
+[Example: figure-refund-settling](../examples/figure-refund-settling.py)
+
 Without a check, the layer reports June's refund rate as {{out:stale-refunds:refund rate, 2026-06, unchecked}}, against {{out:stale-refunds:refund rate, 2026-05, unchecked}} for May, which looks normal. June's fall has two causes: some of June's refunds were made but never loaded, and most haven't been made yet. The twelve settled months, May 2025 to April 2026, estimate each. Their refund rate is {{out:stale-refunds:refund rate, settled months}}, and with each month's refunds counted only to the point the refunds feed's last load reaches for June, they give {{out:stale-refunds:2026-06, settled months' rate with refunds as loaded}}.
 
 Most of June's shortfall is refunds not yet made: the stale feed explains only {{out:stale-refunds:2026-06, share of the shortfall not loaded}} of it. May is short too, for the same two reasons, and the stale feed explains {{out:stale-refunds:2026-05, share of the shortfall not loaded}} of its shortfall. These are estimates from other months, not measurements.

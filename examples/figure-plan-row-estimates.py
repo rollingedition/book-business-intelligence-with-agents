@@ -23,9 +23,9 @@ drawn = [max(estimate, 1_000) for estimate in golden.values()]
 
 fig, ax = new_figure(height=2.6)
 offsets = [i % 5 * 0.06 for i in range(len(golden))]   # a fixed height per dot, so dots with close estimates don't overlap
-ax.scatter(drawn, offsets, color=MUTED, s=18, label="golden queries, one dot each (under 1,000 drawn at 1,000)")
-ax.scatter([no_keys], [0.5], color=ACCENT, s=40, label=f"join with no keys, a cross product, {no_keys:,} rows")
-ax.axvline(limit, color=INK, linestyle="--", linewidth=1.2, label=f"limit on estimated rows, {limit:,}")
+ax.scatter(drawn, offsets, color=MUTED, s=18, label="golden queries (under 1,000 at 1,000)")
+ax.scatter([no_keys], [0.5], color=ACCENT, s=40, label="join with no keys (cross product)")
+ax.axvline(limit, color=INK, linestyle="--", linewidth=1.2, label=f"limit, {limit:,} rows")
 ax.set_xscale("log")
 ax.set_xlim(1, 10 ** 12)                               # fixed, so the layout doesn't depend on the data's span
 ax.set_yticks([])
