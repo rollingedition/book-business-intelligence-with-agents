@@ -1,0 +1,6 @@
+dev schema-only interval high: 0.29
+dev metrics-first interval low: 0.50
+dev schema-only interval clear of metrics-first: yes
+dev schema-only interval clear of declining: yes
+dev metrics-first and declining intervals equal: yes
+figure: figures/accuracy-intervals.svg

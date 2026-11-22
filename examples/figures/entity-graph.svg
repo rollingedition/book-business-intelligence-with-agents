@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="460.8pt" height="244.8pt" viewBox="0 0 460.8 244.8" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:format>image/svg+xml</dc:format>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 244.8 
+L 460.8 244.8 
+L 460.8 0 
+L 0 0 
+L 0 244.8 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 20.214501 75.834094 
+L 110.438265 75.834094 
+Q 119.460642 75.834094 119.460642 71.058103 
+L 119.460642 40.014166 
+Q 119.460642 35.238175 110.438265 35.238175 
+L 20.214501 35.238175 
+Q 11.192124 35.238175 11.192124 40.014166 
+L 11.192124 71.058103 
+Q 11.192124 75.834094 20.214501 75.834094 
+L 20.214501 75.834094 
+z
+" clip-path="url(#p3a02d97ec8)" style="fill: none; stroke: #1b1712; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 187.128465 75.834094 
+L 277.35223 75.834094 
+Q 286.374607 75.834094 286.374607 71.058103 
+L 286.374607 40.014166 
+Q 286.374607 35.238175 277.35223 35.238175 
+L 187.128465 35.238175 
+Q 178.106089 35.238175 178.106089 40.014166 
+L 178.106089 71.058103 
+Q 178.106089 75.834094 187.128465 75.834094 
+L 187.128465 75.834094 
+z
+" clip-path="url(#p3a02d97ec8)" style="fill: none; stroke: #1b1712; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 20.214501 214.337815 
+L 110.438265 214.337815 
+Q 119.460642 214.337815 119.460642 209.561825 
+L 119.460642 178.517887 
+Q 119.460642 173.741897 110.438265 173.741897 
+L 20.214501 173.741897 
+Q 11.192124 173.741897 11.192124 178.517887 
+L 11.192124 209.561825 
+Q 11.192124 214.337815 20.214501 214.337815 
+L 20.214501 214.337815 
+z
+" clip-path="url(#p3a02d97ec8)" style="fill: none; stroke: #1b1712; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 187.128465 214.337815 
+L 277.35223 214.337815 
+Q 286.374607 214.337815 286.374607 209.561825 
+L 286.374607 178.517887 
+Q 286.374607 173.741897 277.35223 173.741897 
+L 187.128465 173.741897 
+Q 178.106089 173.741897 178.106089 178.517887 
+L 178.106089 209.561825 
+Q 178.106089 214.337815 187.128465 214.337815 
+L 187.128465 214.337815 
+z
+" clip-path="url(#p3a02d97ec8)" style="fill: none; stroke: #1b1712; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 354.04243 214.337815 
+L 444.266195 214.337815 
+Q 453.288572 214.337815 453.288572 209.561825 
+L 453.288572 178.517887 
+Q 453.288572 173.741897 444.266195 173.741897 
+L 354.04243 173.741897 
+Q 345.020054 173.741897 345.020054 178.517887 
+L 345.020054 209.561825 
+Q 345.020054 214.337815 354.04243 214.337815 
+L 354.04243 214.337815 
+z
+" clip-path="url(#p3a02d97ec8)" style="fill: none; stroke: #1b1712; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_1">
+    <text style="font-size: 10px; font-family: 'IBM Plex Sans', 'DejaVu Sans', sans-serif; text-anchor: middle; fill: #1b1712" x="65.326383" y="58.133791" transform="rotate(-0 65.326383 58.133791)">customers</text>
+   </g>
+   <g id="text_2">
+    <text style="font-size: 10px; font-family: 'IBM Plex Sans', 'DejaVu Sans', sans-serif; text-anchor: middle; fill: #1b1712" x="232.240348" y="58.134181" transform="rotate(-0 232.240348 58.134181)">orders</text>
+   </g>
+   <g id="text_3">
+    <text style="font-size: 10px; font-family: 'IBM Plex Sans', 'DejaVu Sans', sans-serif; text-anchor: middle; fill: #1b1712" x="65.326383" y="196.637903" transform="rotate(-0 65.326383 196.637903)">refunds</text>
+   </g>
+   <g id="text_4">
+    <text style="font-size: 10px; font-family: 'IBM Plex Sans', 'DejaVu Sans', sans-serif; text-anchor: middle; fill: #1b1712" x="232.240348" y="196.637903" transform="rotate(-0 232.240348 196.637903)">order_lines</text>
+   </g>
+   <g id="text_5">
+    <text style="font-size: 10px; font-family: 'IBM Plex Sans', 'DejaVu Sans', sans-serif; text-anchor: middle; fill: #1b1712" x="399.154313" y="196.637903" transform="rotate(-0 399.154313 196.637903)">products</text>
+   </g>
+   <g id="patch_7">
+    <path d="M 232.240348 171.237744 
+Q 232.240348 124.788273 232.240348 80.798478 
+" style="fill: none; stroke: #9a4a06; stroke-width: 2.2; stroke-linecap: round"/>
+    <path d="M 230.240348 84.798478 
+L 232.240348 80.798478 
+L 234.240348 84.798478 
+z
+" style="fill: #9a4a06; stroke: #9a4a06; stroke-width: 2.2; stroke-linecap: round"/>
+   </g>
+   <g id="text_6">
+    <text style="font-size: 9px; font-family: 'IBM Plex Sans', 'DejaVu Sans', sans-serif; text-anchor: start; fill: #9a4a06" x="245.773913" y="127.126237" transform="rotate(-0 245.773913 127.126237)">order: many order_lines per order</text>
+   </g>
+   <g id="patch_8">
+    <path d="M 288.875939 194.039856 
+Q 315.697006 194.039856 340.058398 194.039856 
+" style="fill: none; stroke: #9a4a06; stroke-width: 2.2; stroke-linecap: round"/>
+    <path d="M 336.058398 192.039856 
+L 340.058398 194.039856 
+L 336.058398 196.039856 
+z
+" style="fill: #9a4a06; stroke: #9a4a06; stroke-width: 2.2; stroke-linecap: round"/>
+   </g>
+   <g id="text_7">
+    <text style="font-size: 9px; font-family: 'IBM Plex Sans', 'DejaVu Sans', sans-serif; text-anchor: middle; fill: #9a4a06" x="315.69733" y="232.198026" transform="rotate(-0 315.69733 232.198026)">product: many order_lines per product</text>
+   </g>
+   <g id="patch_9">
+    <path d="M 175.604757 55.536134 
+Q 148.78369 55.536134 124.422297 55.536134 
+" style="fill: none; stroke: #9a4a06; stroke-width: 2.2; stroke-linecap: round"/>
+    <path d="M 128.422297 57.536134 
+L 124.422297 55.536134 
+L 128.422297 53.536134 
+z
+" style="fill: #9a4a06; stroke: #9a4a06; stroke-width: 2.2; stroke-linecap: round"/>
+   </g>
+   <g id="text_8">
+    <text style="font-size: 9px; font-family: 'IBM Plex Sans', 'DejaVu Sans', sans-serif; text-anchor: middle; fill: #9a4a06" x="148.783365" y="29.218434" transform="rotate(-0 148.783365 29.218434)">customer: many orders per customer</text>
+   </g>
+   <g id="patch_10">
+    <path d="M 91.926591 171.96724 
+Q 148.783837 124.787604 204.608609 78.464706 
+" style="fill: none; stroke-dasharray: 4.44,1.92; stroke-dashoffset: 0; stroke: #61574a; stroke-width: 1.2; stroke-linecap: round"/>
+    <path d="M 200.253219 79.479882 
+L 204.608609 78.464706 
+L 202.807516 82.558123 
+z
+" style="fill: #61574a; stroke-dasharray: 4.44,1.92; stroke-dashoffset: 0; stroke: #61574a; stroke-width: 1.2; stroke-linecap: round"/>
+   </g>
+   <g id="text_9">
+    <text style="font-size: 9px; font-family: 'IBM Plex Sans', 'DejaVu Sans', sans-serif; text-anchor: end; fill: #61574a" x="169.083713" y="100.85829" transform="rotate(-0 169.083713 100.85829)">order: refunds per order, at most 1</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p3a02d97ec8">
+   <rect x="6.680936" y="3.00024" width="451.118824" height="238.79952"/>
+  </clipPath>
+ </defs>
+</svg>

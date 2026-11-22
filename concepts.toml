@@ -58,7 +58,7 @@ id = "golden-question"
 term = "golden question"
 aliases = ["golden questions"]
 context = "llm-evaluation"
-definition = "A golden question is a question with its checked answer: the golden SQL, written against the owner's definition, the golden result that SQL returns, and the kind of answer expected."
+definition = "A golden question is a question with its checked answer: the kind of answer expected and, when the answer is a result, the golden SQL, written against the owner's definition, and the golden result that SQL returns."
 section = "check-the-first-number"
 example = "run-the-model-sql"
 
@@ -91,7 +91,7 @@ id = "metric"
 term = "metric"
 aliases = ["metrics", "defined metric"]
 context = "data-warehousing"
-definition = "A metric is a business measure written down once, by the people who own it: a name, a description a person can check, one aggregate over one mart, the rule for which rows count, and the dimensions it may be grouped and filtered by."
+definition = "A metric is a business measure written down once, by the people who own it: a name, a description a person can check, how it is computed from the marts, the rule for which rows count, and the dimensions it may be grouped and filtered by."
 section = "answer-from-a-metric"
 example = "one-metric-answer"
 
@@ -199,7 +199,7 @@ same-as = ["https://rollingedition.com/concepts/search-and-recommendation/trace"
 id = "fan-out"
 term = "fan-out"
 context = "data-warehousing"
-definition = "Fan-out is what happens when a query joins a table to another that has several rows for each of its rows, and then sums a column of the first."
+definition = "Fan-out is what happens when a query joins a table to another that has several rows for each of its rows, and then sums or counts a column of the first."
 section = "joins-that-fan-out"
 example = "tent-orders-fan-out"
 
@@ -254,7 +254,7 @@ broader = ["llm-evaluation/failure-kind", "failure-kind"]
 id = "nl2sql-bugs"
 term = "NL2SQL-BUGs"
 context = "llm-evaluation"
-definition = "One detailed taxonomy, NL2SQL-BUGs, sorts semantic errors in text-to-SQL into 9 categories and 31 subcategories, from 2,018 expert-annotated cases"
+definition = "One detailed taxonomy, NL2SQL-BUGs, sorts semantic errors in text-to-SQL into 9 categories and 31 subcategories, from 2,018 expert-annotated cases, 999 of them wrong"
 section = "definitions-not-in-schema"
 
 [[concepts]]
@@ -295,7 +295,7 @@ id = "dabstep"
 term = "DABstep"
 aliases = ["Data Agent Benchmark for Multi-step Reasoning"]
 context = "llm-evaluation"
-definition = "DABstep asks questions about a payments processor's transactions, scores only the final answer, and keeps most of its tasks hidden for its leaderboard"
+definition = "DABstep asks questions about a payments processor's transactions, scores only the final answer, and keeps the answers to most of its tasks hidden for its leaderboard"
 section = "benchmarks-are-not-your-test"
 example = "public-vs-own-score"
 
@@ -608,7 +608,7 @@ id = "foreign-entity"
 term = "foreign entity"
 aliases = ["foreign entities"]
 context = "data-warehousing"
-definition = "A foreign entity is a key that points at another table's primary entity, and it repeats."
+definition = "A foreign entity is a key that points at another table's primary entity, and it may repeat."
 section = "entities-measures-dimensions"
 applies_to = ["metricflow"]
 
@@ -879,7 +879,7 @@ id = "secure-view"
 term = "secure view"
 aliases = ["secure views"]
 context = "data-governance"
-definition = "Snowflake's secure views exist to limit access to sensitive data"
+definition = "Snowflake's secure views hide their definition and skip optimizations that could expose filtered rows"
 section = "views-per-role"
 
 [[concepts]]
@@ -982,9 +982,6 @@ term = "nonexistent filter value"
 aliases = ["nonexistent filter values"]
 definition = "a nonexistent filter value, in PRACTIQ's terms, is a filter value no row holds, such as a region called `Europe`."
 section = "kinds-of-unanswerable"
-
-[concepts.relations]
-contrasts-with = ["unanswerable-item"]
 
 [[concepts]]
 id = "decline"
@@ -1089,7 +1086,7 @@ measured-from = ["decline"]
 id = "selective-coverage"
 term = "coverage"
 context = "llm-evaluation"
-definition = "Coverage is the share of questions the system doesn't reject"
+definition = "Coverage is the share of questions the system answers"
 formula = "coverage          = questions answered with a number / questions asked"
 section = "measure-declines"
 example = "decline-precision-recall"
@@ -1232,7 +1229,7 @@ id = "secondary-suppression"
 term = "secondary suppression"
 aliases = ["complementary suppression"]
 context = "data-governance"
-definition = "Secondary suppression, which the handbook also calls complementary suppression (section 4.2.2), plans the breakdowns in advance and suppresses further cells across them."
+definition = "Secondary suppression, which the handbook also calls complementary suppression (section 4.2.2), suppresses further cells so that no suppressed cell can be worked out from the totals and the cells shown, across breakdowns planned in advance."
 section = "differencing-limit"
 
 [[concepts]]
@@ -1409,7 +1406,7 @@ close-to = ["https://rollingedition.com/concepts/artificial-intelligence/paired-
 id = "t-interval"
 term = "t interval"
 context = "llm-evaluation"
-definition = "a t interval, the standard error times Student's t for one fewer degrees of freedom than questions"
+definition = "a t interval, the mean plus and minus the standard error times Student's t for one fewer degrees of freedom than questions"
 section = "gate-a-change"
 example = "regression-gate"
 
@@ -1434,7 +1431,7 @@ id = "regression-gate"
 term = "regression gate"
 aliases = ["CI gate"]
 context = "llm-evaluation"
-definition = "`gate()` applies two rules of our choosing: it fails on a stable break, a question the base got right in at least four runs of five and the candidate in at most one, and when the whole interval of the mean difference lies below zero."
+definition = "`gate()` applies two rules of our choosing: it fails on a stable break, a question the base got right in at least four runs of five and the candidate in at most one, or when the whole interval of the mean difference lies below zero."
 section = "gate-a-change"
 example = "regression-gate"
 
@@ -1546,7 +1543,7 @@ id = "structured-content"
 term = "structured content"
 aliases = ["structuredContent"]
 context = "ai-agents"
-definition = "Structured content is what lets a host's code, rather than its model, read an answer's role and filters."
+definition = "Structured content, the JSON a tool returns in `structuredContent`, is what lets a host's code, rather than its model, read an answer's role and filters."
 section = "return-provenance"
 example = "tool-result-with-provenance"
 

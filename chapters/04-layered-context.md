@@ -100,6 +100,12 @@ Column notes and verified queries raise the score; the glossary doesn't. The sch
 
 The grid shows where the change came from. Against the run with the glossary, retrieved examples fixed {{out:layer-ablation-dev:fixed by verified queries}} questions and broke {{out:layer-ablation-dev:broken by verified queries}}. Two of the fixes are new: the fiscal-quarter question `gq-010` and the order count by region `gq-013`, whose nearest verified queries show exactly the join and the count they needed. The other three, `gq-002`, `gq-009` and `gq-016`, are the questions the glossary run had lost, so there the examples won back what the glossary had cost.
 
+{{fig:layers-correct-and-tokens}} draws each layer set at its mean context tokens, which count the layers' text alone, without the instructions and the question. Correct answers are the solid line and errors the dashed one, and each point is labelled by its layer set. The column notes add {{out:figure-layers-correct-and-tokens:+columns adds correct}} more correct answers and {{out:figure-layers-correct-and-tokens:+columns adds context tokens}} more context tokens, more than either the glossary or the verified queries add on either count. The verified queries add {{out:figure-layers-correct-and-tokens:+verified adds context tokens}} tokens, the fewest, and gain nearly as many correct answers as the notes. The glossary adds no correct answers.
+
+![Correct answers rise with the column notes and again with the verified queries, while the glossary adds tokens and no correct answers](../examples/figures/layers-correct-and-tokens.svg "Correct answers and errors on the dev questions, by each layer set's context tokens")
+
+[Example: figure-layers-correct-and-tokens](../examples/figure-layers-correct-and-tokens.py)
+
 The totals say how much each layer helped. The failures say what the next layer should be, so the next two examples read them, starting with the schema-only queries that don't run.
 
 [Example: missing-columns-schema-only](../examples/missing-columns-schema-only.py)

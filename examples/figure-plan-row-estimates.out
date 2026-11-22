@@ -1,0 +1,4 @@
+figure: figures/plan-row-estimates.svg
+golden queries estimated: 32
+largest golden estimate: 38,071 rows
+join with no keys over the limit: 60,404 times

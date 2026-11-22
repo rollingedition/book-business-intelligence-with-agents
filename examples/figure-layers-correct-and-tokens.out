@@ -1,0 +1,20 @@
+schema context tokens: 912
+schema correct: 3
+schema errors: 5
++columns context tokens: 1999
++columns correct: 9
++columns errors: 1
++glossary context tokens: 2608
++glossary correct: 9
++glossary errors: 0
++verified context tokens: 2775
++verified correct: 14
++verified errors: 1
+dev answer questions: 17
++columns adds correct: 6
++columns adds context tokens: 1087
++glossary adds correct: 0
++glossary adds context tokens: 609
++verified adds correct: 5
++verified adds context tokens: 167
+figure: figures/layers-correct-and-tokens.svg
