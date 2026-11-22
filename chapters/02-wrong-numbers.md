@@ -26,6 +26,12 @@ The name match is the query's largest error: it matches products whose name cont
 
 How large a fan-out is depends on the data, not on the query. Few of the shop's orders have two tent lines, so the inflation here is small. Where a join repeats most rows several times, the same query shape multiplies a sum. Join every order of 2025 to all its lines, with no product filter, and the sum of net revenue comes to {{out:tent-orders-fan-out:all 2025 orders joined to their lines, sum over true sum}} times the true figure. Each order's revenue counts once for each of its lines, and the shop's orders have {{out:tent-orders-fan-out:lines per order}} lines on average; the ratio is that count weighted by revenue, so it can exceed the plain average. The size you measure on one question tells you nothing about the next.
 
+Most 2025 orders have two or more lines, so the join counts most orders more than once. {{fig:lines-per-order}} counts the 2025 orders at each number of lines, from 1 to {{out:figure-lines-per-order:most lines in an order}}. Only {{out:figure-lines-per-order:share of orders with one line}} of the {{out:figure-lines-per-order:orders drawn}} orders have a single line, and every other order enters the sum at least twice.
+
+![Most 2025 orders have two or more lines, so a sum over the order join counts most orders more than once](../examples/figures/lines-per-order.svg "How many 2025 orders have each number of lines")
+
+[Example: figure-lines-per-order](../examples/figure-lines-per-order.py)
+
 **Working rule:** When a query joins tables of different grains, check the grain of every column it sums. Aggregate the finer table to the coarser grain before joining, or filter with `IN` or `EXISTS`, and compare the row count after the join with the count of distinct keys. Expect a model given only the schema to miss this, because the schema names columns, not grains.
 
 ## Definitions the schema doesn't hold {#definitions-not-in-schema}

@@ -102,6 +102,14 @@ The layer refuses the request and says why: `{{out:entity-join-no-fanout:refused
 
 `line_net_revenue` is net revenue counted on the lines themselves, in the `order_lines` semantic model, with net revenue's rule on cancelled orders. Its SQL joins the lines to products and to orders, both many rows to one, so no line repeats. The categories add up to {{out:entity-join-no-fanout:categories add up to}} euros, {{out:entity-join-no-fanout:difference from net revenue}} away from net revenue. That gap is rounding, not fan-out: the warehouse rounds each line's amount and each order's total to the cent separately, and over a year of lines the cents add up.
 
+{{fig:entity-graph}} draws the five semantic models as boxes, with an arrow from each model to the model where one of its foreign entities is primary. The solid accent arrows are the hops where the foreign side has many rows per primary row: there are {{out:figure-entity-graph:hops with many rows per primary row}} of them. Each order has {{out:figure-entity-graph:order_lines rows per order}} lines on average, and no order has more than {{out:figure-entity-graph:most order_lines rows for one order}} lines, so a sum over orders joined to their lines counts each order once for each line. A sum on the lines follows an arrow to the primary side, where each line meets one order, which is why `line_net_revenue` is safe.
+
+The dashed arrow from refunds is the other kind: refunds come to {{out:figure-entity-graph:refunds rows per order}} per order, and no order has more than {{out:figure-entity-graph:most refunds rows for one order}}, so a sum over orders through it repeats nothing in this data.
+
+![The solid accent arrows mark the hops where many rows share one primary row, so a per-order sum over them would repeat](../examples/figures/entity-graph.svg "The five semantic models, with an arrow from each foreign entity to the model where it is primary")
+
+[Example: figure-entity-graph](../examples/figure-entity-graph.py)
+
 When a request needs numbers from two tables, a layer doesn't join the tables first. It aggregates each metric in its own table, then joins the aggregated results on the dimensions they share; MetricFlow uses full outer joins for that step ([dbt Labs](https://docs.getdbt.com/docs/build/join-logic)), and so does the book's compiler. Each sum is complete before any join, so no join can repeat its rows.
 
 The protection holds only as far as the declarations are true. Declare the lines' `order` entity primary, as the [loading example](#entities-measures-dimensions) did on purpose, and the layer would join orders to lines without complaint.
