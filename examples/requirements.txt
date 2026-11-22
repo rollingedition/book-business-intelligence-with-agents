@@ -14,6 +14,7 @@ importlib-metadata==10.2.0
 jinja2==3.1.6
 jsonschema==4.26.0
 jsonschema-specifications==2025.9.1
+lazy-importer==0.1.0
 markupsafe==3.0.4
 mcp==2.3.0
 mcp-types==2.3.0
@@ -21,8 +22,8 @@ metricflow==0.214.0
 more-itertools==10.8.0
 opentelemetry-api==1.45.2
 pycparser==3.12
-pydantic==2.14.3
-pydantic-core==2.50.4
+pydantic==2.14.4
+pydantic-core==2.50.5
 pyjwt==2.15.1
 python-dateutil==2.9.0.post0
 python-multipart==0.0.34
