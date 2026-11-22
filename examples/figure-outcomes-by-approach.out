@@ -1,0 +1,21 @@
+dev schema-only correct: 2
+dev schema-only wrong: 14
+dev schema-only error: 8
+dev schema-only declined: 0
+dev schema-only step limit: 0
+dev metrics-first correct: 16
+dev metrics-first wrong: 7
+dev metrics-first error: 0
+dev metrics-first declined: 0
+dev metrics-first step limit: 1
+test schema-only correct: 3
+test schema-only wrong: 13
+test schema-only error: 8
+test schema-only declined: 0
+test schema-only step limit: 0
+test metrics-first correct: 10
+test metrics-first wrong: 7
+test metrics-first error: 0
+test metrics-first declined: 6
+test metrics-first step limit: 1
+figure: figures/outcomes-by-approach.svg
