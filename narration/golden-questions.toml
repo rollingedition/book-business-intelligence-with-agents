@@ -15,6 +15,9 @@ say = "The code takes the golden result for net revenue in each region in March 
 [examples.gold-runs-and-agrees]
 say = "The code runs the golden S Q L of every answerable question and checks each result: {{out:gold-runs-and-agrees:golden SQL that runs}} run, none fails, and {{out:gold-runs-and-agrees:empty or NULL results}} are empty or hold a null. Of the {{out:gold-runs-and-agrees:questions with a check query}} questions with an independent check query, {{out:gold-runs-and-agrees:checks that agree}} agree. Then it finds the top country for refunds in fiscal 2026 two ways: by the number of refunds, {{out:gold-runs-and-agrees:top country by number of refunds}}, and by refund rate, {{out:gold-runs-and-agrees:top country by refund rate}}, which is the golden answer to the refund-rate question."
 
+[examples.gold-fan-out-audit]
+say = "The code reads each answerable golden S Q L, and for every sum, count or average it counts the rows under the gold's own joins and filters, per group, against the distinct keys of the table being summed or counted. A key that repeats flags the gold. Of {{out:gold-fan-out-audit:golds audited}} golds, it flags {{out:gold-fan-out-audit:golds flagged}}. Then it audits chapter two's recorded model S Q L for the tent question, golden question seven, as a planted bad gold, and flags it on {{out:gold-fan-out-audit:planted gq-007 flagged on}}."
+
 [examples.reworded-golden-question]
 say = "The code prints the gold for golden question thirty-one, {{out:reworded-golden-question:gq-031 golden}}, then replays the baseline's recorded S Q L for the question in its old wording, about items, and its new wording, about units, counting quantities rather than order lines. For each it prints the wording, the answer and the outcome: {{out:reworded-golden-question:baseline answer, items wording}}, which is wrong, and {{out:reworded-golden-question:baseline answer, units wording}}, which is correct."
 
@@ -23,3 +26,9 @@ say = "The code counts the golden questions in each split, {{out:golden-coverage
 
 [examples.baseline-on-both-splits]
 say = "The code scores schema-only S Q L on every golden question and prints the outcomes per split. On dev it gets {{out:baseline-on-both-splits:dev correct}} correct, {{out:baseline-on-both-splits:dev wrong}} wrong and {{out:baseline-on-both-splits:dev error}} errors, an accuracy of {{out:baseline-on-both-splits:dev accuracy}}. On test it gets {{out:baseline-on-both-splits:test correct}} correct, an accuracy of {{out:baseline-on-both-splits:test accuracy}}. Across both splits it gets {{out:baseline-on-both-splits:answer correct, both splits}} answerable questions right, {{out:baseline-on-both-splits:decline correct, both splits}} declines and {{out:baseline-on-both-splits:forbidden correct, both splits}} forbidden questions."
+
+[terms]
+"arXiv:2611.29009" = "archive twenty-six eleven, two nine zero zero nine"
+"SUM" = "sum"
+"COUNT" = "count"
+"AVG" = "average"

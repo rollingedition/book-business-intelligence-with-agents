@@ -219,6 +219,21 @@ class SemanticLayer:
                     problems.append(f"{metric.name}: {str(e).splitlines()[0]}")
         return problems
 
+    def keys_by_table(self, con: duckdb.DuckDBPyConnection) -> dict[str, exp.Expression]:
+        """Each semantic model's table, schema.name, mapped to its primary entity's expression. A model on a view in
+        the `semantic` schema also maps the view's first table, whose rows the view keeps one for one."""
+        views = dict(con.execute("SELECT schema_name || '.' || view_name, sql FROM duckdb_views() "
+                                 "WHERE schema_name = 'semantic'").fetchall())
+        keys = {}
+        for model in self.semantic_models.values():
+            if model.primary_entity:
+                key = sqlglot.parse_one(model.entities[model.primary_entity].expr, read="duckdb")
+                keys[model.table] = key
+                if model.table in views:
+                    base = sqlglot.parse_one(views[model.table], read="duckdb").expression.find(exp.Table)
+                    keys[f"{base.db}.{base.name}"] = key
+        return keys
+
     # Describing ---------------------------------------------------------------------------------------------
 
     def simple_metrics_for(self, name: str) -> tuple[MetricInput, ...]:
