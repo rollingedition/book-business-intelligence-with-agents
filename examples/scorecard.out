@@ -32,14 +32,14 @@ dev declining prompt tokens per question: 2,602
 dev fixed by the declining prompt: gq-020
 dev broken by the declining prompt: gq-008
 test questions: 21
-test schema-only correct: 3 of 21
-test schema-only accuracy: 0.14 (95% interval 0.05 to 0.35)
-test schema-only wrong numbers: 10
+test schema-only correct: 4 of 21
+test schema-only accuracy: 0.19 (95% interval 0.08 to 0.40)
+test schema-only wrong numbers: 9
 test schema-only errors or step limits: 8
 test schema-only decline recall: 0.00
 test schema-only decline precision: no declines
 test schema-only coverage: 0.62
-test schema-only selective risk: 0.77
+test schema-only selective risk: 0.69
 test schema-only model calls per question: 1.0
 test schema-only prompt tokens per question: 829
 test metrics-first correct: 9 of 21
