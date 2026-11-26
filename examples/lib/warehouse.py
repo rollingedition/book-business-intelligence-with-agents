@@ -17,11 +17,15 @@ role's policy, it holds that role's views of the marts instead: the database eve
 
 From chapter 11, `agent_warehouse(con, policy=..., semantic=SEMANTIC_TABLES)` also copies the semantic layer's
 views and calendar, as the role sees them, so the semantic layer can run on a role's database too.
+
+From chapter 3, `altered_copy(edit)` builds the same warehouse in memory after `edit` has changed its raw tables, so
+a query can be checked on data that differs from the shop's in one known way.
 """
 from __future__ import annotations
 
 import atexit
 import shutil
+from collections.abc import Callable
 import tempfile
 from pathlib import Path
 
@@ -202,20 +206,38 @@ AGENT_SETTINGS = READ_ONLY_SETTINGS | {
 def build(path: Path) -> None:
     """Generate the shop and write its warehouse to a DuckDB file at `path`."""
     with duckdb.connect(str(path)) as con:
-        con.execute("CREATE SCHEMA raw")
-        for name, table in generate_shop().items():
-            columns = ", ".join(f"{c} {t}" for c, t in table.columns.items())
-            con.execute(f"CREATE TABLE raw.{name} ({columns})")
-            values = ", ".join(f"unnest(${i + 1})::{t}" for i, t in enumerate(table.columns.values()))
-            # Dates, timestamps and decimals travel as text, which DuckDB casts faster than Python objects.
-            data = [[None if v is None else str(v) for v in column] if t.startswith(("DATE", "TIMESTAMP", "DECIMAL"))
-                    else column for column, t in zip(table.data.values(), table.columns.values())]
-            con.execute(f"INSERT INTO raw.{name} SELECT {values}", data)
-        zones = ", ".join(f"('{r}', '{z}')" for r, z in REGION_TIME_ZONES.items())
-        con.execute(MARTS.format(zones=zones))
-        con.execute("DROP TABLE analytics.region_time_zones")
-        cases = " ".join(f"WHEN '{r}' THEN '{z}'" for r, z in REGION_TIME_ZONES.items())
-        con.execute(SEMANTIC_VIEWS.format(zones=cases))
+        _load(con)
+
+
+def altered_copy(edit: Callable[[duckdb.DuckDBPyConnection], None]) -> duckdb.DuckDBPyConnection:
+    """An in-memory warehouse, built as `connect()` builds it, after `edit` has changed its raw tables.
+
+    It's writable, since DuckDB can't open an in-memory database read-only, so it's for checking queries on altered
+    data, never for an agent's SQL.
+    """
+    con = duckdb.connect()
+    _load(con, edit)
+    return con
+
+
+def _load(con: duckdb.DuckDBPyConnection, edit: Callable[[duckdb.DuckDBPyConnection], None] | None = None) -> None:
+    """Load the shop's raw tables into `con`, let `edit` change them, then build the marts and semantic views."""
+    con.execute("CREATE SCHEMA raw")
+    for name, table in generate_shop().items():
+        columns = ", ".join(f"{c} {t}" for c, t in table.columns.items())
+        con.execute(f"CREATE TABLE raw.{name} ({columns})")
+        values = ", ".join(f"unnest(${i + 1})::{t}" for i, t in enumerate(table.columns.values()))
+        # Dates, timestamps and decimals travel as text, which DuckDB casts faster than Python objects.
+        data = [[None if v is None else str(v) for v in column] if t.startswith(("DATE", "TIMESTAMP", "DECIMAL"))
+                else column for column, t in zip(table.data.values(), table.columns.values())]
+        con.execute(f"INSERT INTO raw.{name} SELECT {values}", data)
+    if edit is not None:
+        edit(con)
+    zones = ", ".join(f"('{r}', '{z}')" for r, z in REGION_TIME_ZONES.items())
+    con.execute(MARTS.format(zones=zones))
+    con.execute("DROP TABLE analytics.region_time_zones")
+    cases = " ".join(f"WHEN '{r}' THEN '{z}'" for r, z in REGION_TIME_ZONES.items())
+    con.execute(SEMANTIC_VIEWS.format(zones=cases))
 
 
 def connect() -> duckdb.DuckDBPyConnection:

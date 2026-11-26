@@ -60,6 +60,12 @@ The query over order lines reads a different table, so its text differs from the
 
 An execution match has its own blind spot. A query can return the right number for the wrong reason on today's data, such as a filter that happens to remove no rows. Checking more questions, and reading the SQL behind surprising matches, is the defence. That's one reason the set has {{out:load-golden-questions:golden questions}} questions and not 5.
 
+Changing the data is another defence, because a coincidence rarely survives it. The next example builds three copies of the shop's warehouse in memory, each different from it in one known way, with the row it changes picked by the copy's own seed: one repeats a delivered order and its lines under a new ID, one adds a cancelled order, a copy of one of 2025's largest, and one pays a refund in two parts. The golden SQL runs again on each copy, so each copy has a golden result of its own, and every query from [the schema-only baseline](#ask-for-sql) that matches on the shop is compared with it. The computation is our own, on the shop's data.
+
+[Example: altered-copies](../examples/altered-copies.py)
+
+Two of the copies change no verdict, but the cancelled order turns `gq-031` from a match into a miss. The model's units per order in 2025 come to {{out:altered-copies:gq-031 model on shop}} against a gold of {{out:altered-copies:gq-031 golden on shop}}, close enough to pass, and with one more cancelled order the model's average moves to {{out:altered-copies:gq-031 model on cancelled order added}} while the gold doesn't move. The edit exposed a missing filter: the gold leaves cancelled orders out and the model's SQL keeps them, which on the shop's own data costs less than the tolerance. An edit tests a query only if it pulls the two answers further apart than the tolerance allows, so the added order is a large one, and each copy is best built around a trap the questions name, such as cancelled orders for `gq-031`.
+
 **Working rule:** Score an agent by comparing its result with the golden result, never by comparing SQL text, normalized or not. Keep one comparison function for every score you report, so a change in the score is a change in the agent. When a match surprises you, read the agent's SQL, because a result can match by coincidence.
 
 ### Order, rounding and column names {#order-rounding-names}

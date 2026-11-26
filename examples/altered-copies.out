@@ -1,0 +1,10 @@
+gq-014 still matches: duplicated order yes, cancelled order added yes, refund split in two yes
+gq-016 still matches: duplicated order yes, cancelled order added yes, refund split in two yes
+gq-027 still matches: duplicated order yes, cancelled order added yes, refund split in two yes
+gq-031 still matches: duplicated order yes, cancelled order added no, refund split in two yes
+gq-031 model on shop: 3.41241
+gq-031 golden on shop: 3.4117
+gq-031 model on cancelled order added: 3.41357
+gq-031 golden on cancelled order added: 3.4117
+gq-036 still matches: duplicated order yes, cancelled order added yes, refund split in two yes
+gq-047 still matches: duplicated order yes, cancelled order added yes, refund split in two yes
